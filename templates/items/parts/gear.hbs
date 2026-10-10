@@ -53,26 +53,14 @@
 
 {{!-- WEAPON PROFICIENCY & HANDLING --}}
 {{#if (or system.isWeapon (eq system.slot "hands"))}}
-<details class="dcc-collapsible-block" {{#if hasProficiencyConfigured}}open{{/if}}>
-  <summary class="dcc-collapsible-summary" style="background: #962d22;">
-    <span class="dcc-collapsible-title"><i class="fa-solid fa-chevron-right dcc-chevron"></i> <i class="fa-solid fa-crosshairs"></i> WEAPON PROFICIENCY & HANDLING</span>
-    <span class="dcc-toggle-indicator {{#if hasProficiencyConfigured}}active{{/if}}">{{#if hasProficiencyConfigured}}[{{or system.weaponCategory system.weaponType "CONFIGURED"}}]{{else}}[CLICK TO CONFIGURE PROFICIENCY]{{/if}}</span>
-  </summary>
-  <div class="dcc-collapsible-content">
+<div class="dcc-stat-block" style="margin-bottom: 10px; border: 1px solid #c0392b;">
+  <div class="dcc-banner-header" style="font-size: 11px; padding: 3px 6px; display: flex; justify-content: space-between; align-items: center; background: #c0392b;">
+    <span><i class="fa-solid fa-crosshairs"></i> WEAPON PROFICIENCY & HANDLING</span>
+    <span style="font-size: 10px; color: #fff; font-weight: normal;">CarlRPG Hybrid Weapon System</span>
+  </div>
+  <div style="padding: 6px; background: #fafafa; border: 1px solid #ddd;">
     <div class="dcc-field-row" style="margin-bottom: 6px;">
-      <div class="dcc-field-group">
-        <span class="dcc-field-label">Weapon Category</span>
-        <select name="system.weaponCategory" class="dcc-field-input" style="font-size: 11px;">
-          <option value="">-- None / Generic --</option>
-          {{#each weaponCategories as |cat|}}
-            <option value="{{cat}}" {{#if (eq ../system.weaponCategory cat)}}selected{{/if}}>{{cat}}</option>
-          {{/each}}
-        </select>
-      </div>
-      <div class="dcc-field-group">
-        <span class="dcc-field-label">Weapon Type / Model</span>
-        <input class="dcc-field-input" type="text" name="system.weaponType" value="{{system.weaponType}}" placeholder="e.g. Chainsaw, Longsword, Shotgun" style="font-size: 11px;" />
-      </div>
+    </div>
       <div class="dcc-field-group">
         <span class="dcc-field-label">Wielding Requirement</span>
         <select name="system.wieldMode" class="dcc-field-input" style="font-size: 11px;">
@@ -82,47 +70,11 @@
         </select>
       </div>
     </div>
-
     <div class="dcc-field-row" style="margin-bottom: 8px;">
-      <div class="dcc-field-group" style="flex: 2;">
-        <span class="dcc-field-label">Proficiency Mode</span>
-        <select name="system.proficiencyMode" class="dcc-field-input" style="font-size: 11px;">
-          {{#each proficiencyModes as |pm|}}
-            <option value="{{pm.id}}" {{#if (eq ../system.proficiencyMode pm.id)}}selected{{/if}}>{{pm.label}}</option>
-          {{/each}}
-        </select>
-      </div>
-      <div class="dcc-field-group" style="flex: 1;">
-        <span class="dcc-field-label"><i class="fa-solid fa-burst" style="color: #c0392b;"></i> Crit Multiplier</span>
-        <input class="dcc-field-input" type="number" name="system.critMultiplier" value="{{#if system.critMultiplier}}{{system.critMultiplier}}{{else}}1{{/if}}" placeholder="1" min="1" style="font-size: 11px;" title="Critical Hit Multiplier (defaults to 1x, adjustable by GM)" />
-      </div>
     </div>
 
-    {{!-- ASSOCIATED SKILLS DATA-DRIVEN PICKER --}}
-    <div style="margin-bottom: 8px; background: #fff; border: 1px solid #ccc; border-radius: 3px; padding: 6px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-        <span class="dcc-field-label" style="font-weight: bold; color: #2c3e50;"><i class="fa-solid fa-graduation-cap"></i> Associated Weapon Skills</span>
-        <button type="button" class="btn-apply-recommended-skills dcc-btn" title="Auto-populate recommended skills for this weapon type" style="font-size: 10px; padding: 2px 6px; background: #27ae60; color: #fff; border: 1px solid #1e8449; border-radius: 3px; cursor: pointer;">
-          <i class="fa-solid fa-wand-magic-sparkles"></i> Auto-Suggest Skills
-        </button>
-      </div>
-
-      {{!-- Selected skills as removable tags --}}
-      <div class="dcc-associated-skills-pills" style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; min-height: 24px; padding: 3px; background: #fafafa; border: 1px dashed #ccc; border-radius: 3px;">
-        {{#if associatedSkillsList.length}}
-          {{#each associatedSkillsList as |sk|}}
-            <span class="dcc-badge" style="background: #2c3e50; color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 3px; display: inline-flex; align-items: center; gap: 4px;">
-              {{sk}}
-              <a class="remove-associated-skill" data-skill="{{sk}}" title="Remove skill" style="color: #e74c3c; cursor: pointer; font-weight: bold; text-decoration: none;">&times;</a>
-            </span>
-          {{/each}}
-        {{else}}
-          <span style="font-size: 10px; color: #888; font-style: italic; align-self: center;">No associated skills selected yet. Select from the dropdown below or click Auto-Suggest.</span>
-        {{/if}}
-      </div>
-
       {{!-- Add Skill Controls --}}
-      <div style="display: flex; gap: 6px; align-items: center;">
+      <div style="display: flex; flex-direction: column; gap: 6px; align-items: center;">
         <div style="flex: 2;">
           <select class="add-associated-skill-select dcc-field-input" style="font-size: 11px; width: 100%;">
             <option value="">+ Select Existing Skill to Associate...</option>
@@ -140,33 +92,29 @@
       </div>
 
       <input type="hidden" name="system.associatedSkills" value="{{associatedSkillsString}}" />
+
+      {{!-- Selected skills as removable tags --}}
+      <div class="dcc-associated-skills-pills" style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; min-height: 24px; padding: 3px; background: #fafafa; border: 1px dashed #ccc; border-radius: 3px;">
+        {{#if associatedSkillsList.length}}
+          {{#each associatedSkillsList as |sk|}}
+            <span class="dcc-badge" style="background: #2c3e50; color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 3px; display: inline-flex; align-items: center; gap: 4px;">
+              {{sk}}
+              <a class="remove-associated-skill" data-skill="{{sk}}" title="Remove skill" style="color: #e74c3c; cursor: pointer; font-weight: bold; text-decoration: none;">&times;</a>
+            </span>
+          {{/each}}
+        {{else}}
+          <span style="font-size: 10px; color: #888; font-style: italic; align-self: center;">No associated skills selected yet. Select from the dropdown below or click Auto-Suggest.</span>
+        {{/if}}
+      </div>
     </div>
 
     {{!-- OPTIONAL EFFECTS / COMBAT TECHNIQUES DATA-DRIVEN PICKER --}}
     <div style="margin-bottom: 8px; background: #fff; border: 1px solid #ccc; border-radius: 3px; padding: 6px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-        <span class="dcc-field-label" style="font-weight: bold; color: #c0392b;"><i class="fa-solid fa-burst"></i> Optional Effects / Combat Techniques</span>
-        <button type="button" class="btn-apply-recommended-effects dcc-btn" title="Auto-populate recommended techniques for this weapon" style="font-size: 10px; padding: 2px 6px; background: #e67e22; color: #fff; border: 1px solid #d35400; border-radius: 3px; cursor: pointer;">
-          <i class="fa-solid fa-wand-magic-sparkles"></i> Auto-Suggest Techniques
-        </button>
-      </div>
-
-      {{!-- Selected techniques as removable tags --}}
-      <div class="dcc-optional-effects-pills" style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; min-height: 24px; padding: 3px; background: #fafafa; border: 1px dashed #ccc; border-radius: 3px;">
-        {{#if optionalEffectsList.length}}
-          {{#each optionalEffectsList as |ef|}}
-            <span class="dcc-badge" style="background: #c0392b; color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 3px; display: inline-flex; align-items: center; gap: 4px;">
-              {{ef}}
-              <a class="remove-optional-effect" data-effect="{{ef}}" title="Remove technique" style="color: #f1c40f; cursor: pointer; font-weight: bold; text-decoration: none;">&times;</a>
-            </span>
-          {{/each}}
-        {{else}}
-          <span style="font-size: 10px; color: #888; font-style: italic; align-self: center;">No optional effects or techniques associated.</span>
-        {{/if}}
-      </div>
+      
+    </div>
 
       {{!-- Add Technique Controls --}}
-      <div style="display: flex; gap: 6px; align-items: center;">
+      <div style="display: flex; flex-direction:column; gap: 6px; align-items: center;">
         <div style="flex: 2;">
           <select class="add-optional-effect-select dcc-field-input" style="font-size: 11px; width: 100%;">
             <option value="">+ Select Existing Technique/Effect...</option>
@@ -183,112 +131,119 @@
         </button>
       </div>
 
+
+      {{!-- Selected techniques as removable tags --}}
+      <div class="dcc-optional-effects-pills" style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; min-height: 24px; padding: 3px; background: #fafafa; border: 1px dashed #ccc; border-radius: 3px;">
+        {{#if optionalEffectsList.length}}
+          {{#each optionalEffectsList as |ef|}}
+            <span class="dcc-badge" style="background: #c0392b; color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 3px; display: inline-flex; align-items: center; gap: 4px;">
+              {{ef}}
+              <a class="remove-optional-effect" data-effect="{{ef}}" title="Remove technique" style="color: #f1c40f; cursor: pointer; font-weight: bold; text-decoration: none;">&times;</a>
+            </span>
+          {{/each}}
+        {{else}}
+          <span style="font-size: 10px; color: #888; font-style: italic; align-self: center;">No optional effects or techniques associated.</span>
+        {{/if}}
+      </div>
+
       <input type="hidden" name="system.optionalEffects" value="{{optionalEffectsString}}" />
     </div>
   </div>
-</details>
+</div>
 {{/if}}
 
 {{!-- STAT MODIFIERS (FLAT VS %) --}}
-<details class="dcc-collapsible-block" {{#if hasAbilityModifiers}}open{{/if}}>
-  <summary class="dcc-collapsible-summary">
-    <span class="dcc-collapsible-title"><i class="fa-solid fa-chevron-right dcc-chevron"></i> <i class="fa-solid fa-dumbbell"></i> ABILITY MODIFIERS (EQUIPPED ONLY)</span>
-    <span class="dcc-toggle-indicator {{#if hasAbilityModifiers}}active{{/if}}">{{#if hasAbilityModifiers}}[ACTIVE STAT BONUSES]{{else}}[CLICK TO CONFIGURE STAT MODIFIERS]{{/if}}</span>
-  </summary>
-  <div class="dcc-collapsible-content" style="padding: 0;">
-    <table class="dcc-table" style="margin: 0; font-size: 11px;">
-      <thead>
-        <tr>
-          <th style="width: 25%;">Ability</th>
-          <th style="width: 35%;">Modifier Value (+/-)</th>
-          <th style="width: 40%;">Type (Flat vs %)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="font-weight: bold; color: #c0392b;">STR (Strength)</td>
-          <td>
-            <input class="dcc-field-input" type="number" name="system.abilityModifiers.str.value" value="{{system.abilityModifiers.str.value}}" placeholder="0" style="text-align: center;" />
-          </td>
-          <td>
-            <select class="dcc-field-input" name="system.abilityModifiers.str.type">
-              <option value="flat" {{#if (or (eq system.abilityModifiers.str.type "flat") (not system.abilityModifiers.str.type))}}selected{{/if}}>Flat</option>
-              <option value="pct" {{#if (eq system.abilityModifiers.str.type "pct")}}selected{{/if}}>%</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td style="font-weight: bold; color: #c0392b;">INT (Intelligence)</td>
-          <td>
-            <input class="dcc-field-input" type="number" name="system.abilityModifiers.int.value" value="{{system.abilityModifiers.int.value}}" placeholder="0" style="text-align: center;" />
-          </td>
-          <td>
-            <select class="dcc-field-input" name="system.abilityModifiers.int.type">
-              <option value="flat" {{#if (or (eq system.abilityModifiers.int.type "flat") (not system.abilityModifiers.int.type))}}selected{{/if}}>Flat</option>
-              <option value="pct" {{#if (eq system.abilityModifiers.int.type "pct")}}selected{{/if}}>%</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td style="font-weight: bold; color: #c0392b;">CON (Constitution)</td>
-          <td>
-            <input class="dcc-field-input" type="number" name="system.abilityModifiers.con.value" value="{{system.abilityModifiers.con.value}}" placeholder="0" style="text-align: center;" />
-          </td>
-          <td>
-            <select class="dcc-field-input" name="system.abilityModifiers.con.type">
-              <option value="flat" {{#if (or (eq system.abilityModifiers.con.type "flat") (not system.abilityModifiers.con.type))}}selected{{/if}}>Flat</option>
-              <option value="pct" {{#if (eq system.abilityModifiers.con.type "pct")}}selected{{/if}}>%</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td style="font-weight: bold; color: #c0392b;">DEX (Dexterity)</td>
-          <td>
-            <input class="dcc-field-input" type="number" name="system.abilityModifiers.dex.value" value="{{system.abilityModifiers.dex.value}}" placeholder="0" style="text-align: center;" />
-          </td>
-          <td>
-            <select class="dcc-field-input" name="system.abilityModifiers.dex.type">
-              <option value="flat" {{#if (or (eq system.abilityModifiers.dex.type "flat") (not system.abilityModifiers.dex.type))}}selected{{/if}}>Flat</option>
-              <option value="pct" {{#if (eq system.abilityModifiers.dex.type "pct")}}selected{{/if}}>%</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td style="font-weight: bold; color: #c0392b;">CHA (Charisma)</td>
-          <td>
-            <input class="dcc-field-input" type="number" name="system.abilityModifiers.cha.value" value="{{system.abilityModifiers.cha.value}}" placeholder="0" style="text-align: center;" />
-          </td>
-          <td>
-            <select class="dcc-field-input" name="system.abilityModifiers.cha.type">
-              <option value="flat" {{#if (or (eq system.abilityModifiers.cha.type "flat") (not system.abilityModifiers.cha.type))}}selected{{/if}}>Flat</option>
-              <option value="pct" {{#if (eq system.abilityModifiers.cha.type "pct")}}selected{{/if}}>%</option>
-            </select>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</details>
+<div class="dcc-stat-block" style="margin-bottom: 10px;">
+  <div class="dcc-banner-header" style="font-size: 11px; padding: 3px 6px;">ABILITY MODIFIERS (EQUIPPED ONLY)</div>
+  <table class="dcc-table" style="margin: 0; font-size: 11px;">
+    <thead>
+      <tr>
+        <th style="width: 25%;">Ability</th>
+        <th style="width: 35%;">Modifier Value (+/-)</th>
+        <th style="width: 40%;">Type (Flat vs %)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-weight: bold; color: #c0392b;">STR (Strength)</td>
+        <td>
+          <input class="dcc-field-input" type="number" name="system.abilityModifiers.str.value" value="{{system.abilityModifiers.str.value}}" placeholder="0" style="text-align: center;" />
+        </td>
+        <td>
+          <select class="dcc-field-input" name="system.abilityModifiers.str.type">
+            <option value="flat" {{#if (or (eq system.abilityModifiers.str.type "flat") (not system.abilityModifiers.str.type))}}selected{{/if}}>Flat</option>
+            <option value="pct" {{#if (eq system.abilityModifiers.str.type "pct")}}selected{{/if}}>%</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td style="font-weight: bold; color: #c0392b;">INT (Intelligence)</td>
+        <td>
+          <input class="dcc-field-input" type="number" name="system.abilityModifiers.int.value" value="{{system.abilityModifiers.int.value}}" placeholder="0" style="text-align: center;" />
+        </td>
+        <td>
+          <select class="dcc-field-input" name="system.abilityModifiers.int.type">
+            <option value="flat" {{#if (or (eq system.abilityModifiers.int.type "flat") (not system.abilityModifiers.int.type))}}selected{{/if}}>Flat</option>
+            <option value="pct" {{#if (eq system.abilityModifiers.int.type "pct")}}selected{{/if}}>%</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td style="font-weight: bold; color: #c0392b;">CON (Constitution)</td>
+        <td>
+          <input class="dcc-field-input" type="number" name="system.abilityModifiers.con.value" value="{{system.abilityModifiers.con.value}}" placeholder="0" style="text-align: center;" />
+        </td>
+        <td>
+          <select class="dcc-field-input" name="system.abilityModifiers.con.type">
+            <option value="flat" {{#if (or (eq system.abilityModifiers.con.type "flat") (not system.abilityModifiers.con.type))}}selected{{/if}}>Flat</option>
+            <option value="pct" {{#if (eq system.abilityModifiers.con.type "pct")}}selected{{/if}}>%</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td style="font-weight: bold; color: #c0392b;">DEX (Dexterity)</td>
+        <td>
+          <input class="dcc-field-input" type="number" name="system.abilityModifiers.dex.value" value="{{system.abilityModifiers.dex.value}}" placeholder="0" style="text-align: center;" />
+        </td>
+        <td>
+          <select class="dcc-field-input" name="system.abilityModifiers.dex.type">
+            <option value="flat" {{#if (or (eq system.abilityModifiers.dex.type "flat") (not system.abilityModifiers.dex.type))}}selected{{/if}}>Flat</option>
+            <option value="pct" {{#if (eq system.abilityModifiers.dex.type "pct")}}selected{{/if}}>%</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td style="font-weight: bold; color: #c0392b;">CHA (Charisma)</td>
+        <td>
+          <input class="dcc-field-input" type="number" name="system.abilityModifiers.cha.value" value="{{system.abilityModifiers.cha.value}}" placeholder="0" style="text-align: center;" />
+        </td>
+        <td>
+          <select class="dcc-field-input" name="system.abilityModifiers.cha.type">
+            <option value="flat" {{#if (or (eq system.abilityModifiers.cha.type "flat") (not system.abilityModifiers.cha.type))}}selected{{/if}}>Flat</option>
+            <option value="pct" {{#if (eq system.abilityModifiers.cha.type "pct")}}selected{{/if}}>%</option>
+          </select>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 {{!-- SKILL / SPELL MODIFIERS --}}
-<details class="dcc-collapsible-block" {{#if hasSkillModifiersConfigured}}open{{/if}}>
-  <summary class="dcc-collapsible-summary">
-    <span class="dcc-collapsible-title"><i class="fa-solid fa-chevron-right dcc-chevron"></i> <i class="fa-solid fa-graduation-cap"></i> SKILL & SPELL MODIFIERS / GRANTED SKILLS</span>
-    <span class="dcc-toggle-indicator {{#if hasSkillModifiersConfigured}}active{{/if}}">{{#if hasSkillModifiersConfigured}}[{{system.skillModifiers.length}} GRANTED]{{else}}[CLICK TO ADD SKILL MODIFIERS]{{/if}}</span>
-  </summary>
-  <div class="dcc-collapsible-content">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-      <span style="font-size: 11px;">
-        {{#if system.equipped}}
-          <span style="color: #2ecc71; font-weight: bold;">[EQUIPPED: ACTIVE]</span>
-        {{else}}
-          <span style="color: #f39c12; font-weight: bold;" title="Equip this gear on the actor to activate skill bonuses">[UNEQUIPPED: EQUIP TO ACTIVATE]</span>
-        {{/if}}
-      </span>
-      <a class="add-skill-mod" data-tooltip="Select and add skills from DCC Compendium" style="color: #fff; font-size: 11px; cursor: pointer; background: #2c3e50; padding: 3px 8px; border-radius: 3px; display: inline-flex; align-items: center; gap: 4px; font-weight: bold;">
-        <i class="fa-solid fa-book-bookmark"></i> Add Skill from Compendium
-      </a>
-    </div>
+<div class="dcc-stat-block" style="margin-bottom: 10px;">
+  <div class="dcc-banner-header" style="font-size: 11px; padding: 3px 6px; display: flex; justify-content: space-between; align-items: center;">
+    <span>
+      SKILL & SPELL MODIFIERS / GRANTED SKILLS
+      {{#if system.equipped}}
+        <span style="color: #2ecc71; font-weight: bold; font-size: 10px; margin-left: 6px;">[EQUIPPED: ACTIVE]</span>
+      {{else}}
+        <span style="color: #f39c12; font-weight: bold; font-size: 10px; margin-left: 6px;" title="Equip this gear on the actor to activate skill bonuses">[UNEQUIPPED: EQUIP TO ACTIVATE]</span>
+      {{/if}}
+    </span>
+    <a class="add-skill-mod" data-tooltip="Select and add skills from DCC Compendium" style="color: #fff; font-size: 10px; cursor: pointer;">
+      <i class="fa-solid fa-book-bookmark"></i> Add Skill from Compendium
+    </a>
+  </div>
+  <div style="padding: 6px; background: #fafafa; border: 1px solid #ddd;">
     {{#if system.skillModifiers.length}}
       <table class="dcc-table" style="margin: 0; font-size: 11px;">
         <thead>
@@ -318,25 +273,22 @@
         </tbody>
       </table>
     {{else}}
-      <div style="text-align: center; font-style: italic; color: #555; font-size: 11px; padding: 6px; background: #fff; border: 1px dashed #ccc; border-radius: 3px;">
+      <div style="text-align: center; font-style: italic; color: #333333; font-size: 11px; padding: 6px;">
         No skill or spell modifiers. Click "Add Skill from Compendium" above to grant or boost a skill.
       </div>
     {{/if}}
   </div>
-</details>
+</div>
 
 {{!-- WEAPON / GEAR DAMAGE PARTS --}}
-<details class="dcc-collapsible-block" {{#if hasDamagePartsConfigured}}open{{/if}}>
-  <summary class="dcc-collapsible-summary">
-    <span class="dcc-collapsible-title"><i class="fa-solid fa-chevron-right dcc-chevron"></i> <i class="fa-solid fa-burst"></i> WEAPON DAMAGE PARTS (WHEN USED/EQUIPPED)</span>
-    <span class="dcc-toggle-indicator {{#if hasDamagePartsConfigured}}active{{/if}}">{{#if hasDamagePartsConfigured}}[{{system.damageParts.length}} DAMAGE PARTS]{{else}}[CLICK TO ADD WEAPON DAMAGE]{{/if}}</span>
-  </summary>
-  <div class="dcc-collapsible-content">
-    <div style="display: flex; justify-content: flex-end; margin-bottom: 6px;">
-      <a class="add-damage-part" style="color: #fff; font-size: 11px; cursor: pointer; font-weight: bold; background: #2c3e50; padding: 3px 8px; border-radius: 3px; display: inline-flex; align-items: center; gap: 4px;">
-        <i class="fa-solid fa-plus"></i> Add Damage Part
-      </a>
-    </div>
+<div class="dcc-stat-block" style="margin-bottom: 10px;">
+  <div class="dcc-banner-header" style="font-size: 11px; padding: 3px 6px; display: flex; justify-content: space-between; align-items: center;">
+    <span>WEAPON DAMAGE PARTS (WHEN USED/EQUIPPED)</span>
+    <a class="add-damage-part" style="color: #fff; font-size: 10px; cursor: pointer;">
+      <i class="fa-solid fa-plus"></i> Add Damage Part
+    </a>
+  </div>
+  <div style="padding: 6px; background: #fafafa; border: 1px solid #ddd;">
     {{#if system.damageParts.length}}
       <table class="dcc-table" style="margin: 0; font-size: 11px;">
         <thead>
@@ -382,308 +334,192 @@
         </tbody>
       </table>
     {{else}}
-      <div style="text-align: center; font-style: italic; color: #555; font-size: 11px; padding: 6px; background: #fff; border: 1px dashed #ccc; border-radius: 3px;">
+      <div style="text-align: center; font-style: italic; color: #333333; font-size: 11px; padding: 6px;">
         No bonus weapon damage parts. Click "Add Damage Part" above to add weapon damage (e.g. +2 Necrotic, +4 Sonic).
       </div>
     {{/if}}
   </div>
-</details>
-
-{{!-- AURA & AREA OF EFFECT EMISSION (GEAR AURA) --}}
-<details class="dcc-collapsible-block" {{#if hasAuraConfigured}}open{{/if}}>
-  <summary class="dcc-collapsible-summary">
-    <span class="dcc-collapsible-title"><i class="fa-solid fa-chevron-right dcc-chevron"></i> <i class="fa-solid fa-circle-notch"></i> PASSIVE / ACTIVATED AURA EMISSION</span>
-    <span class="dcc-toggle-indicator {{#if hasAuraConfigured}}active{{/if}}">{{#if hasAuraConfigured}}[AURA CONFIGURED]{{else}}[CLICK TO CONFIGURE GEAR AURA]{{/if}}</span>
-  </summary>
-  <div class="dcc-collapsible-content">
-    <div class="dcc-field-row" style="margin-bottom: 6px; align-items: center; gap: 8px; flex-wrap: wrap;">
-      <label style="display: flex; align-items: center; gap: 4px; font-weight: bold; font-size: 11px; cursor: pointer; color: #2c3e50;">
-        <input type="checkbox" name="system.area.hasArea" {{#if system.area.hasArea}}checked{{/if}} />
-        <span>Emits Aura When Equipped / Activated</span>
-      </label>
-      <div class="dcc-field-group small" style="flex: 1;">
-        <span class="dcc-field-label">Shape</span>
-        <select class="dcc-field-input" name="system.area.shape" style="font-size: 11px;">
-          <option value="burst" {{#if (eq system.area.shape "burst")}}selected{{/if}}>Burst / Circle</option>
-          <option value="cone" {{#if (eq system.area.shape "cone")}}selected{{/if}}>Cone</option>
-          <option value="line" {{#if (eq system.area.shape "line")}}selected{{/if}}>Line</option>
-        </select>
-      </div>
-      <div class="dcc-field-group small" style="flex: 1;">
-        <span class="dcc-field-label">Base Radius (ft)</span>
-        <input class="dcc-field-input" type="number" name="system.area.radius" value="{{system.area.radius}}" placeholder="5" min="0" style="font-size: 11px; font-weight: bold;" />
-      </div>
-      <div class="dcc-field-group small" style="flex: 1.2;">
-        <span class="dcc-field-label">Target Filter</span>
-        <select class="dcc-field-input" name="system.area.targetFilter" style="font-size: 11px;">
-          <option value="allies" {{#if (eq system.area.targetFilter "allies")}}selected{{/if}}>Allies Only</option>
-          <option value="enemies" {{#if (eq system.area.targetFilter "enemies")}}selected{{/if}}>Enemies Only</option>
-          <option value="both" {{#if (eq system.area.targetFilter "both")}}selected{{/if}}>Both (Allies & Enemies)</option>
-        </select>
-      </div>
-    </div>
-
-    {{!-- Allied Protection / Temp Health Bars Sub-Block --}}
-    <div class="dcc-rank-break-card" style="margin-bottom: 6px; border: 1px solid #ddd; border-left: 4px solid #196f3d; background: #fff; padding: 6px; border-radius: 3px;">
-      <div style="font-weight: bold; font-size: 11px; color: #196f3d; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between;">
-        <span><i class="fa-solid fa-shield-halved"></i> Allied Protection & Temporary Health Bars</span>
-        <label style="font-size: 10px; font-weight: normal; color: #333; display: flex; align-items: center; gap: 4px; cursor: pointer;">
-          <input type="checkbox" name="system.tempBars.hasTempBars" {{#if system.tempBars.hasTempBars}}checked{{/if}} />
-          <span>Enable Bonus Health Bars</span>
-        </label>
-      </div>
-      <div class="dcc-field-row" style="gap: 6px;">
-        <div class="dcc-field-group" style="flex: 1.5;">
-          <span class="dcc-field-label">Bar Slots Formula / Stat</span>
-          <select class="dcc-field-input" name="system.tempBars.slotsFormula" style="font-size: 11px;">
-            <option value="con" {{#if (eq system.tempBars.slotsFormula "con")}}selected{{/if}}>CON Mod</option>
-            <option value="cha" {{#if (eq system.tempBars.slotsFormula "cha")}}selected{{/if}}>CHA Mod</option>
-            <option value="int" {{#if (eq system.tempBars.slotsFormula "int")}}selected{{/if}}>INT Mod</option>
-            <option value="str" {{#if (eq system.tempBars.slotsFormula "str")}}selected{{/if}}>STR Mod</option>
-            <option value="dex" {{#if (eq system.tempBars.slotsFormula "dex")}}selected{{/if}}>DEX Mod</option>
-            <option value="1" {{#if (eq system.tempBars.slotsFormula "1")}}selected{{/if}}>Fixed 1 Bar</option>
-            <option value="2" {{#if (eq system.tempBars.slotsFormula "2")}}selected{{/if}}>Fixed 2 Bars</option>
-          </select>
-        </div>
-        <div class="dcc-field-group" style="flex: 1;">
-          <span class="dcc-field-label">Base HP Per Bar</span>
-          <input class="dcc-field-input" type="number" name="system.tempBars.hpPerSlot" value="{{system.tempBars.hpPerSlot}}" placeholder="2" min="0" style="font-size: 11px;" />
-        </div>
-        <div class="dcc-field-group" style="flex: 1.5;">
-          <span class="dcc-field-label">Elemental Damage Absorption</span>
-          <select class="dcc-field-input" name="system.area.absorbElement" style="font-size: 11px;">
-            <option value="">-- None / General Absorption --</option>
-            {{#each damageTypes as |dt|}}
-              <option value="{{dt}}" {{#if (eq ../system.area.absorbElement dt)}}selected{{/if}}>{{dt}}</option>
-            {{/each}}
-          </select>
-        </div>
-      </div>
-    </div>
-
-    {{!-- Enemy Hazard / Periodic Aura Damage Sub-Block --}}
-    <div class="dcc-rank-break-card" style="border: 1px solid #ddd; border-left: 4px solid #c0392b; background: #fff; padding: 6px; border-radius: 3px;">
-      <div style="font-weight: bold; font-size: 11px; color: #c0392b; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between;">
-        <span><i class="fa-solid fa-burst"></i> Enemy Hazard (Periodic Damage & Debuffs in Radius)</span>
-        <label style="font-size: 10px; font-weight: normal; color: #333; display: flex; align-items: center; gap: 4px; cursor: pointer;">
-          <input type="checkbox" name="system.area.hasPeriodicDamage" {{#if system.area.hasPeriodicDamage}}checked{{/if}} />
-          <span>Enable Periodic Aura Damage</span>
-        </label>
-      </div>
-      <div class="dcc-field-row" style="gap: 6px;">
-        <div class="dcc-field-group" style="flex: 1;">
-          <span class="dcc-field-label">Tick Damage Formula</span>
-          <input class="dcc-field-input" type="text" name="system.area.periodicDamageFormula" value="{{system.area.periodicDamageFormula}}" placeholder="e.g. 1d6" style="font-size: 11px;" />
-        </div>
-        <div class="dcc-field-group" style="flex: 1;">
-          <span class="dcc-field-label">Damage Element</span>
-          <select class="dcc-field-input" name="system.area.periodicDamageType" style="font-size: 11px;">
-            <option value="">-- Damage Type --</option>
-            {{#each damageTypes as |dt|}}
-              <option value="{{dt}}" {{#if (eq ../system.area.periodicDamageType dt)}}selected{{/if}}>{{dt}}</option>
-            {{/each}}
-          </select>
-        </div>
-        <div class="dcc-field-group" style="flex: 1.5;">
-          <span class="dcc-field-label">Inflict Debuff in Radius</span>
-          <select class="dcc-field-input" name="system.area.inflictDebuff" style="font-size: 11px;">
-            <option value="">-- None --</option>
-            {{#each availableDebuffs as |deb|}}
-              <option value="{{deb.name}}" {{#if (eq ../system.area.inflictDebuff deb.name)}}selected{{/if}}>{{deb.name}}</option>
-            {{/each}}
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
-</details>
+</div>
 
 {{!-- ACTIVATED ABILITY / ON-USE EFFECTS --}}
-<details class="dcc-collapsible-block" {{#if hasActivatedAbilityConfigured}}open{{/if}}>
-  <summary class="dcc-collapsible-summary" style="background: #962d22;">
-    <span class="dcc-collapsible-title"><i class="fa-solid fa-chevron-right dcc-chevron"></i> <i class="fa-solid fa-bolt"></i> ACTIVATED ABILITY / ON-USE EFFECTS</span>
-    <span class="dcc-toggle-indicator {{#if hasActivatedAbilityConfigured}}active{{/if}}">{{#if hasActivatedAbilityConfigured}}[ACTIVE ABILITY CONFIGURED]{{else}}[CLICK TO CONFIGURE ON-USE ABILITY]{{/if}}</span>
-  </summary>
-  <div class="dcc-collapsible-content">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-      <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: bold; color: #2c3e50; cursor: pointer;">
-        <input type="checkbox" class="toggle-gear-activated" name="system.hasActivatedAbility" {{#if system.hasActivatedAbility}}checked{{/if}} />
-        <span>Enable Activated Ability / On-Use</span>
-      </label>
-    </div>
-    {{#if (or system.hasActivatedAbility system.outcomes.length)}}
-      <div style="padding: 6px; background: #fafafa; border: 1px solid #ddd; border-radius: 3px;">
-        <div class="dcc-field-row" style="margin-bottom: 6px;">
-          <div class="dcc-field-group">
-            <span class="dcc-field-label">Usage Limit / Cooldown</span>
-            <input class="dcc-field-input" type="text" name="system.cooldown" value="{{system.cooldown}}" placeholder="None, Once per scene, 1/Round" />
-          </div>
-          <div class="dcc-field-group">
-            <span class="dcc-field-label">Execution Mode</span>
-            <select class="dcc-field-input execution-mode-select" name="system.executionMode">
-              <option value="all" {{#if (or (eq system.executionMode "all") (not system.executionMode))}}selected{{/if}}>All Effects (Guaranteed Combo)</option>
-              <option value="random" {{#if (eq system.executionMode "random")}}selected{{/if}}>Weighted Random Outcome</option>
-            </select>
-          </div>
-          <div class="dcc-field-group small">
-            <span class="dcc-field-label">Charges (Pool)</span>
-            <div style="display: flex; gap: 4px; align-items: center;">
-              <input class="dcc-field-input" type="number" name="system.charges.value" value="{{system.charges.value}}" min="0" style="text-align: center; width: 45px;" />
-              <span>/</span>
-              <input class="dcc-field-input" type="number" name="system.charges.max" value="{{system.charges.max}}" min="0" style="text-align: center; width: 45px;" />
-            </div>
-          </div>
-          <div style="display: flex; align-items: flex-end; padding-bottom: 2px;">
-            <a class="add-gear-outcome" style="background: #c0392b; color: #fff; padding: 4px 8px; border-radius: 3px; font-size: 11px; text-decoration: none; cursor: pointer;">
-              <i class="fa-solid fa-plus"></i> Add Effect
-            </a>
+<div class="dcc-stat-block" style="margin-bottom: 10px; border: 1px solid #c0392b;">
+  <div class="dcc-banner-header" style="font-size: 11px; padding: 3px 6px; display: flex; justify-content: space-between; align-items: center; background: #c0392b;">
+    <span>
+      <i class="fa-solid fa-bolt"></i> ACTIVATED ABILITY / ON-USE EFFECTS
+    </span>
+    <label style="display: flex; align-items: center; gap: 4px; font-size: 10px; color: #fff; cursor: pointer;">
+      <input type="checkbox" class="toggle-gear-activated" name="system.hasActivatedAbility" {{#if system.hasActivatedAbility}}checked{{/if}} />
+      <span>Enable Activated Ability</span>
+    </label>
+  </div>
+  {{#if (or system.hasActivatedAbility system.outcomes.length)}}
+    <div style="padding: 6px; background: #fafafa; border: 1px solid #ddd;">
+      <div class="dcc-field-row" style="margin-bottom: 6px;">
+        <div class="dcc-field-group">
+          <span class="dcc-field-label">Usage Limit / Cooldown</span>
+          <input class="dcc-field-input" type="text" name="system.cooldown" value="{{system.cooldown}}" placeholder="None, Once per scene, 1/Round" />
+        </div>
+        <div class="dcc-field-group">
+          <span class="dcc-field-label">Execution Mode</span>
+          <select class="dcc-field-input execution-mode-select" name="system.executionMode">
+            <option value="all" {{#if (or (eq system.executionMode "all") (not system.executionMode))}}selected{{/if}}>All Effects (Guaranteed Combo)</option>
+            <option value="random" {{#if (eq system.executionMode "random")}}selected{{/if}}>Weighted Random Outcome</option>
+          </select>
+        </div>
+        <div class="dcc-field-group small">
+          <span class="dcc-field-label">Charges (Pool)</span>
+          <div style="display: flex; gap: 4px; align-items: center;">
+            <input class="dcc-field-input" type="number" name="system.charges.value" value="{{system.charges.value}}" min="0" style="text-align: center; width: 45px;" />
+            <span>/</span>
+            <input class="dcc-field-input" type="number" name="system.charges.max" value="{{system.charges.max}}" min="0" style="text-align: center; width: 45px;" />
           </div>
         </div>
+        <div style="display: flex; align-items: flex-end; padding-bottom: 2px;">
+          <a class="add-gear-outcome" style="background: #c0392b; color: #fff; padding: 4px 8px; border-radius: 3px; font-size: 11px; text-decoration: none; cursor: pointer;">
+            <i class="fa-solid fa-plus"></i> Add Effect
+          </a>
+        </div>
+      </div>
 
-        {{#if system.outcomes.length}}
-          <table class="dcc-table" style="width: 100%; font-size: 12px; margin-bottom: 0;">
-            <thead>
-              <tr style="background: #eee;">
-                <th style="width: 25%;">Effect Name</th>
-                {{#if (eq system.executionMode "random")}}
-                  <th style="width: 12%;">Weight</th>
+      {{#if system.outcomes.length}}
+        <table class="dcc-table" style="width: 100%; font-size: 12px; margin-bottom: 0;">
+          <thead>
+            <tr style="background: #eee;">
+              <th style="width: 25%;">Effect Name</th>
+              {{#if (eq system.executionMode "random")}}
+                <th style="width: 12%;">Weight</th>
+              {{/if}}
+              <th style="width: 18%;">Type</th>
+              <th style="width: 16%;">Target</th>
+              <th style="width: 25%;">Details / Values</th>
+              <th style="width: 8%; text-align: center;">Act</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each system.outcomes as |out idx|}}
+              <tr style="border-bottom: 1px solid #ddd;">
+                <td>
+                  <input class="dcc-field-input" type="text" name="system.outcomes.{{idx}}.name" value="{{out.name}}" placeholder="Effect Name" style="width: 100%; font-size: 11px;" />
+                </td>
+                {{#if (eq ../system.executionMode "random")}}
+                  <td>
+                    <input class="dcc-field-input outcome-weight-input" type="number" name="system.outcomes.{{idx}}.weight" value="{{out.weight}}" min="0" max="100" data-index="{{idx}}" style="width: 100%; font-size: 11px;" />
+                  </td>
                 {{/if}}
-                <th style="width: 18%;">Type</th>
-                <th style="width: 16%;">Target</th>
-                <th style="width: 25%;">Details / Values</th>
-                <th style="width: 8%; text-align: center;">Act</th>
-              </tr>
-            </thead>
-            <tbody>
-              {{#each system.outcomes as |out idx|}}
-                <tr style="border-bottom: 1px solid #ddd;">
-                  <td>
-                    <input class="dcc-field-input" type="text" name="system.outcomes.{{idx}}.name" value="{{out.name}}" placeholder="Effect Name" style="width: 100%; font-size: 11px;" />
-                  </td>
-                  {{#if (eq ../system.executionMode "random")}}
-                    <td>
-                      <input class="dcc-field-input outcome-weight-input" type="number" name="system.outcomes.{{idx}}.weight" value="{{out.weight}}" min="0" max="100" data-index="{{idx}}" style="width: 100%; font-size: 11px;" />
-                    </td>
+                <td>
+                  <select class="dcc-field-input outcome-type-select" data-index="{{idx}}" name="system.outcomes.{{idx}}.type" style="width: 100%; font-size: 11px;">
+                    <option value="buff" {{#if (eq out.type "buff")}}selected{{/if}}>Grant Buff</option>
+                    <option value="debuff" {{#if (eq out.type "debuff")}}selected{{/if}}>Inflict Debuff</option>
+                    <option value="heal" {{#if (eq out.type "heal")}}selected{{/if}}>Heal Bars</option>
+                    <option value="heal_over_time" {{#if (eq out.type "heal_over_time")}}selected{{/if}}>Heal over Time (HoT)</option>
+                    <option value="mend_injury" {{#if (eq out.type "mend_injury")}}selected{{/if}}>Mend Injury</option>
+                    <option value="cure_debuff" {{#if (eq out.type "cure_debuff")}}selected{{/if}}>Cure Debuff</option>
+                    <option value="skill_rank" {{#if (eq out.type "skill_rank")}}selected{{/if}}>Raise Skill (+)</option>
+                    <option value="stat_permanent" {{#if (eq out.type "stat_permanent")}}selected{{/if}}>Stat Boost (+)</option>
+                    <option value="spell" {{#if (eq out.type "spell")}}selected{{/if}}>Spell / Damage</option>
+                    <option value="roll_table" {{#if (eq out.type "roll_table")}}selected{{/if}}>Roll Table</option>
+                    <option value="custom" {{#if (eq out.type "custom")}}selected{{/if}}>Custom</option>
+                  </select>
+                </td>
+                <td>
+                  <select class="dcc-field-input" name="system.outcomes.{{idx}}.targetType" style="width: 100%; font-size: 11px;">
+                    <option value="self" {{#if (or (eq out.targetType "self") (not out.targetType))}}selected{{/if}}>Self</option>
+                    <option value="closest_mob" {{#if (eq out.targetType "closest_mob")}}selected{{/if}}>Closest Mob</option>
+                    <option value="target" {{#if (eq out.targetType "target")}}selected{{/if}}>Targeted Token</option>
+                  </select>
+                </td>
+                <td>
+                  {{#if (eq out.type "heal")}}
+                    <div style="display: flex; gap: 4px; align-items: center;">
+                      <input class="dcc-field-input" type="number" name="system.outcomes.{{idx}}.healBars" value="{{out.healBars}}" placeholder="Bars" style="width: 50px; font-size: 11px;" />
+                      <span style="font-size: 10px;">Bars</span>
+                    </div>
+                  {{else if (eq out.type "heal_over_time")}}
+                    <div style="display: flex; gap: 4px; align-items: center;">
+                      <input class="dcc-field-input" type="number" name="system.outcomes.{{idx}}.healBars" value="{{out.healBars}}" placeholder="Bars" style="width: 40px; font-size: 11px;" />
+                      <span style="font-size: 10px;">b/rnd</span>
+                      <input class="dcc-field-input" type="number" name="system.outcomes.{{idx}}.rounds" value="{{out.rounds}}" placeholder="3" style="width: 40px; font-size: 11px;" />
+                      <span style="font-size: 10px;">rnds</span>
+                    </div>
+                  {{else if (eq out.type "mend_injury")}}
+                    <select class="dcc-field-input" name="system.outcomes.{{idx}}.injurySeverity" style="width: 100%; font-size: 11px;">
+                      <option value="minor" {{#if (eq out.injurySeverity "minor")}}selected{{/if}}>Minor Injury</option>
+                      <option value="major" {{#if (eq out.injurySeverity "major")}}selected{{/if}}>Major Injury</option>
+                      <option value="all" {{#if (eq out.injurySeverity "all")}}selected{{/if}}>All Injuries</option>
+                    </select>
+                  {{else if (eq out.type "cure_debuff")}}
+                    <input class="dcc-field-input" type="text" name="system.outcomes.{{idx}}.cureFilter" value="{{out.cureFilter}}" placeholder="All, Burned, Poisoned..." style="width: 100%; font-size: 11px;" />
+                  {{else if (eq out.type "skill_rank")}}
+                    <div style="display: flex; gap: 4px; align-items: center;">
+                      <input class="dcc-field-input" type="text" name="system.outcomes.{{idx}}.skillName" value="{{out.skillName}}" placeholder="Skill Name" style="width: 70%; font-size: 11px;" />
+                      <input class="dcc-field-input" type="number" name="system.outcomes.{{idx}}.rankBonus" value="{{out.rankBonus}}" placeholder="+1" style="width: 30%; font-size: 11px;" />
+                    </div>
+                  {{else if (eq out.type "stat_permanent")}}
+                    <div style="display: flex; gap: 4px; align-items: center;">
+                      <select class="dcc-field-input" name="system.outcomes.{{idx}}.stat" style="width: 50%; font-size: 11px;">
+                        <option value="str" {{#if (eq out.stat "str")}}selected{{/if}}>STR</option>
+                        <option value="dex" {{#if (eq out.stat "dex")}}selected{{/if}}>DEX</option>
+                        <option value="con" {{#if (eq out.stat "con")}}selected{{/if}}>CON</option>
+                        <option value="int" {{#if (eq out.stat "int")}}selected{{/if}}>INT</option>
+                        <option value="cha" {{#if (eq out.stat "cha")}}selected{{/if}}>CHA</option>
+                      </select>
+                      <input class="dcc-field-input" type="number" name="system.outcomes.{{idx}}.value" value="{{out.value}}" placeholder="+1" style="width: 50%; font-size: 11px;" />
+                    </div>
+                  {{else if (eq out.type "buff")}}
+                    <select class="dcc-field-input outcome-buff-select" data-index="{{idx}}" name="system.outcomes.{{idx}}.buffId" style="width: 100%; font-size: 11px;">
+                      <option value="">-- Choose Existing Buff --</option>
+                      {{#each out.buffOptions as |bOpt|}}
+                        <option value="{{bOpt.id}}" {{#if bOpt.selected}}selected{{/if}}>{{bOpt.name}}</option>
+                      {{/each}}
+                    </select>
+                  {{else if (eq out.type "debuff")}}
+                    <select class="dcc-field-input outcome-debuff-select" data-index="{{idx}}" name="system.outcomes.{{idx}}.debuffId" style="width: 100%; font-size: 11px;">
+                      <option value="">-- Choose Existing Debuff --</option>
+                      {{#each out.debuffOptions as |dOpt|}}
+                        <option value="{{dOpt.id}}" {{#if dOpt.selected}}selected{{/if}}>{{dOpt.name}}</option>
+                      {{/each}}
+                    </select>
+                  {{else if (eq out.type "spell")}}
+                    <select class="dcc-field-input outcome-spell-select" data-index="{{idx}}" name="system.outcomes.{{idx}}.spellId" style="width: 100%; font-size: 11px;">
+                      <option value="">-- Choose Spell --</option>
+                      {{#each out.spellOptions as |sOpt|}}
+                        <option value="{{sOpt.id}}" {{#if sOpt.selected}}selected{{/if}}>{{sOpt.name}}</option>
+                      {{/each}}
+                    </select>
+                  {{else if (eq out.type "roll_table")}}
+                    <select class="dcc-field-input outcome-table-select" data-index="{{idx}}" name="system.outcomes.{{idx}}.tableUuid" style="width: 100%; font-size: 11px;">
+                      <option value="">-- Choose Roll Table --</option>
+                      {{#each out.tableOptions as |tOpt|}}
+                        <option value="{{tOpt.uuid}}" {{#if tOpt.selected}}selected{{/if}}>{{tOpt.name}}</option>
+                      {{/each}}
+                    </select>
+                  {{else}}
+                    <div style="display: flex; gap: 4px;">
+                      <input class="dcc-field-input" type="text" name="system.outcomes.{{idx}}.damage" value="{{out.damage}}" placeholder="2d12 + Int" style="width: 65%; font-size: 11px;" />
+                      <input class="dcc-field-input" type="text" name="system.outcomes.{{idx}}.damageType" value="{{out.damageType}}" placeholder="Fire" style="width: 35%; font-size: 11px;" />
+                    </div>
                   {{/if}}
-                  <td>
-                    <select class="dcc-field-input outcome-type-select" data-index="{{idx}}" name="system.outcomes.{{idx}}.type" style="width: 100%; font-size: 11px;">
-                      <option value="buff" {{#if (eq out.type "buff")}}selected{{/if}}>Grant Buff</option>
-                      <option value="debuff" {{#if (eq out.type "debuff")}}selected{{/if}}>Inflict Debuff</option>
-                      <option value="heal" {{#if (eq out.type "heal")}}selected{{/if}}>Heal Bars</option>
-                      <option value="heal_over_time" {{#if (eq out.type "heal_over_time")}}selected{{/if}}>Heal over Time (HoT)</option>
-                      <option value="mend_injury" {{#if (eq out.type "mend_injury")}}selected{{/if}}>Mend Injury</option>
-                      <option value="cure_debuff" {{#if (eq out.type "cure_debuff")}}selected{{/if}}>Cure Debuff</option>
-                      <option value="skill_rank" {{#if (eq out.type "skill_rank")}}selected{{/if}}>Raise Skill (+)</option>
-                      <option value="stat_permanent" {{#if (eq out.type "stat_permanent")}}selected{{/if}}>Stat Boost (+)</option>
-                      <option value="spell" {{#if (eq out.type "spell")}}selected{{/if}}>Spell / Damage</option>
-                      <option value="roll_table" {{#if (eq out.type "roll_table")}}selected{{/if}}>Roll Table</option>
-                      <option value="custom" {{#if (eq out.type "custom")}}selected{{/if}}>Custom</option>
-                    </select>
-                  </td>
-                  <td>
-                    <select class="dcc-field-input" name="system.outcomes.{{idx}}.targetType" style="width: 100%; font-size: 11px;">
-                      <option value="self" {{#if (or (eq out.targetType "self") (not out.targetType))}}selected{{/if}}>Self</option>
-                      <option value="closest_mob" {{#if (eq out.targetType "closest_mob")}}selected{{/if}}>Closest Mob</option>
-                      <option value="target" {{#if (eq out.targetType "target")}}selected{{/if}}>Targeted Token</option>
-                    </select>
-                  </td>
-                  <td>
-                    {{#if (eq out.type "heal")}}
-                      <div style="display: flex; gap: 4px; align-items: center;">
-                        <input class="dcc-field-input" type="number" name="system.outcomes.{{idx}}.healBars" value="{{out.healBars}}" placeholder="Bars" style="width: 50px; font-size: 11px;" />
-                        <span style="font-size: 10px;">Bars</span>
-                      </div>
-                    {{else if (eq out.type "heal_over_time")}}
-                      <div style="display: flex; gap: 4px; align-items: center;">
-                        <input class="dcc-field-input" type="number" name="system.outcomes.{{idx}}.healBars" value="{{out.healBars}}" placeholder="Bars" style="width: 40px; font-size: 11px;" />
-                        <span style="font-size: 10px;">b/rnd</span>
-                        <input class="dcc-field-input" type="number" name="system.outcomes.{{idx}}.rounds" value="{{out.rounds}}" placeholder="3" style="width: 40px; font-size: 11px;" />
-                        <span style="font-size: 10px;">rnds</span>
-                      </div>
-                    {{else if (eq out.type "mend_injury")}}
-                      <select class="dcc-field-input" name="system.outcomes.{{idx}}.injurySeverity" style="width: 100%; font-size: 11px;">
-                        <option value="minor" {{#if (eq out.injurySeverity "minor")}}selected{{/if}}>Minor Injury</option>
-                        <option value="major" {{#if (eq out.injurySeverity "major")}}selected{{/if}}>Major Injury</option>
-                        <option value="all" {{#if (eq out.injurySeverity "all")}}selected{{/if}}>All Injuries</option>
-                      </select>
-                    {{else if (eq out.type "cure_debuff")}}
-                      <input class="dcc-field-input" type="text" name="system.outcomes.{{idx}}.cureFilter" value="{{out.cureFilter}}" placeholder="All, Burned, Poisoned..." style="width: 100%; font-size: 11px;" />
-                    {{else if (eq out.type "skill_rank")}}
-                      <div style="display: flex; gap: 4px; align-items: center;">
-                        <input class="dcc-field-input" type="text" name="system.outcomes.{{idx}}.skillName" value="{{out.skillName}}" placeholder="Skill Name" style="width: 70%; font-size: 11px;" />
-                        <input class="dcc-field-input" type="number" name="system.outcomes.{{idx}}.rankBonus" value="{{out.rankBonus}}" placeholder="+1" style="width: 30%; font-size: 11px;" />
-                      </div>
-                    {{else if (eq out.type "stat_permanent")}}
-                      <div style="display: flex; gap: 4px; align-items: center;">
-                        <select class="dcc-field-input" name="system.outcomes.{{idx}}.stat" style="width: 50%; font-size: 11px;">
-                          <option value="str" {{#if (eq out.stat "str")}}selected{{/if}}>STR</option>
-                          <option value="dex" {{#if (eq out.stat "dex")}}selected{{/if}}>DEX</option>
-                          <option value="con" {{#if (eq out.stat "con")}}selected{{/if}}>CON</option>
-                          <option value="int" {{#if (eq out.stat "int")}}selected{{/if}}>INT</option>
-                          <option value="cha" {{#if (eq out.stat "cha")}}selected{{/if}}>CHA</option>
-                        </select>
-                        <input class="dcc-field-input" type="number" name="system.outcomes.{{idx}}.value" value="{{out.value}}" placeholder="+1" style="width: 50%; font-size: 11px;" />
-                      </div>
-                    {{else if (eq out.type "buff")}}
-                      <select class="dcc-field-input outcome-buff-select" data-index="{{idx}}" name="system.outcomes.{{idx}}.buffId" style="width: 100%; font-size: 11px;">
-                        <option value="">-- Choose Existing Buff --</option>
-                        {{#each out.buffOptions as |bOpt|}}
-                          <option value="{{bOpt.id}}" {{#if bOpt.selected}}selected{{/if}}>{{bOpt.name}}</option>
-                        {{/each}}
-                      </select>
-                    {{else if (eq out.type "debuff")}}
-                      <select class="dcc-field-input outcome-debuff-select" data-index="{{idx}}" name="system.outcomes.{{idx}}.debuffId" style="width: 100%; font-size: 11px;">
-                        <option value="">-- Choose Existing Debuff --</option>
-                        {{#each out.debuffOptions as |dOpt|}}
-                          <option value="{{dOpt.id}}" {{#if dOpt.selected}}selected{{/if}}>{{dOpt.name}}</option>
-                        {{/each}}
-                      </select>
-                    {{else if (eq out.type "spell")}}
-                      <select class="dcc-field-input outcome-spell-select" data-index="{{idx}}" name="system.outcomes.{{idx}}.spellId" style="width: 100%; font-size: 11px;">
-                        <option value="">-- Choose Spell --</option>
-                        {{#each out.spellOptions as |sOpt|}}
-                          <option value="{{sOpt.id}}" {{#if sOpt.selected}}selected{{/if}}>{{sOpt.name}}</option>
-                        {{/each}}
-                      </select>
-                    {{else if (eq out.type "roll_table")}}
-                      <select class="dcc-field-input outcome-table-select" data-index="{{idx}}" name="system.outcomes.{{idx}}.tableUuid" style="width: 100%; font-size: 11px;">
-                        <option value="">-- Choose Roll Table --</option>
-                        {{#each out.tableOptions as |tOpt|}}
-                          <option value="{{tOpt.uuid}}" {{#if tOpt.selected}}selected{{/if}}>{{tOpt.name}}</option>
-                        {{/each}}
-                      </select>
-                    {{else}}
-                      <div style="display: flex; gap: 4px;">
-                        <input class="dcc-field-input" type="text" name="system.outcomes.{{idx}}.damage" value="{{out.damage}}" placeholder="2d12 + Int" style="width: 65%; font-size: 11px;" />
-                        <input class="dcc-field-input" type="text" name="system.outcomes.{{idx}}.damageType" value="{{out.damageType}}" placeholder="Fire" style="width: 35%; font-size: 11px;" />
-                      </div>
-                    {{/if}}
-                  </td>
-                  <td style="text-align: center;">
-                    <a class="delete-gear-outcome" data-index="{{idx}}" style="color: #c0392b; cursor: pointer;"><i class="fa-solid fa-trash"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="{{#if (eq ../system.executionMode "random")}}6{{else}}5{{/if}}" style="padding-bottom: 6px; padding-top: 2px;">
-                    <input class="dcc-field-input" type="text" name="system.outcomes.{{idx}}.description" value="{{out.description}}" placeholder="Flavor & rules description..." style="width: 100%; font-size: 11px;" />
-                  </td>
-                </tr>
-              {{/each}}
-            </tbody>
-          </table>
-        {{else}}
-          <div style="text-align: center; color: #555; font-size: 11px; padding: 6px;">
-            Activated ability enabled. Click <strong>Add Effect</strong> to attach on-use effects to this piece of gear.
-          </div>
-        {{/if}}
-      </div>
-    {{else}}
-      <div style="text-align: center; color: #888; font-style: italic; font-size: 11px; padding: 6px; background: #fff; border: 1px dashed #ccc; border-radius: 3px;">
-        On-use activated abilities disabled. Check "Enable Activated Ability" above to attach effects, charges, or cooldowns.
-      </div>
-    {{/if}}
-  </div>
-</details>
+                </td>
+                <td style="text-align: center;">
+                  <a class="delete-gear-outcome" data-index="{{idx}}" style="color: #c0392b; cursor: pointer;"><i class="fa-solid fa-trash"></i></a>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="{{#if (eq ../system.executionMode "random")}}6{{else}}5{{/if}}" style="padding-bottom: 6px; padding-top: 2px;">
+                  <input class="dcc-field-input" type="text" name="system.outcomes.{{idx}}.description" value="{{out.description}}" placeholder="Flavor & rules description..." style="width: 100%; font-size: 11px;" />
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      {{else}}
+        <div style="text-align: center; color: #333333; font-size: 11px; padding: 6px;">
+          Activated ability enabled. Click <strong>Add Effect</strong> to attach on-use effects to this piece of gear.
+        </div>
+      {{/if}}
+    </div>
+  {{/if}}
+</div>
 
 <div class="dcc-field-group">
   <span class="dcc-field-label">Notes & Description</span>
