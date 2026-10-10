@@ -72,12 +72,132 @@
   <textarea class="dcc-field-input" name="system.description" style="height: 90px;">{{system.description}}</textarea>
 </div>
 
-{{!-- SPELL CRITICAL MILESTONES & CONDITION TRIGGERS --}}
-<div class="dcc-stat-block" style="margin-bottom: 8px;">
-  <div class="dcc-banner-header" style="font-size: 11px; padding: 3px 6px;">
-    <i class="fa-solid fa-crosshairs"></i> SPELL CRITICAL MILESTONES & CONDITION TRIGGERS
+{{!-- AURA & AREA OF EFFECT CONFIGURATION (COLLAPSIBLE WITH PROGRESSIVE DISCLOSURE) --}}
+<details class="dcc-collapsible-block" {{#if hasAuraConfigured}}open{{/if}}>
+  <summary class="dcc-collapsible-summary">
+    <span class="dcc-collapsible-title"><i class="fa-solid fa-chevron-right dcc-chevron"></i> <i class="fa-solid fa-circle-notch"></i> AURA & AREA OF EFFECT CONFIGURATION</span>
+    <span class="dcc-toggle-indicator {{#if hasAuraConfigured}}active{{/if}}">{{#if hasAuraConfigured}}[AURA / AOE CONFIGURED]{{else}}[CLICK TO CONFIGURE AURA / AOE]{{/if}}</span>
+  </summary>
+  <div class="dcc-collapsible-content">
+
+    {{!-- Enable Aura Toggle & Scope --}}
+    <div class="dcc-field-row" style="margin-bottom: 6px; align-items: center; gap: 8px; flex-wrap: wrap;">
+      <label style="display: flex; align-items: center; gap: 4px; font-weight: bold; font-size: 11px; cursor: pointer; color: #2c3e50;">
+        <input type="checkbox" name="system.area.hasArea" {{#if system.area.hasArea}}checked{{/if}} />
+        <span>Emits Aura / Area Effect</span>
+      </label>
+      <div class="dcc-field-group small" style="flex: 1;">
+        <span class="dcc-field-label">Shape</span>
+        <select class="dcc-field-input" name="system.area.shape" style="font-size: 11px;">
+          <option value="burst" {{#if (eq system.area.shape "burst")}}selected{{/if}}>Burst / Circle</option>
+          <option value="cone" {{#if (eq system.area.shape "cone")}}selected{{/if}}>Cone</option>
+          <option value="line" {{#if (eq system.area.shape "line")}}selected{{/if}}>Line</option>
+        </select>
+      </div>
+      <div class="dcc-field-group small" style="flex: 1;">
+        <span class="dcc-field-label">Base Radius (ft)</span>
+        <input class="dcc-field-input" type="number" name="system.area.radius" value="{{system.area.radius}}" placeholder="5" min="0" style="font-size: 11px; font-weight: bold;" />
+      </div>
+      <div class="dcc-field-group small" style="flex: 1.2;">
+        <span class="dcc-field-label">Origin / Delivery</span>
+        <select class="dcc-field-input" name="system.area.origin" style="font-size: 11px;">
+          <option value="caster" {{#if (eq system.area.origin "caster")}}selected{{/if}}>Caster (Mobile Aura)</option>
+          <option value="placed" {{#if (eq system.area.origin "placed")}}selected{{/if}}>Placed (Stationary Zone)</option>
+        </select>
+      </div>
+      <div class="dcc-field-group small" style="flex: 1.2;">
+        <span class="dcc-field-label">Target Filter</span>
+        <select class="dcc-field-input" name="system.area.targetFilter" style="font-size: 11px;">
+          <option value="allies" {{#if (eq system.area.targetFilter "allies")}}selected{{/if}}>Allies Only</option>
+          <option value="enemies" {{#if (eq system.area.targetFilter "enemies")}}selected{{/if}}>Enemies Only</option>
+          <option value="both" {{#if (eq system.area.targetFilter "both")}}selected{{/if}}>Both (Allies & Enemies)</option>
+        </select>
+      </div>
+    </div>
+
+    {{!-- Allied Protection / Temp Health Bars Sub-Block --}}
+    <div class="dcc-rank-break-card" style="margin-bottom: 6px; border: 1px solid #ddd; border-left: 4px solid #196f3d; background: #fff; padding: 6px; border-radius: 3px;">
+      <div style="font-weight: bold; font-size: 11px; color: #196f3d; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between;">
+        <span><i class="fa-solid fa-shield-halved"></i> Allied Protection & Temporary Health Bars</span>
+        <label style="font-size: 10px; font-weight: normal; color: #333; display: flex; align-items: center; gap: 4px; cursor: pointer;">
+          <input type="checkbox" name="system.tempBars.hasTempBars" {{#if system.tempBars.hasTempBars}}checked{{/if}} />
+          <span>Enable Bonus Health Bars</span>
+        </label>
+      </div>
+      <div class="dcc-field-row" style="gap: 6px;">
+        <div class="dcc-field-group" style="flex: 1.5;">
+          <span class="dcc-field-label">Bar Slots Formula / Stat</span>
+          <select class="dcc-field-input" name="system.tempBars.slotsFormula" style="font-size: 11px;">
+            <option value="cha" {{#if (eq system.tempBars.slotsFormula "cha")}}selected{{/if}}>CHA Mod (Hot Stuff Default)</option>
+            <option value="con" {{#if (eq system.tempBars.slotsFormula "con")}}selected{{/if}}>CON Mod</option>
+            <option value="int" {{#if (eq system.tempBars.slotsFormula "int")}}selected{{/if}}>INT Mod</option>
+            <option value="str" {{#if (eq system.tempBars.slotsFormula "str")}}selected{{/if}}>STR Mod</option>
+            <option value="dex" {{#if (eq system.tempBars.slotsFormula "dex")}}selected{{/if}}>DEX Mod</option>
+            <option value="1" {{#if (eq system.tempBars.slotsFormula "1")}}selected{{/if}}>Fixed 1 Bar</option>
+            <option value="2" {{#if (eq system.tempBars.slotsFormula "2")}}selected{{/if}}>Fixed 2 Bars</option>
+          </select>
+        </div>
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label">Base HP Per Bar</span>
+          <input class="dcc-field-input" type="number" name="system.tempBars.hpPerSlot" value="{{system.tempBars.hpPerSlot}}" placeholder="2" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1.5;">
+          <span class="dcc-field-label">Elemental Damage Absorption</span>
+          <select class="dcc-field-input" name="system.area.absorbElement" style="font-size: 11px;">
+            <option value="">-- None / General Absorption --</option>
+            {{#each damageTypes as |dt|}}
+              <option value="{{dt}}" {{#if (eq ../system.area.absorbElement dt)}}selected{{/if}}>{{dt}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+    </div>
+
+    {{!-- Enemy Hazard / Periodic Aura Damage Sub-Block --}}
+    <div class="dcc-rank-break-card" style="border: 1px solid #ddd; border-left: 4px solid #c0392b; background: #fff; padding: 6px; border-radius: 3px;">
+      <div style="font-weight: bold; font-size: 11px; color: #c0392b; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between;">
+        <span><i class="fa-solid fa-burst"></i> Enemy Hazard (Periodic Damage & Debuffs in Radius)</span>
+        <label style="font-size: 10px; font-weight: normal; color: #333; display: flex; align-items: center; gap: 4px; cursor: pointer;">
+          <input type="checkbox" name="system.area.hasPeriodicDamage" {{#if system.area.hasPeriodicDamage}}checked{{/if}} />
+          <span>Enable Periodic Aura Damage</span>
+        </label>
+      </div>
+      <div class="dcc-field-row" style="gap: 6px;">
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label">Tick Damage Formula</span>
+          <input class="dcc-field-input" type="text" name="system.area.periodicDamageFormula" value="{{system.area.periodicDamageFormula}}" placeholder="e.g. 1d6" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label">Damage Element</span>
+          <select class="dcc-field-input" name="system.area.periodicDamageType" style="font-size: 11px;">
+            <option value="">-- Damage Type --</option>
+            {{#each damageTypes as |dt|}}
+              <option value="{{dt}}" {{#if (eq ../system.area.periodicDamageType dt)}}selected{{/if}}>{{dt}}</option>
+            {{/each}}
+          </select>
+        </div>
+        <div class="dcc-field-group" style="flex: 1.5;">
+          <span class="dcc-field-label">Inflict Debuff in Radius</span>
+          <select class="dcc-field-input" name="system.area.inflictDebuff" style="font-size: 11px;">
+            <option value="">-- None --</option>
+            {{#each availableDebuffs as |deb|}}
+              <option value="{{deb.name}}" {{#if (eq ../system.area.inflictDebuff deb.name)}}selected{{/if}}>{{deb.name}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+    </div>
+
   </div>
-  <div style="padding: 6px; background: #fafafa; border: 1px solid #ddd;">
+</details>
+
+{{!-- SPELL CRITICAL MILESTONES & CONDITION TRIGGERS --}}
+<details class="dcc-collapsible-block" {{#if hasConditionTriggersConfigured}}open{{/if}}>
+  <summary class="dcc-collapsible-summary">
+    <span class="dcc-collapsible-title"><i class="fa-solid fa-chevron-right dcc-chevron"></i> <i class="fa-solid fa-crosshairs"></i> SPELL CRITICAL MILESTONES & CONDITION TRIGGERS</span>
+    <span class="dcc-toggle-indicator {{#if hasConditionTriggersConfigured}}active{{/if}}">{{#if hasConditionTriggersConfigured}}[CONDITIONS CONFIGURED]{{else}}[CLICK TO CONFIGURE CRITS & DEBUFFS]{{/if}}</span>
+  </summary>
+  <div class="dcc-collapsible-content">
     <div class="dcc-field-row" style="margin-bottom: 6px;">
       <div class="dcc-field-group">
         <span class="dcc-field-label"><i class="fa-solid fa-burst" style="color: #c0392b;"></i> Rank 5 Crit Multiplier</span>
@@ -114,17 +234,20 @@
       </div>
     </div>
   </div>
-</div>
+</details>
 
 {{!-- SPELL DAMAGE PROGRESSION (RANK GATED) --}}
-<div class="dcc-stat-block" style="margin-bottom: 8px;">
-  <div class="dcc-banner-header" style="font-size: 11px; padding: 3px 6px; display: flex; justify-content: space-between; align-items: center;">
-    <span><i class="fa-solid fa-bolt"></i> SPELL DAMAGE MODIFIERS & SCALING (RANK-GATED)</span>
-    <a class="add-damage-mod" style="color: #fff; font-size: 10px; cursor: pointer;">
-      <i class="fa-solid fa-plus"></i> Add Damage Bonus
-    </a>
-  </div>
-  <div style="padding: 6px; background: #fafafa; border: 1px solid #ddd;">
+<details class="dcc-collapsible-block" {{#if hasDamageModifiersConfigured}}open{{/if}}>
+  <summary class="dcc-collapsible-summary">
+    <span class="dcc-collapsible-title"><i class="fa-solid fa-chevron-right dcc-chevron"></i> <i class="fa-solid fa-bolt"></i> SPELL DAMAGE MODIFIERS & SCALING (RANK-GATED)</span>
+    <span class="dcc-toggle-indicator {{#if hasDamageModifiersConfigured}}active{{/if}}">{{#if hasDamageModifiersConfigured}}[{{system.damageModifiers.length}} SCALING MODIFIERS]{{else}}[CLICK TO CONFIGURE RANK SCALING]{{/if}}</span>
+  </summary>
+  <div class="dcc-collapsible-content">
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 6px;">
+      <a class="add-damage-mod" style="color: #fff; font-size: 11px; cursor: pointer; font-weight: bold; background: #2c3e50; padding: 3px 8px; border-radius: 3px; display: inline-flex; align-items: center; gap: 4px;">
+        <i class="fa-solid fa-plus"></i> Add Damage Bonus
+      </a>
+    </div>
     {{#if system.damageModifiers.length}}
       <table class="dcc-table" style="margin: 0; font-size: 11px;">
         <thead>
@@ -163,12 +286,12 @@
         </tbody>
       </table>
     {{else}}
-      <div style="font-style: italic; color: #333333; font-size: 11px; text-align: center; padding: 4px;">
+      <div style="font-style: italic; color: #555; font-size: 11px; text-align: center; padding: 6px; background: #fff; border: 1px dashed #ccc; border-radius: 3px;">
         No explicit rank-gated damage modifiers added. (Uses Base Damage / Formula)
       </div>
     {{/if}}
   </div>
-</div>
+</details>
 
 {{!-- OPTIONAL EFFECTS & METAMAGIC RIDERS --}}
 <div class="dcc-field-group" style="margin-bottom: 8px;">
@@ -177,12 +300,12 @@
 </div>
 
 {{!-- RANK MILESTONES & BREAK CONFIGURATIONS (RANKS 5, 10, 15, 20) --}}
-<div class="dcc-stat-block" style="margin-bottom: 10px; border: 1px solid #7f8c8d;">
-  <div class="dcc-banner-header" style="font-size: 11px; padding: 3px 6px; display: flex; justify-content: space-between; align-items: center; background: #2c3e50;">
-    <span><i class="fa-solid fa-layer-group"></i> RANK BREAK CONFIGURATIONS (RANKS 5, 10, 15, 20)</span>
-    <span style="font-size: 9px; opacity: 0.9; color: #fff;">Optional per rank break</span>
-  </div>
-  <div style="padding: 6px; background: #fafafa; border: 1px solid #ddd;">
+<details class="dcc-collapsible-block" {{#if hasRankBreaksConfigured}}open{{/if}}>
+  <summary class="dcc-collapsible-summary">
+    <span class="dcc-collapsible-title"><i class="fa-solid fa-chevron-right dcc-chevron"></i> <i class="fa-solid fa-layer-group"></i> RANK BREAK CONFIGURATIONS (RANKS 5, 10, 15, 20)</span>
+    <span class="dcc-toggle-indicator {{#if hasRankBreaksConfigured}}active{{/if}}">{{#if hasRankBreaksConfigured}}[RANK BREAKS CONFIGURED]{{else}}[CLICK TO CONFIGURE RANK 5, 10, 15, 20 BREAKS]{{/if}}</span>
+  </summary>
+  <div class="dcc-collapsible-content">
     {{!-- Rank 5 --}}
     <div class="dcc-rank-break-card" style="margin-bottom: 8px; border: 1px solid #ddd; border-left: 4px solid #196f3d; background: #fff; padding: 6px; border-radius: 3px;">
       <div style="font-weight: bold; font-size: 11px; color: #196f3d; margin-bottom: 4px;">
@@ -209,6 +332,16 @@
               <option value="{{deb.name}}" {{#if (eq ../system.rankBreaks.rank5.debuff deb.name)}}selected{{/if}}>{{deb.name}}</option>
             {{/each}}
           </select>
+        </div>
+      </div>
+      <div class="dcc-field-row" style="margin-bottom: 4px; gap: 6px;">
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-circle-notch"></i> + Radius Bonus (ft)</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank5.area.radiusBonus" value="{{system.rankBreaks.rank5.area.radiusBonus}}" placeholder="0" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-shield-halved"></i> Upgraded Temp HP/Bar</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank5.tempBars.hpPerSlot" value="{{system.rankBreaks.rank5.tempBars.hpPerSlot}}" placeholder="0" min="0" style="font-size: 11px;" />
         </div>
       </div>
       <div class="dcc-field-group" style="margin-bottom: 0;">
@@ -245,6 +378,16 @@
           </select>
         </div>
       </div>
+      <div class="dcc-field-row" style="margin-bottom: 4px; gap: 6px;">
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-circle-notch"></i> + Radius Bonus (ft)</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank10.area.radiusBonus" value="{{system.rankBreaks.rank10.area.radiusBonus}}" placeholder="5" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-shield-halved"></i> Upgraded Temp HP/Bar</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank10.tempBars.hpPerSlot" value="{{system.rankBreaks.rank10.tempBars.hpPerSlot}}" placeholder="6" min="0" style="font-size: 11px;" />
+        </div>
+      </div>
       <div class="dcc-field-group" style="margin-bottom: 0;">
         <span class="dcc-field-label">Non-Defined Abilities / Milestone Notes</span>
         <input class="dcc-field-input" type="text" name="system.rankBreaks.rank10.notes" value="{{system.rankBreaks.rank10.notes}}" placeholder="e.g. Targets gain Burned debuff, chains to second target..." style="font-size: 11px;" />
@@ -277,6 +420,16 @@
               <option value="{{deb.name}}" {{#if (eq ../system.rankBreaks.rank15.debuff deb.name)}}selected{{/if}}>{{deb.name}}</option>
             {{/each}}
           </select>
+        </div>
+      </div>
+      <div class="dcc-field-row" style="margin-bottom: 4px; gap: 6px;">
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-circle-notch"></i> + Radius Bonus (ft)</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank15.area.radiusBonus" value="{{system.rankBreaks.rank15.area.radiusBonus}}" placeholder="10" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-shield-halved"></i> Upgraded Temp HP/Bar</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank15.tempBars.hpPerSlot" value="{{system.rankBreaks.rank15.tempBars.hpPerSlot}}" placeholder="8" min="0" style="font-size: 11px;" />
         </div>
       </div>
       <div class="dcc-field-group" style="margin-bottom: 0;">
@@ -313,13 +466,23 @@
           </select>
         </div>
       </div>
+      <div class="dcc-field-row" style="margin-bottom: 4px; gap: 6px;">
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-circle-notch"></i> + Radius Bonus (ft)</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank20.area.radiusBonus" value="{{system.rankBreaks.rank20.area.radiusBonus}}" placeholder="0" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-shield-halved"></i> Upgraded Temp HP/Bar</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank20.tempBars.hpPerSlot" value="{{system.rankBreaks.rank20.tempBars.hpPerSlot}}" placeholder="0" min="0" style="font-size: 11px;" />
+        </div>
+      </div>
       <div class="dcc-field-group" style="margin-bottom: 0;">
         <span class="dcc-field-label">Non-Defined Abilities / Milestone Notes</span>
         <input class="dcc-field-input" type="text" name="system.rankBreaks.rank20.notes" value="{{system.rankBreaks.rank20.notes}}" placeholder="e.g. Ultimate spell ascension perk..." style="font-size: 11px;" />
       </div>
     </div>
   </div>
-</div>
+</details>
 
 <button type="button" class="dcc-btn roll-spell" style="width: 100%; background: #2c3e50; color: #fff; border: 2px solid #000; padding: 6px; font-weight: bold; cursor: pointer; border-radius: 4px;">
   <i class="fa-solid fa-wand-magic-sparkles"></i> Cast Spell / Post to Chat

@@ -1,3 +1,51 @@
+## 3.2.3
+
+### CarlRPG 3.2.3 — Universal Progressive Disclosure Item Architecture & Single-Engine Gear Auras
+
+- **Modular Progressive Disclosure Architecture (`templates/items/parts/`, `styles/dcc.css`, `src/sheets/item-sheet.mjs`)**:
+  - Implemented collapsible `<details class="dcc-collapsible-block">` modules with smooth chevron animations and dynamic state indicators (`[CONFIGURED]` in gold vs. `[CLICK TO CONFIGURE]` in muted gray).
+  - Keeps item sheets compact, readable, and decluttered by default while allowing users to reveal and configure deep subsystem features with a single click:
+    - **Spell Sheets (`spell.hbs`)**: Collapsible modules for *Aura & AoE Configuration*, *Condition Triggers & Critical Consequence*, *Spell Damage Modifiers*, and *Rank Break Configurations (Ranks 5, 10, 15, 20)*.
+    - **Attack Sheets (`attack.hbs`)**: Collapsible modules for *Weapon Proficiency & Wielding Modes*, *Composite Damage Parts*, and *Optional Effects & Combat Maneuvers*.
+    - **Gear Sheets (`gear.hbs`)**: Collapsible modules for *Weapon Proficiency & Wielding Modes*, *Ability Modifiers*, *Skill Modifiers*, *Weapon Damage Parts*, *Gear Aura Emission*, and *Activated Ability & Item Outcomes*.
+    - **Skill Sheets (`skill.hbs`)**: Collapsible modules for *Techniques, Conditions & Critical Milestones*, *Rank Break Configurations (Ranks 5, 10, 15, 20)*, and *Attack Damage Modifiers (Scaling / Passive)*.
+  - Smart automatic expansion: Sheets intelligently detect configured data on an item (`hasAuraConfigured`, `hasDamageModifiersConfigured`, `hasRankBreaksConfigured`, etc.) and automatically display those sections expanded so existing configurations are immediately visible.
+  - Zero form harvesting interference: Native HTML `<details>` guarantees Foundry's `FormDataExtended` collects inputs regardless of collapsed state with zero data loss.
+- **Single-Engine Gear Auras (`template.json`, `src/models/items/gear-model.mjs`, `src/documents/actor.mjs`)**:
+  - Unified gear items (shields, amulets, cloaks, armor) with the exact same `area` and `tempBars` schemas as spells.
+  - Leverages the single aura engine in `DCCActor.prototype.activateAura(gearItem)` and `deactivateAura(gearItem)` without duplicating any aura logic or creating separate code paths.
+  - Preserved existing `area` and `tempBars` configurations during rank break hydration in `hydrateRankBreaks`.
+- **Automated Verification (`tests/progressive-disclosure-sheets.test.mjs`)**:
+  - 100% test coverage validating progressive disclosure context calculations across default and configured spells, attacks, gear, and skills.
+  - Verified single-engine gear aura activation, temporary health bar granting, and deactivation.
+  - Full test suite passing with 1,164 tests across 201 suites and 0 failures.
+
+## 3.2.2
+
+### CarlRPG 3.2.2 — Pathfinder 2e-Style Effects Panel, User-Created Custom Auras & Multi-Effect Scaling Engine
+
+- **Pathfinder 2e-Style Active Effects & Auras Panel (`src/apps/effects-panel.mjs`, `templates/apps/effects-panel.hbs`, `styles/dcc.css`)**:
+  - Implemented `DCCEffectsPanel` docked along the right canvas edge immediately to the left of Foundry's right navigation sidebar (`#sidebar`).
+  - Automatically binds to the controlled token placeable on the canvas, falling back to `game.user.character` when unselected.
+  - Displays square icon badges with high-contrast duration countdown pills (`2r`, `10m`, `∞`).
+  - Distinguishes **Aura Emitters** (gold glowing pulse ring and `[AURA EMITTER]` badge) from **Aura Receivers / Protected Allies** (cyan shield border and `[AURA PROTECTED]` badge), as well as debuffs (red border) and buffs (green border).
+  - Interactive flyout card popover on click: Displays aura source, full duration text with remaining rounds/seconds, exact granted benefits (bonus health bars, elemental absorption, periodic damage), and a 1-click **Dismiss Aura** button for owners/casters.
+  - Automatically updates on token selection (`controlToken`), combat turn/round advance (`updateCombat`), actor updates (`updateActor`), and combat deletion.
+- **User-Creatable Custom Auras & Zero-Hardcoding Engine (`src/documents/actor.mjs`, `src/models/items/spell-model.mjs`, `template.json`)**:
+  - Removed all hardcoded spell name lookups (`spellItem.name.includes('hot stuff')`) and canonical compendium fallbacks.
+  - Any custom spell or item created by a user (e.g. "Cold Stuff Aura", "Noxious Spore Cloud", "Storm Shield") runs entirely through data-driven geometry and outcome configurations.
+  - Added multi-effect handling:
+    - **Allied Protection**: Temporary health bars (`slotsFormula`, `hpPerSlot`), elemental damage absorption (`absorbElement`).
+    - **Enemy Hazards**: Periodic aura damage (`periodicDamageFormula`, `periodicDamageType`), on-enter and tick debuff application (`inflictDebuff`).
+  - Added `triggerAuraPeriodicEffects(spellItem)` on `DCCActor` to automatically evaluate and apply periodic damage and conditions to enemies within burst radius.
+- **Progressive Disclosure UI for Spells (`templates/items/parts/spell.hbs`)**:
+  - Added collapsible `<details>` section **"AURA & AREA OF EFFECT CONFIGURATION"** on the Spell Sheet. Unobtrusive when collapsed (single header line) and automatically opens when `system.area.hasArea` is active.
+  - Provides form inputs for shape (burst/cone/line), base radius, origin (caster/placed), target filter (allies/enemies/both), allied protection/temp bars, and enemy hazard periodic damage and debuffs.
+  - Added compact `+ Radius Bonus (ft)` and `Upgraded Temp HP/Bar` inputs inside each Rank Break milestone card (Ranks 5, 10, 15, and 20), allowing seamless rank scaling configuration for custom auras.
+- **Automated Verification (`tests/effects-panel.test.mjs`, `tests/custom-aura-creation.test.mjs`)**:
+  - Verified singleton panel initialization, aura emitter vs. receiver classification, sorting priority (debuffs -> emitters -> receivers -> buffs), and aura dismissal.
+  - Verified custom "Cold Stuff Aura" creation from scratch, cumulative radius scaling across Ranks 10 and 15, simultaneous allied cold absorption and enemy periodic damage/debuff, and purely hostile aura execution. All 1,158 tests passing across 201 suites with 0 failures.
+
 ## 3.2.1
 
 ### CarlRPG 3.2.1 — Hot Stuff Aura Burst Radius Fix, Ally Bonus Health Bars & Universal Temp Bar Damage Absorption

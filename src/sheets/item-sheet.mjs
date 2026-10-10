@@ -678,6 +678,87 @@ export class DCCItemSheet extends BaseItemSheet {
       allTagsCount: allTags.size
     };
 
+    // Progressive Disclosure UI flags for collapsible blocks
+    const sys = context.system || {};
+
+    // Rank Breaks configuration check
+    context.hasRankBreaksConfigured = Boolean(
+      sys.rankBreaks &&
+      Object.values(sys.rankBreaks).some(rb =>
+        rb && (
+          Boolean(rb.damageDice) ||
+          Number(rb.rankDamageDice) > 0 ||
+          Boolean(rb.buffsResistances) ||
+          Boolean(rb.debuff) ||
+          Boolean(rb.notes) ||
+          Number(rb.area?.radiusBonus) > 0 ||
+          Number(rb.tempBars?.hpPerSlot) > 0
+        )
+      )
+    );
+
+    // Spell-specific flags
+    if (context.item.type === 'spell') {
+      context.hasAuraConfigured = Boolean(sys.area?.hasArea);
+      context.hasDamageModifiersConfigured = Boolean(sys.damageModifiers?.length > 0);
+      context.hasConditionTriggersConfigured = Boolean(
+        Number(sys.critMultiplierR5) > 1 ||
+        Number(sys.critMultiplierR15) > 1 ||
+        Boolean(sys.fumbleDebuff) ||
+        Boolean(sys.onHitDebuff)
+      );
+    }
+
+    // Attack-specific flags
+    if (context.item.type === 'attack') {
+      context.hasProficiencyConfigured = Boolean(
+        sys.weaponCategory ||
+        sys.weaponType ||
+        (context.associatedSkillsList && context.associatedSkillsList.length > 0) ||
+        (sys.wieldMode && sys.wieldMode !== 'one_handed')
+      );
+      context.hasDamagePartsConfigured = Boolean(sys.damageParts?.length > 0);
+      context.hasOptionalEffectsConfigured = Boolean(
+        context.optionalEffectsDisplay && context.optionalEffectsDisplay.trim() !== ''
+      );
+    }
+
+    // Gear-specific flags
+    if (context.item.type === 'gear') {
+      context.hasAbilityModifiers = Boolean(
+        Number(sys.abilityModifiers?.str?.value) ||
+        Number(sys.abilityModifiers?.int?.value) ||
+        Number(sys.abilityModifiers?.con?.value) ||
+        Number(sys.abilityModifiers?.dex?.value) ||
+        Number(sys.abilityModifiers?.cha?.value)
+      );
+      context.hasSkillModifiersConfigured = Boolean(sys.skillModifiers?.length > 0);
+      context.hasDamagePartsConfigured = Boolean(sys.damageParts?.length > 0);
+      context.hasAuraConfigured = Boolean(sys.area?.hasArea);
+      context.hasActivatedAbilityConfigured = Boolean(sys.hasActivatedAbility || sys.outcomes?.length > 0);
+      context.hasProficiencyConfigured = Boolean(
+        sys.weaponCategory ||
+        sys.weaponType ||
+        (context.associatedSkillsList && context.associatedSkillsList.length > 0)
+      );
+    }
+
+    // Skill-specific flags
+    if (context.item.type === 'skill') {
+      context.hasTechniqueConfigured = Boolean(
+        sys.isTechnique ||
+        sys.techniqueConfig?.isDamageEffect ||
+        Boolean(sys.techniqueConfig?.damageBonus) ||
+        Boolean(sys.techniqueConfig?.flatDamageMod) ||
+        Boolean(sys.techniqueConfig?.baseDiceCountMod) ||
+        Number(sys.critMultiplierR5) > 1 ||
+        Number(sys.critMultiplierR15) > 1 ||
+        Boolean(sys.fumbleDebuff) ||
+        Boolean(sys.onHitDebuff)
+      );
+      context.hasDamageModifiersConfigured = Boolean(sys.damageModifiers?.length > 0);
+    }
+
     return context;
   }
 

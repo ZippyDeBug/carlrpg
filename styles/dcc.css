@@ -9480,3 +9480,264 @@ body.dark-mode .dcc-tag-manager-container .dcc-tm-create-box h4,
   color: #ffffff !important;
 }
 
+/* ==========================================================================
+   DCC Effects Panel (Pathfinder 2e Style) & Collapsible Aura Config
+   ========================================================================== */
+
+#dcc-effects-panel {
+  position: fixed;
+  top: 110px;
+  right: 312px;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.dcc-effect-badge {
+  position: relative;
+  pointer-events: all;
+  transition: transform 0.15s ease;
+}
+
+.dcc-effect-badge:hover {
+  transform: scale(1.05);
+}
+
+.dcc-effect-icon-wrap {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  background: #111;
+  border: 2px solid #555;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dcc-effect-badge.is-aura-emitter .dcc-effect-icon-wrap {
+  border-color: #f39c12;
+  box-shadow: 0 0 8px rgba(243, 156, 18, 0.6);
+}
+
+.dcc-effect-badge.is-aura-receiver .dcc-effect-icon-wrap {
+  border-color: #3498db;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.6);
+}
+
+.dcc-effect-badge.is-debuff .dcc-effect-icon-wrap {
+  border-color: #c0392b;
+  box-shadow: 0 0 8px rgba(192, 57, 43, 0.6);
+}
+
+.dcc-effect-badge.is-buff .dcc-effect-icon-wrap {
+  border-color: #27ae60;
+  box-shadow: 0 0 8px rgba(39, 174, 96, 0.5);
+}
+
+.dcc-effect-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.dcc-effect-duration-pill {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  background: rgba(18, 18, 24, 0.9);
+  color: #ffffff;
+  font-family: 'Oswald', sans-serif;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 1px 4px;
+  border-radius: 2px;
+  line-height: 1.1;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dcc-aura-emitter-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid #f1c40f;
+  border-radius: 3px;
+  pointer-events: none;
+  animation: dcc-pulse 2s infinite;
+}
+
+.dcc-effect-flyout {
+  position: absolute;
+  right: 50px;
+  top: 0;
+  width: 240px;
+  background: rgba(18, 18, 24, 0.96);
+  border: 1.5px solid #c0392b;
+  border-radius: 4px;
+  padding: 8px 10px;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.8);
+  font-family: 'Oswald', sans-serif;
+  z-index: 70;
+  pointer-events: all;
+}
+
+.dcc-flyout-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  padding-bottom: 4px;
+  margin-bottom: 6px;
+}
+
+.dcc-flyout-type-badge {
+  font-size: 9px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  color: #f1c40f;
+  text-transform: uppercase;
+}
+
+.dcc-flyout-title {
+  margin: 2px 0 0 0;
+  font-size: 14px;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+}
+
+.dcc-flyout-row {
+  font-size: 11px;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.dcc-flyout-label {
+  color: #95a5a6;
+  font-weight: bold;
+  margin-right: 4px;
+}
+
+.dcc-flyout-val {
+  color: #ecf0f1;
+}
+
+.dcc-flyout-details {
+  background: rgba(0, 0, 0, 0.35);
+  padding: 4px 6px;
+  border-radius: 3px;
+  border-left: 2px solid #f39c12;
+  margin: 6px 0;
+}
+
+.dcc-flyout-footer {
+  margin-top: 6px;
+  padding-top: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.dcc-btn-dismiss-effect {
+  width: 100%;
+  background: #c0392b;
+  color: #ffffff;
+  border: 1px solid #962d22;
+  border-radius: 3px;
+  padding: 4px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: background 0.15s ease;
+}
+
+.dcc-btn-dismiss-effect:hover {
+  background: #e74c3c;
+}
+
+/* Collapsible Block with Progressive Disclosure */
+.dcc-collapsible-block {
+  margin-bottom: 8px;
+  border: 1px solid #7f8c8d;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dcc-collapsible-block[open] {
+  border-color: #2c3e50;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.dcc-collapsible-summary {
+  background: #2c3e50;
+  color: #fff;
+  font-family: var(--font-primary, 'Oswald', sans-serif);
+  font-size: 11px;
+  padding: 5px 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  outline: none;
+  list-style: none;
+  transition: background-color 0.15s ease, filter 0.15s ease;
+}
+
+.dcc-collapsible-summary:hover {
+  background: #34495e;
+  filter: brightness(1.1);
+}
+
+.dcc-collapsible-summary::-webkit-details-marker {
+  display: none;
+}
+
+.dcc-collapsible-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.dcc-collapsible-title .dcc-chevron {
+  font-size: 9px;
+  transition: transform 0.2s ease;
+  width: 12px;
+  text-align: center;
+}
+
+.dcc-collapsible-block[open] > .dcc-collapsible-summary .dcc-chevron {
+  transform: rotate(90deg);
+}
+
+.dcc-toggle-indicator {
+  font-size: 9px;
+  color: #bdc3c7;
+  font-weight: normal;
+  letter-spacing: 0.5px;
+  transition: color 0.2s ease;
+}
+
+.dcc-toggle-indicator.active {
+  color: #f1c40f;
+  font-weight: bold;
+}
+
+.dcc-collapsible-content {
+  padding: 8px;
+  background: #fafafa;
+  border-top: 1px solid #ddd;
+}
+
+
+

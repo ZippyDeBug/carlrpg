@@ -55,6 +55,23 @@ export class GearDataModel extends BaseItemDataModel {
         max: new fields.NumberField({ integer: true, initial: 0 })
       }),
       outcomes: new fields.ArrayField(new fields.ObjectField(), { initial: [] }),
+      area: new fields.SchemaField({
+        hasArea: new fields.BooleanField({ initial: false }),
+        shape: new fields.StringField({ initial: 'burst', choices: ['burst', 'cone', 'line'] }),
+        radius: new fields.NumberField({ initial: 5, min: 0 }),
+        origin: new fields.StringField({ initial: 'caster', choices: ['caster', 'placed'] }),
+        targetFilter: new fields.StringField({ initial: 'allies', choices: ['allies', 'enemies', 'both'] }),
+        absorbElement: new fields.StringField({ initial: '' }),
+        hasPeriodicDamage: new fields.BooleanField({ initial: false }),
+        periodicDamageFormula: new fields.StringField({ initial: '' }),
+        periodicDamageType: new fields.StringField({ initial: '' }),
+        inflictDebuff: new fields.StringField({ initial: '' })
+      }),
+      tempBars: new fields.SchemaField({
+        hasTempBars: new fields.BooleanField({ initial: false }),
+        slotsFormula: new fields.StringField({ initial: '' }),
+        hpPerSlot: new fields.NumberField({ initial: 0, min: 0 })
+      }),
       notes: new fields.HTMLField({ initial: '' }),
       rankBreaks: new fields.ObjectField({ initial: {} }),
       description: new fields.HTMLField({ initial: '' })

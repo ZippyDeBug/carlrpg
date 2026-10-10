@@ -182,6 +182,7 @@ export function hydrateRankBreaks(existingRankBreaks = {}, rawUpgrades = {}, kno
     const parsed = parseUpgradeTextToRankBreak(upgrades[rKey] || '', knownDebuffs);
 
     breaks[rKey] = {
+      ...existing,
       damageDice: existing.damageDice !== undefined && existing.damageDice !== '' ? String(existing.damageDice).trim() : parsed.damageDice,
       baseDiceCountMod: existing.baseDiceCountMod !== undefined && existing.baseDiceCountMod !== '' ? String(existing.baseDiceCountMod).trim() : parsed.baseDiceCountMod,
       rankDamageDice: existing.rankDamageDice !== undefined && Number(existing.rankDamageDice) > 0 ? Number(existing.rankDamageDice) : parsed.rankDamageDice,

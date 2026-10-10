@@ -410,28 +410,52 @@
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "area": {
+            "radiusBonus": 0
+          },
+          "tempBars": {
+            "hpPerSlot": 0
+          }
         },
         "rank10": {
           "damageDice": "",
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "area": {
+            "radiusBonus": 0
+          },
+          "tempBars": {
+            "hpPerSlot": 0
+          }
         },
         "rank15": {
           "damageDice": "",
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "area": {
+            "radiusBonus": 0
+          },
+          "tempBars": {
+            "hpPerSlot": 0
+          }
         },
         "rank20": {
           "damageDice": "",
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "area": {
+            "radiusBonus": 0
+          },
+          "tempBars": {
+            "hpPerSlot": 0
+          }
         }
       },
       "area": {
@@ -443,7 +467,12 @@
         "lineWidth": 5,
         "origin": "caster",
         "targetFilter": "allies",
-        "radiusBonus": 0
+        "radiusBonus": 0,
+        "absorbElement": "",
+        "hasPeriodicDamage": false,
+        "periodicDamageFormula": "",
+        "periodicDamageType": "",
+        "inflictDebuff": ""
       },
       "delivery": "placed",
       "tempBars": {
@@ -467,7 +496,9 @@
       },
       "active": false,
       "tags": [],
-      "identifier": ""
+      "identifier": "",
+      "outcomes": [],
+      "grants": []
     },
     "gear": {
       "slot": "torso",
@@ -519,6 +550,23 @@
       },
       "outcomes": [],
       "grants": [],
+      "area": {
+        "hasArea": false,
+        "shape": "burst",
+        "radius": 5,
+        "origin": "caster",
+        "targetFilter": "allies",
+        "absorbElement": "",
+        "hasPeriodicDamage": false,
+        "periodicDamageFormula": "",
+        "periodicDamageType": "",
+        "inflictDebuff": ""
+      },
+      "tempBars": {
+        "hasTempBars": false,
+        "slotsFormula": "",
+        "hpPerSlot": 0
+      },
       "notes": "",
       "rankBreaks": {
         "rank5": {

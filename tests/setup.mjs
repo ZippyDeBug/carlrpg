@@ -125,6 +125,9 @@ export class MockActor {
     if (rank >= 15 && sys.rankBreaks?.rank15?.area?.radiusBonus) {
       radius += Number(sys.rankBreaks.rank15.area.radiusBonus);
     }
+    if (rank >= 20 && sys.rankBreaks?.rank20?.area?.radiusBonus) {
+      radius += Number(sys.rankBreaks.rank20.area.radiusBonus);
+    }
 
     let slots = 0;
     let hpPerSlot = 0;
@@ -147,7 +150,9 @@ export class MockActor {
       }
       slots = Math.max(1, slots);
 
-      if (rank >= 15 && sys.rankBreaks?.rank15?.tempBars?.hpPerSlot) {
+      if (rank >= 20 && sys.rankBreaks?.rank20?.tempBars?.hpPerSlot) {
+        hpPerSlot = Number(sys.rankBreaks.rank20.tempBars.hpPerSlot);
+      } else if (rank >= 15 && sys.rankBreaks?.rank15?.tempBars?.hpPerSlot) {
         hpPerSlot = Number(sys.rankBreaks.rank15.tempBars.hpPerSlot);
       } else if (rank >= 10 && sys.rankBreaks?.rank10?.tempBars?.hpPerSlot) {
         hpPerSlot = Number(sys.rankBreaks.rank10.tempBars.hpPerSlot);
@@ -204,6 +209,11 @@ export class MockActor {
       'system.appliedAllies': affectedAllies.map(a => a.id)
     });
 
+    let periodicReport = { affectedEnemies: [] };
+    if (typeof this.triggerAuraPeriodicEffects === 'function') {
+      periodicReport = await this.triggerAuraPeriodicEffects(spellItem, { radius });
+    }
+
     return {
       active: true,
       radius,
@@ -213,8 +223,58 @@ export class MockActor {
       remainingRounds: rounds,
       target: sys.target || 'Self',
       targetFilter: sys.area?.targetFilter || 'allies',
-      affectedAllies
+      affectedAllies,
+      affectedEnemies: periodicReport.affectedEnemies
     };
+  }
+  async triggerAuraPeriodicEffects(spellItem, options = {}) {
+    if (!spellItem) return { affectedEnemies: [] };
+    const sys = spellItem.system || {};
+    const areaConfig = sys.area || {};
+    const rank = Number(sys.rank) || 1;
+
+    let radius = Number(options.radius ?? areaConfig.radius ?? 5);
+    const affectedEnemies = [];
+    const hasDmg = Boolean(areaConfig.hasPeriodicDamage && areaConfig.periodicDamageFormula);
+    const hasDebuff = Boolean(areaConfig.inflictDebuff);
+    if (!hasDmg && !hasDebuff) return { affectedEnemies };
+
+    if (globalThis.canvas?.tokens?.placeables) {
+      const myToken = globalThis.canvas.tokens.placeables.find(t => t.actor?.id === this.id || t.id === this.id);
+      const myX = myToken?.center?.x ?? myToken?.x ?? 0;
+      const myY = myToken?.center?.y ?? myToken?.y ?? 0;
+      const gridSize = globalThis.canvas.grid?.size || 50;
+      const gridDistance = globalThis.canvas.scene?.grid?.distance || 5;
+
+      for (const tok of globalThis.canvas.tokens.placeables) {
+        if (!tok || !tok.actor || tok.actor.id === this.id) continue;
+        const isEnemy = tok.document?.disposition === -1 || tok.disposition === -1 || tok.actor.type === 'mob';
+        if (!isEnemy) continue;
+
+        const tokX = tok.center?.x ?? tok.x ?? 0;
+        const tokY = tok.center?.y ?? tok.y ?? 0;
+        const distFeet = (Math.hypot(tokX - myX, tokY - myY) / gridSize) * gridDistance;
+
+        if (distFeet <= radius + 0.01) {
+          let rolledDamage = 0;
+          if (hasDmg) {
+            rolledDamage = parseInt(areaConfig.periodicDamageFormula, 10) || 4;
+            if (typeof tok.actor.applyDamage === 'function') {
+              await tok.actor.applyDamage(rolledDamage, { damageType: areaConfig.periodicDamageType || 'Physical' });
+            }
+          }
+          if (hasDebuff && typeof tok.actor.createEmbeddedDocuments === 'function') {
+            await tok.actor.createEmbeddedDocuments('Item', [{
+              name: areaConfig.inflictDebuff,
+              type: 'debuff',
+              system: { duration: `${spellItem.name} Aura` }
+            }]);
+          }
+          affectedEnemies.push({ actor: tok.actor, damage: rolledDamage, debuff: areaConfig.inflictDebuff });
+        }
+      }
+    }
+    return { affectedEnemies };
   }
   async deactivateAura(spellItem, options = {}) {
     if (!spellItem) return { active: false };

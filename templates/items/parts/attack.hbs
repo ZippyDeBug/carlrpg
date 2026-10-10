@@ -45,12 +45,12 @@
 </div>
 
 {{!-- WEAPON PROFICIENCY & HANDLING --}}
-<div class="dcc-stat-block" style="margin-bottom: 10px; border: 1px solid #c0392b;">
-  <div class="dcc-banner-header" style="font-size: 11px; padding: 3px 6px; display: flex; justify-content: space-between; align-items: center; background: #c0392b;">
-    <span><i class="fa-solid fa-crosshairs"></i> WEAPON PROFICIENCY & HANDLING</span>
-    <span style="font-size: 10px; color: #fff; font-weight: normal;">CarlRPG Hybrid Weapon System</span>
-  </div>
-  <div style="padding: 6px; background: #fafafa; border: 1px solid #ddd;">
+<details class="dcc-collapsible-block" {{#if hasProficiencyConfigured}}open{{/if}}>
+  <summary class="dcc-collapsible-summary" style="background: #962d22;">
+    <span class="dcc-collapsible-title"><i class="fa-solid fa-chevron-right dcc-chevron"></i> <i class="fa-solid fa-crosshairs"></i> WEAPON PROFICIENCY & HANDLING</span>
+    <span class="dcc-toggle-indicator {{#if hasProficiencyConfigured}}active{{/if}}">{{#if hasProficiencyConfigured}}[{{or system.weaponCategory system.weaponType "CONFIGURED"}}]{{else}}[CLICK TO CONFIGURE PROFICIENCY]{{/if}}</span>
+  </summary>
+  <div class="dcc-collapsible-content">
     <div class="dcc-field-row" style="margin-bottom: 6px;">
       <div class="dcc-field-group">
         <span class="dcc-field-label">Weapon Category</span>
@@ -97,17 +97,20 @@
       </div>
     </div>
   </div>
-</div>
+</details>
 
 {{!-- MULTI-TYPED DAMAGE PARTS --}}
-<div class="dcc-stat-block" style="margin-bottom: 10px;">
-  <div class="dcc-banner-header" style="font-size: 11px; padding: 3px 6px; display: flex; justify-content: space-between; align-items: center;">
-    <span>DAMAGE PARTS & TYPED DAMAGE</span>
-    <a class="add-damage-part" style="color: #fff; font-size: 10px; cursor: pointer;">
-      <i class="fa-solid fa-plus"></i> Add Damage Part
-    </a>
-  </div>
-  <div style="padding: 6px; background: #fafafa; border: 1px solid #ddd;">
+<details class="dcc-collapsible-block" {{#if hasDamagePartsConfigured}}open{{/if}}>
+  <summary class="dcc-collapsible-summary">
+    <span class="dcc-collapsible-title"><i class="fa-solid fa-chevron-right dcc-chevron"></i> <i class="fa-solid fa-burst"></i> DAMAGE PARTS & TYPED DAMAGE</span>
+    <span class="dcc-toggle-indicator {{#if hasDamagePartsConfigured}}active{{/if}}">{{#if hasDamagePartsConfigured}}[{{system.damageParts.length}} TYPED PARTS]{{else}}[CLICK TO ADD COMPOSITE DAMAGE]{{/if}}</span>
+  </summary>
+  <div class="dcc-collapsible-content">
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 6px;">
+      <a class="add-damage-part" style="color: #fff; font-size: 11px; cursor: pointer; font-weight: bold; background: #2c3e50; padding: 3px 8px; border-radius: 3px; display: inline-flex; align-items: center; gap: 4px;">
+        <i class="fa-solid fa-plus"></i> Add Damage Part
+      </a>
+    </div>
     {{#if system.damageParts.length}}
       <table class="dcc-table" style="margin: 0; font-size: 11px;">
         <thead>
@@ -153,12 +156,12 @@
         </tbody>
       </table>
     {{else}}
-      <div style="text-align: center; font-style: italic; color: #333333; font-size: 11px; padding: 6px;">
+      <div style="text-align: center; font-style: italic; color: #555; font-size: 11px; padding: 6px; background: #fff; border: 1px dashed #ccc; border-radius: 3px;">
         Single primary damage roll active. Click "Add Damage Part" above to add composite typed damages (e.g. +2 Necrotic, +4 Sonic).
       </div>
     {{/if}}
   </div>
-</div>
+</details>
 
 <div class="dcc-field-group" style="margin-bottom: 8px;">
   <span class="dcc-field-label">Effects</span>
@@ -166,21 +169,24 @@
 </div>
 
 {{!-- OPTIONAL DAMAGE EFFECTS --}}
-<div class="dcc-stat-block" style="margin-top: 8px; margin-bottom: 8px;">
-  <div class="dcc-banner-header" style="font-size: 11px; padding: 3px 6px; display: flex; justify-content: space-between; align-items: center;">
-    <span>OPTIONAL DAMAGE EFFECTS</span>
-    <div style="display: flex; gap: 4px; font-size: 9px;">
-      <span style="color: #eee;">Presets:</span>
-      <a class="add-preset-effects" data-preset="pugilism" style="color: #f1c40f; cursor: pointer;" title="Dirty Fighting, Iron Punch, Powerful Strike">[+ Pugilism]</a>
-      <a class="add-preset-effects" data-preset="noggin" style="color: #f1c40f; cursor: pointer;" title="Skullcracker, Powerful Strike">[+ Noggin Knocker]</a>
-      <a class="add-preset-effects" data-preset="wrasslin" style="color: #f1c40f; cursor: pointer;" title="Choke Out, Dirty Fighting, Toss">[+ Wrasslin]</a>
-      <a class="add-preset-effects" data-preset="foot" style="color: #f1c40f; cursor: pointer;" title="Powerful Strike, Smush">[+ Foot Soldier]</a>
+<details class="dcc-collapsible-block" {{#if hasOptionalEffectsConfigured}}open{{/if}}>
+  <summary class="dcc-collapsible-summary">
+    <span class="dcc-collapsible-title"><i class="fa-solid fa-chevron-right dcc-chevron"></i> <i class="fa-solid fa-wand-magic-sparkles"></i> OPTIONAL DAMAGE EFFECTS & COMBAT MANEUVERS</span>
+    <span class="dcc-toggle-indicator {{#if hasOptionalEffectsConfigured}}active{{/if}}">{{#if hasOptionalEffectsConfigured}}[TECHNIQUES CONFIGURED]{{else}}[CLICK TO CONFIGURE MANEUVERS]{{/if}}</span>
+  </summary>
+  <div class="dcc-collapsible-content">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 4px;">
+      <span style="font-size: 10px; color: #555;">Selectable technique presets:</span>
+      <div style="display: flex; gap: 4px; font-size: 9px;">
+        <a class="add-preset-effects" data-preset="pugilism" style="color: #c0392b; font-weight: bold; cursor: pointer; text-decoration: underline;" title="Dirty Fighting, Iron Punch, Powerful Strike">[+ Pugilism]</a>
+        <a class="add-preset-effects" data-preset="noggin" style="color: #c0392b; font-weight: bold; cursor: pointer; text-decoration: underline;" title="Skullcracker, Powerful Strike">[+ Noggin Knocker]</a>
+        <a class="add-preset-effects" data-preset="wrasslin" style="color: #c0392b; font-weight: bold; cursor: pointer; text-decoration: underline;" title="Choke Out, Dirty Fighting, Toss">[+ Wrasslin]</a>
+        <a class="add-preset-effects" data-preset="foot" style="color: #c0392b; font-weight: bold; cursor: pointer; text-decoration: underline;" title="Powerful Strike, Smush">[+ Foot Soldier]</a>
+      </div>
     </div>
-  </div>
-  <div style="padding: 6px; background: #fafafa; border: 1px solid #ddd;">
     <div style="margin-bottom: 4px; font-size: 11px; color: #222222;">
       Define comma-separated optional effects that can be selected before rolling this attack (e.g. <code>Dirty Fighting, Iron Punch, Powerful Strike</code>).
     </div>
     <input class="dcc-field-input" type="text" name="system.optionalEffects" value="{{optionalEffectsDisplay}}" placeholder="Dirty Fighting, Iron Punch, Powerful Strike" style="width: 100%; font-size: 11px;" />
   </div>
-</div>
+</details>

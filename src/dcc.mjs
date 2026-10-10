@@ -22,6 +22,7 @@ import { DCCAchievementManagerApp } from './apps/achievement-manager.mjs';
 import { DCCGrindApp } from './apps/grind-app.mjs';
 import { DCCFloorClockHUD } from './apps/floor-clock-hud.mjs';
 import { DCCCrawlerClockHUD } from './apps/crawler-clock-hud.mjs';
+import { DCCEffectsPanel } from './apps/effects-panel.mjs';
 import {
   initCrawlerTokenHUD,
   getCrawlerTokenHUD,
@@ -370,6 +371,7 @@ Hooks.once('init', async function() {
   CONFIG.DCC.decrementCrawlerCount = decrementCrawlerCount;
   CONFIG.DCC.incrementCrawlerCount = incrementCrawlerCount;
   CONFIG.DCC.crawlerClockHUD = DCCCrawlerClockHUD;
+  CONFIG.DCC.effectsPanel = DCCEffectsPanel;
 
   // Register Handlebars Helpers
   Handlebars.registerHelper('eq', (a, b) => a === b);
@@ -445,7 +447,8 @@ Hooks.once('init', async function() {
     'systems/carl-rpg/templates/apps/class-creator.hbs',
     'systems/carl-rpg/templates/apps/race-creator.hbs',
     'systems/carl-rpg/templates/items/parts/tags.hbs',
-    'systems/carl-rpg/templates/apps/tag-manager.hbs'
+    'systems/carl-rpg/templates/apps/tag-manager.hbs',
+    'systems/carl-rpg/templates/apps/effects-panel.hbs'
   ]);
 
   // Developer Hot-Reload Hook Handler
@@ -485,6 +488,7 @@ Hooks.once('init', async function() {
     decrementCrawlerCount,
     incrementCrawlerCount,
     crawlerClockHUD: DCCCrawlerClockHUD,
+    effectsPanel: DCCEffectsPanel,
     setupInitialHotbar,
     openAchievementManager(options = {}) {
       return new DCCAchievementManagerApp(options).render(true);
@@ -2573,6 +2577,38 @@ Hooks.once('ready', async function() {
   if (typeof DCCCrawlerClockHUD?.get === 'function') {
     DCCCrawlerClockHUD.get().render();
   }
+
+  // Initialize PF2e-Style Active Effects & Auras Panel
+  if (typeof DCCEffectsPanel?.get === 'function') {
+    DCCEffectsPanel.get().render();
+  }
+
+  Hooks.on('controlToken', () => {
+    if (typeof DCCEffectsPanel?.get === 'function') {
+      DCCEffectsPanel.get().render();
+    }
+  });
+
+  Hooks.on('updateCombat', () => {
+    if (typeof DCCEffectsPanel?.get === 'function') {
+      DCCEffectsPanel.get().render();
+    }
+  });
+
+  Hooks.on('deleteCombat', () => {
+    if (typeof DCCEffectsPanel?.get === 'function') {
+      DCCEffectsPanel.get().render();
+    }
+  });
+
+  Hooks.on('updateActor', (actor) => {
+    if (typeof DCCEffectsPanel?.get === 'function') {
+      const active = DCCEffectsPanel.get().getControlledActor()?.actor;
+      if (active && active.id === actor.id) {
+        DCCEffectsPanel.get().render();
+      }
+    }
+  });
 
   Hooks.on('renderSceneNavigation', () => {
     if (typeof DCCFloorClockHUD?.get === 'function') {

@@ -49,28 +49,52 @@ export class SpellDataModel extends BaseItemDataModel {
           rankDamageDice: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
           buffsResistances: new fields.StringField({ initial: '' }),
           debuff: new fields.StringField({ initial: '' }),
-          notes: new fields.StringField({ initial: '' })
+          notes: new fields.StringField({ initial: '' }),
+          area: new fields.SchemaField({
+            radiusBonus: new fields.NumberField({ integer: true, initial: 0 })
+          }),
+          tempBars: new fields.SchemaField({
+            hpPerSlot: new fields.NumberField({ integer: true, initial: 0 })
+          })
         }),
         rank10: new fields.SchemaField({
           damageDice: new fields.StringField({ initial: '' }),
           rankDamageDice: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
           buffsResistances: new fields.StringField({ initial: '' }),
           debuff: new fields.StringField({ initial: '' }),
-          notes: new fields.StringField({ initial: '' })
+          notes: new fields.StringField({ initial: '' }),
+          area: new fields.SchemaField({
+            radiusBonus: new fields.NumberField({ integer: true, initial: 0 })
+          }),
+          tempBars: new fields.SchemaField({
+            hpPerSlot: new fields.NumberField({ integer: true, initial: 0 })
+          })
         }),
         rank15: new fields.SchemaField({
           damageDice: new fields.StringField({ initial: '' }),
           rankDamageDice: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
           buffsResistances: new fields.StringField({ initial: '' }),
           debuff: new fields.StringField({ initial: '' }),
-          notes: new fields.StringField({ initial: '' })
+          notes: new fields.StringField({ initial: '' }),
+          area: new fields.SchemaField({
+            radiusBonus: new fields.NumberField({ integer: true, initial: 0 })
+          }),
+          tempBars: new fields.SchemaField({
+            hpPerSlot: new fields.NumberField({ integer: true, initial: 0 })
+          })
         }),
         rank20: new fields.SchemaField({
           damageDice: new fields.StringField({ initial: '' }),
           rankDamageDice: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
           buffsResistances: new fields.StringField({ initial: '' }),
           debuff: new fields.StringField({ initial: '' }),
-          notes: new fields.StringField({ initial: '' })
+          notes: new fields.StringField({ initial: '' }),
+          area: new fields.SchemaField({
+            radiusBonus: new fields.NumberField({ integer: true, initial: 0 })
+          }),
+          tempBars: new fields.SchemaField({
+            hpPerSlot: new fields.NumberField({ integer: true, initial: 0 })
+          })
         })
       }),
       area: new fields.SchemaField({
@@ -82,7 +106,12 @@ export class SpellDataModel extends BaseItemDataModel {
         lineWidth: new fields.NumberField({ integer: true, min: 0, initial: 5 }),
         origin: new fields.StringField({ initial: 'caster' }),
         targetFilter: new fields.StringField({ initial: 'allies' }),
-        radiusBonus: new fields.NumberField({ integer: true, initial: 0 })
+        radiusBonus: new fields.NumberField({ integer: true, initial: 0 }),
+        absorbElement: new fields.StringField({ initial: '' }),
+        hasPeriodicDamage: new fields.BooleanField({ initial: false }),
+        periodicDamageFormula: new fields.StringField({ initial: '' }),
+        periodicDamageType: new fields.StringField({ initial: '' }),
+        inflictDebuff: new fields.StringField({ initial: '' })
       }),
       delivery: new fields.StringField({ initial: 'placed' }),
       tempBars: new fields.SchemaField({
@@ -104,7 +133,9 @@ export class SpellDataModel extends BaseItemDataModel {
         color: new fields.StringField({ initial: '' }),
         animation: new fields.StringField({ initial: '' })
       }),
-      active: new fields.BooleanField({ initial: false })
+      active: new fields.BooleanField({ initial: false }),
+      outcomes: new fields.ArrayField(new fields.ObjectField(), { initial: [] }),
+      grants: new fields.ArrayField(new fields.ObjectField(), { initial: [] })
     };
   }
 }

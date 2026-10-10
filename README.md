@@ -10,6 +10,15 @@ Questions or concerns contact me @ shinierball via gmail or maybe discord or wha
 
 - Hopefully the AI keeps this in sync reasonably with reality, but code changes so fast these days! Odds that this accurately reflects the rules are probably close to zero, but I'm committed to the process of telling the AI to do better!
 
+- **CarlRPG 3.2.3 Universal Progressive Disclosure Item Architecture & Single-Engine Gear Auras**:
+  - **Progressive Disclosure Across All Item Sheets**: Replaced massive, overwhelming item configuration pages with collapsible `<details class="dcc-collapsible-block">` modules for Spells, Attacks, Gear, and Skills. Sheets stay clean and focused for basic item creation, while rich sub-systems (Auras, AoE Geometry, Rank Breaks, Weapon Proficiencies, Scaling Damage Parts, Techniques, and Debuffs) expand with one click.
+  - **State-Aware Automatic Expansion**: Sheets detect configured data on an item (`hasAuraConfigured`, `hasDamageModifiersConfigured`, `hasRankBreaksConfigured`, etc.) and automatically display active sections expanded with clear `[CONFIGURED]` gold status badges.
+  - **Single-Engine Gear Auras**: Gear items (amulets, cloaks, shields, armor) share the exact same unified `area` and `tempBars` schemas as spells, enabling passive or activated auras through the same unified game engine without duplicate code.
+
+- **CarlRPG 3.2.2 Pathfinder 2e-Style Effects Panel, User-Created Custom Auras & Multi-Effect Scaling Engine**:
+  - **Pathfinder 2e-Style Active Effects & Auras Panel**: Docked along the right canvas edge immediately to the left of Foundry's right navigation sidebar (`#sidebar`). Displays square icon badges with duration countdown pills (`2r`, `10m`, `∞`), distinguishing Aura Emitters (gold pulse) from Protected Allies (cyan shield), buffs (green), and debuffs (red). Includes interactive flyout cards with a 1-click **Dismiss Aura** button.
+  - **User-Creatable Custom Auras**: Any custom spell or item created by a user (e.g. "Cold Stuff Aura", "Noxious Spore Cloud", "Storm Shield") runs entirely through data-driven geometry and outcome configurations with zero hardcoding. Supports allied protection (temp bars, damage absorption) and enemy hazards (periodic damage, debuffs).
+
 - **CarlRPG 3.2.1 Hot Stuff Aura Burst Radius Fix, Ally Bonus Health Bars & Universal Temp Bar Absorption**:
   - **Accurate Burst Radius Scaling**: Base burst radius for Hot Stuff Aura is strictly 5ft at Rank 1 (preventing erroneous 20ft template placement), expanding to 10ft at Rank 10 and 20ft cumulative at Rank 15.
   - **Burst Radius Ally Bonus Bars**: Activating the aura applies bonus health bar slots (CHA Mod slots) to all allies (crawlers, pets, friendly tokens) within the burst radius, while excluding hostiles. Dismissing or expiring the aura cleanly clears temporary health bars from caster and all protected allies.
@@ -47,6 +56,16 @@ Questions or concerns contact me @ shinierball via gmail or maybe discord or wha
   - **Globally Unique Spells (Idempotence)**: Spells on an actor are globally unique. Adding or dropping an existing spell merges rank to the highest rank without creating duplicate spellbook entries.
   - **Compendium-to-World Sync Engine**: Modifying any Spell, Gear, Loot, Class, Race, Buff, Debuff, or Skill in a Compendium pack automatically propagates updates to every actor and world item in the campaign, ensuring changes are reflected for all users while preserving player progression (invested ranks, equipped status, quantity, and training hours).
 
+- **Pathfinder 2e-Style Active Effects & Auras Panel**:
+  - **Docked Live-Play HUD**: Displays a vertical column of status badges immediately to the left of Foundry's right navigation sidebar (`#sidebar`), dynamically adjusting when the sidebar collapses or expands.
+  - **Token & Character Binding**: Dynamically tracks the currently controlled token on the canvas, falling back to the player's assigned Crawler (`game.user.character`) if no token is selected.
+  - **Aura Emitters vs. Protected Receivers**: Distinguishes aura emitters (gold pulsing flame ring with `[AURA EMITTER]` badge) from allies protected within burst radius (cyan shield border with `[AURA PROTECTED]` badge), as well as debuffs and buffs.
+  - **Interactive Popover Flyouts**: Clicking an effect badge reveals a detailed card with source caster name, remaining rounds/seconds countdown, exact benefits (+X temporary health bars, elemental absorption, periodic damage), and 1-click **Dismiss Aura** controls for owners and GMs.
+- **User-Creatable Custom Auras & Multi-Effect Scaling Engine**:
+  - **Zero Hardcoded Names**: All aura mechanics operate 100% data-driven through item geometry and outcome definitions. Users can create custom spells, magical gear, or buffs (e.g. *Cold Stuff Aura*, *Noxious Spore Cloud*, *Storm Shield*) that emit custom auras without requiring code modifications.
+  - **Progressive Disclosure UI**: The Spell Sheet features a collapsible `<details>` block for **AURA & AREA OF EFFECT CONFIGURATION**, remaining compact and unobtrusive until activated.
+  - **Multi-Effect Configuration**: Simultaneous support for allied benefits (temporary health bars, elemental damage absorption) and enemy hazards (periodic damage formula, element, on-enter/tick debuff infliction).
+  - **Cumulative Rank Scaling**: Configurable radius bonuses and upgraded temporary health bars across Rank 5, 10, 15, and 20 milestone cards.
 - **Enforced Number of Hands & Limbs Subsystem**:
   - **Physiology & Limbs Tracking**: Full support for varying creature anatomies including standard humanoids (2 arms, 2 legs, 2 hands), quadrupeds (4 legs, 0 hands), and centaurs (4 legs, 2 arms, 2 hands).
   - **Wielding Hand Tracking**: Weapons and gear consume hands according to their wield mode (`one_handed` = 1, `two_handed` = 2, versatile `two_handed_disadv_1h` = 1 or 2) or explicit `handsRequired`. Non-hand gear (torso armor, helmets, boots) consumes 0 hands.

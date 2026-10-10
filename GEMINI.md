@@ -79,22 +79,38 @@ This document defines the core directives, workflow rules, architecture standard
 
 ## 🛠️ Implementation Best Practices & Gotchas
 
-### 0. DO NOT USE REGEXP or pattern matching unless absolutely necessary and then ask for permission
+
+### 1. Users Will Create Content
+- Players and GMs will create new content such as new races, classes, items, etc. This content should be supported by the system and should be easy to create and use and interact with existing builders and calculations. 
+  - Any item created for a compendium should be composable using the tools available to users to create new systems.
+  - Do not hardcode canonical names for any reason unless it is absolutely the only way to implement something. This consistently leads to inflexibility in being able to replicate similar effects or mechanics with slight variations or for custom content.  Instead rely on the fact that users will create content and utilize and extend the systems that are in place. 
+  - For instance secondary skills like Dirty Fighting will interact with multiple checks and game mechanics, and new skills like this should be able to be created and interact with existing mechanics and skills. 
+  - Magic users will frequently want to create and use custom spells.  These should be supported by the system and should be easy to create and use.  
+  - New items should be easily composed and allow for all the same interactions as existing items. This should include the ability to give skills and spells that users cannot normally acquire.  Often this involves rules like cooldowns of 2 hours per rank of skill or spell given.  Example A level 15 Iron Shell skill grants the user the ability to cast Iron Shell at will but with a 30 hour cooldown.
+  
+### 2. All rules will be broken
+- When players break the rules they should be rewarded for doing so. 
+- This means anything that can be created should not enforce rules like the 30 point buy class creation.  The system should track and calculate the correct values based on the rules, but the rules should not be enforced.  For example a class could be created with 100 points of stats and the system should track the correct values based on the rules. Calling out the violation is good so that its clear this is an exception which the AI might patch at any time. 
+
+### 3. Use the tag system wherever possible
+Do not create new systems if the tag system can be leveraged to create the same effect. Do not force the tag system in as a solution if it increases complexity significantly but the cost of adding a new system far exceeds a minor complexity increase. 
+
+### 4. DO NOT USE REGEXP or pattern matching unless absolutely necessary and then ask for permission
 - Do not use regexp or pattern matching unless absolutely necessary and then ask for permission.
 - Instead use data driven code to store information and use that information to make decisions
 - Do not use string matching. Use data structures to store information.
 - A vast majority of unintended functionality and bugs have been caused by greedy pattern matching it is mostly unnecessary
 - Assume all content is created by users so make any functionality dependent on selecting and utilizing arbitrary data forced into a structure rather than well defined strings.  No magic numbers or strings allowed everything should be pulled from a compendium or item definition where possible. 
 
-### 1. Template Preloading
+### 5. Template Preloading
 - Any new `.hbs` partial template added to `templates/` **must be registered in `loadTemplates` in `src/dcc.mjs`**, or Foundry will fail to render the partial dynamically.
 
-### 2. Form Harvester & Duplicate Inputs
+### 6. Form Harvester & Duplicate Inputs
 - Foundry's `FormDataExtended` collects all inputs with a `name` attribute into the form submission payload.
 - **Never duplicate the same input `name` attribute across tabs or partials** within `<form class="dcc-sheet">`. If multiple elements share a `name`, Foundry serializes them as arrays (e.g. `['id1', 'id2']`), causing data corruption and lookups to fail.
 - For auxiliary selectors or quick-access dropdowns (like the Hotlist), omit the `name` attribute and handle updates explicitly via change listeners and `data-*` attributes.
 
-### 3. Bulletproof Data Sanitization
+### 7. Bulletproof Data Sanitization
 - Always sanitize data incoming from `system` properties against unexpected array or comma-separated formats:
   ```javascript
   let val = rawVal || '';
@@ -102,12 +118,12 @@ This document defines the core directives, workflow rules, architecture standard
   if (typeof val === 'string' && val.includes(',')) val = val.split(',')[0].trim();
   ```
 
-### 4. Handlebars Scoping & Precomputed Options
+### 8. Handlebars Scoping & Precomputed Options
 - Handlebars `as |item|` block parameters in nested `{{#each}}` loops can shadow outer variables depending on the runtime environment.
 - **Prefer precomputing complex select option groups in `getData()`**:
   Format display labels (`⚡ Fireball (5 MP)`), calculate `selected: true/false`, and structure option groups in JavaScript before passing them into the template.
 
-### 5. Specialized Item & Hotlist Actions
+### 9. Specialized Item & Hotlist Actions
 - Differentiate behavior cleanly based on item types:
   - **Attacks**: Roll to hit (`actor.rollAttack(item, 'hit')`) and damage. Allow for both 1d20 + modifiers to hit and roll under. If a roll to hit is performed, generate a chat card with the results.
     Allow application of damage to targeted actors or groups of actors. Allow undue of damage, including negative HP.
@@ -116,23 +132,11 @@ This document defines the core directives, workflow rules, architecture standard
   - **Loot / Consumables**: Use item and output chat message (`ChatMessage.create(...)`).
   - **Buff / Debuff**: Apply or remove the buff/debuff to the actor. Include Buff/Debuff calculation and affects in chat cards and calculations.  Allow application of buffs or debuffs to targeted actors or groups of actors. 
 
-### 6. Users Will Create Content
-- Players and GMs will create new content such as new races, classes, items, etc. This content should be supported by the system and should be easy to create and use and interact with existing builders and calculations. 
-  - For instance secondary skills like Dirty Fighting will interact with multiple checks and game mechanics, and new skills like this should be able to be created and interact with existing mechanics and skills. 
-  - Magic users will frequently want to create and use custom spells.  These should be supported by the system and should be easy to create and use.  
-  - New items should be easily composed and allow for all the same interactions as existing items. This should include the ability to give skills and spells that users cannot normally acquire.  Often this involves rules like cooldowns of 2 hours per rank of skill or spell given.  Example A level 15 Iron Shell skill grants the user the ability to cast Iron Shell at will but with a 30 hour cooldown.
-  
-### 7. All rules will be broken
-- When players break the rules they should be rewarded for doing so. 
-- This means anything that can be created should not enforce rules like the 30 point buy class creation.  The system should track and calculate the correct values based on the rules, but the rules should not be enforced.  For example a class could be created with 100 points of stats and the system should track the correct values based on the rules. Calling out the violation is good so that its clear this is an exception which the AI might patch at any time. 
-
-### 8. Design & Styling (DCC Theme)
+### 10. Design & Styling (DCC Theme)
 - Follow the established Dungeon Crawler Carl visual theme:
   - Primary font: `'Oswald', sans-serif`
   - Accent / DCC Red: `#c0392b` / `#962d22`
   - Clean borders, high contrast, readable inputs, and crisp state badges (`[EQUIPPED]`, `[SPELL]`, `[ATTACK]`, `[ITEM]`, `[BUFF]`, `[DEBUFF]`).
-### 9. Use the tag system wherever possible
-Do not create new systems if the tag system can be leveraged to create the same effect. Do not force the tag system in as a solution if it increases complexity significantly but the cost of adding a new system far exceeds a minor complexity increase. 
 
 ---
 

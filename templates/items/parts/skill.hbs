@@ -82,16 +82,19 @@
   </div>
 </div>
 
-{{!-- WEAPON PROFICIENCY, TECHNIQUES & SPECIAL CONDITIONS --}}
-<div class="dcc-stat-block" style="margin-bottom: 10px; border: 1px solid #7f8c8d;">
-  <div class="dcc-banner-header" style="font-size: 11px; padding: 3px 6px; display: flex; justify-content: space-between; align-items: center; background: #34495e;">
-    <span><i class="fa-solid fa-wand-magic-sparkles"></i> TECHNIQUES, CONDITIONS & CRITICAL MILESTONES</span>
-    <label style="display: flex; align-items: center; gap: 4px; font-size: 10px; color: #fff; cursor: pointer;">
-      <input type="checkbox" name="system.isTechnique" {{#if system.isTechnique}}checked{{/if}} />
-      <span>Is Combat Technique / Damage Maneuver</span>
-    </label>
-  </div>
-  <div style="padding: 6px; background: #fafafa; border: 1px solid #ddd;">
+{{!-- WEAPON PROFICIENCY, TECHNIQUES & SPECIAL CONDITIONS (COLLAPSIBLE WITH PROGRESSIVE DISCLOSURE) --}}
+<details class="dcc-collapsible-block" {{#if hasTechniqueConfigured}}open{{/if}}>
+  <summary class="dcc-collapsible-summary">
+    <span class="dcc-collapsible-title"><i class="fa-solid fa-chevron-right dcc-chevron"></i> <i class="fa-solid fa-wand-magic-sparkles"></i> TECHNIQUES, CONDITIONS & CRITICAL MILESTONES</span>
+    <span class="dcc-toggle-indicator {{#if hasTechniqueConfigured}}active{{/if}}">{{#if hasTechniqueConfigured}}[TECHNIQUE / CRIT CONFIGURED]{{else}}[CLICK TO CONFIGURE TECHNIQUES / CRITS]{{/if}}</span>
+  </summary>
+  <div class="dcc-collapsible-content">
+    <div class="dcc-field-row" style="margin-bottom: 6px; align-items: center; gap: 8px;">
+      <label style="display: flex; align-items: center; gap: 4px; font-weight: bold; font-size: 11px; cursor: pointer; color: #2c3e50;">
+        <input type="checkbox" name="system.isTechnique" {{#if system.isTechnique}}checked{{/if}} />
+        <span>Is Combat Technique / Damage Maneuver</span>
+      </label>
+    </div>
     {{#if system.isTechnique}}
       <div class="dcc-field-row" style="margin-bottom: 6px; align-items: center; gap: 12px;">
         <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; cursor: pointer;">
@@ -179,15 +182,15 @@
       </div>
     </div>
   </div>
-</div>
+</details>
 
-{{!-- RANK MILESTONES & BREAK CONFIGURATIONS (RANKS 5, 10, 15, 20) --}}
-<div class="dcc-stat-block" style="margin-bottom: 10px; border: 1px solid #7f8c8d;">
-  <div class="dcc-banner-header" style="font-size: 11px; padding: 3px 6px; display: flex; justify-content: space-between; align-items: center; background: #2c3e50;">
-    <span><i class="fa-solid fa-layer-group"></i> RANK BREAK CONFIGURATIONS (RANKS 5, 10, 15, 20)</span>
-    <span style="font-size: 9px; opacity: 0.9; color: #fff;">Optional per rank break</span>
-  </div>
-  <div style="padding: 6px; background: #fafafa; border: 1px solid #ddd;">
+{{!-- RANK MILESTONES & BREAK CONFIGURATIONS (RANKS 5, 10, 15, 20) (COLLAPSIBLE WITH PROGRESSIVE DISCLOSURE) --}}
+<details class="dcc-collapsible-block" {{#if hasRankBreaksConfigured}}open{{/if}}>
+  <summary class="dcc-collapsible-summary">
+    <span class="dcc-collapsible-title"><i class="fa-solid fa-chevron-right dcc-chevron"></i> <i class="fa-solid fa-layer-group"></i> RANK BREAK CONFIGURATIONS (RANKS 5, 10, 15, 20)</span>
+    <span class="dcc-toggle-indicator {{#if hasRankBreaksConfigured}}active{{/if}}">{{#if hasRankBreaksConfigured}}[RANK BREAKS CONFIGURED]{{else}}[CLICK TO CONFIGURE RANK BREAKS]{{/if}}</span>
+  </summary>
+  <div class="dcc-collapsible-content">
     {{!-- Rank 5 --}}
     <div class="dcc-rank-break-card" style="margin-bottom: 8px; border: 1px solid #ddd; border-left: 4px solid #196f3d; background: #fff; padding: 6px; border-radius: 3px;">
       <div style="font-weight: bold; font-size: 11px; color: #196f3d; margin-bottom: 4px;">
@@ -340,17 +343,20 @@
       </div>
     </div>
   </div>
-</div>
+</details>
 
-{{!-- SKILL DAMAGE MODIFIERS (RANK GATED) --}}
-<div class="dcc-stat-block" style="margin-bottom: 10px;">
-  <div class="dcc-banner-header" style="font-size: 11px; padding: 3px 6px; display: flex; justify-content: space-between; align-items: center;">
-    <span>ATTACK DAMAGE MODIFIERS (SCALING / PASSIVE)</span>
-    <a class="add-damage-mod" style="color: #fff; font-size: 10px; cursor: pointer;">
-      <i class="fa-solid fa-plus"></i> Add Damage Bonus
-    </a>
-  </div>
-  <div style="padding: 6px; background: #fafafa; border: 1px solid #ddd;">
+{{!-- SKILL DAMAGE MODIFIERS (RANK GATED) (COLLAPSIBLE WITH PROGRESSIVE DISCLOSURE) --}}
+<details class="dcc-collapsible-block" {{#if hasDamageModifiersConfigured}}open{{/if}}>
+  <summary class="dcc-collapsible-summary">
+    <span class="dcc-collapsible-title"><i class="fa-solid fa-chevron-right dcc-chevron"></i> <i class="fa-solid fa-bolt"></i> ATTACK DAMAGE MODIFIERS (SCALING / PASSIVE)</span>
+    <span class="dcc-toggle-indicator {{#if hasDamageModifiersConfigured}}active{{/if}}">{{#if hasDamageModifiersConfigured}}[DAMAGE MODS ({{system.damageModifiers.length}})]{{else}}[CLICK TO ADD DAMAGE MODS]{{/if}}</span>
+  </summary>
+  <div class="dcc-collapsible-content">
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 6px;">
+      <a class="add-damage-mod" style="color: #2980b9; font-size: 11px; cursor: pointer; font-weight: bold;">
+        <i class="fa-solid fa-plus"></i> Add Damage Bonus
+      </a>
+    </div>
     {{#if system.damageModifiers.length}}
       <table class="dcc-table" style="margin: 0; font-size: 11px;">
         <thead>
@@ -394,7 +400,7 @@
       </div>
     {{/if}}
   </div>
-</div>
+</details>
 
 <div class="dcc-field-group" style="margin-bottom: 8px;">
   <span class="dcc-field-label">Notes & Upgrades</span>

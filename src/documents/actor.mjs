@@ -4808,13 +4808,12 @@ export class DCCActor extends BaseActor {
     }
 
     // 1. Calculate aura radius with cumulative rank upgrades
-    // Hot Stuff Aura / Burst base radius is 5ft
     let radius = Number(areaConfig?.radius ?? sys.area?.radius);
     if (!Number.isFinite(radius) || radius <= 0) {
       radius = 5;
     }
 
-    // Add cumulative bonuses at Rank 10 and Rank 15
+    // Add cumulative bonuses at Rank 10, Rank 15, and Rank 20
     if (rank >= 10) {
       const r10Bonus = Number(rankBreaksConfig?.rank10?.area?.radiusBonus ?? sys.rankBreaks?.rank10?.area?.radiusBonus) || 0;
       radius += r10Bonus;
@@ -4822,6 +4821,10 @@ export class DCCActor extends BaseActor {
     if (rank >= 15) {
       const r15Bonus = Number(rankBreaksConfig?.rank15?.area?.radiusBonus ?? sys.rankBreaks?.rank15?.area?.radiusBonus) || 0;
       radius += r15Bonus;
+    }
+    if (rank >= 20) {
+      const r20Bonus = Number(rankBreaksConfig?.rank20?.area?.radiusBonus ?? sys.rankBreaks?.rank20?.area?.radiusBonus) || 0;
+      radius += r20Bonus;
     }
 
     // 2. Calculate temporary health bars if configured
@@ -4847,7 +4850,9 @@ export class DCCActor extends BaseActor {
       }
       slots = Math.max(1, slots);
 
-      if (rank >= 15 && (rankBreaksConfig?.rank15?.tempBars?.hpPerSlot || sys.rankBreaks?.rank15?.tempBars?.hpPerSlot)) {
+      if (rank >= 20 && (rankBreaksConfig?.rank20?.tempBars?.hpPerSlot || sys.rankBreaks?.rank20?.tempBars?.hpPerSlot)) {
+        hpPerSlot = Number(rankBreaksConfig?.rank20?.tempBars?.hpPerSlot ?? sys.rankBreaks?.rank20?.tempBars?.hpPerSlot);
+      } else if (rank >= 15 && (rankBreaksConfig?.rank15?.tempBars?.hpPerSlot || sys.rankBreaks?.rank15?.tempBars?.hpPerSlot)) {
         hpPerSlot = Number(rankBreaksConfig?.rank15?.tempBars?.hpPerSlot ?? sys.rankBreaks?.rank15?.tempBars?.hpPerSlot);
       } else if (rank >= 10 && (rankBreaksConfig?.rank10?.tempBars?.hpPerSlot || sys.rankBreaks?.rank10?.tempBars?.hpPerSlot)) {
         hpPerSlot = Number(rankBreaksConfig?.rank10?.tempBars?.hpPerSlot ?? sys.rankBreaks?.rank10?.tempBars?.hpPerSlot);
@@ -4914,7 +4919,7 @@ export class DCCActor extends BaseActor {
     const affectedAllies = [];
     if (slots > 0 && hpPerSlot > 0) {
       const filter = (areaConfig?.targetFilter || sys.area?.targetFilter || 'allies').toLowerCase();
-      const isAllyProtect = filter === 'allies' || spellItem.name.toLowerCase().includes('hot stuff');
+      const isAllyProtect = (filter === 'allies' || filter === 'both') && hasTemp;
 
       if (isAllyProtect) {
         // Direct allies passed via options
@@ -4970,19 +4975,131 @@ export class DCCActor extends BaseActor {
       }
     }
 
+    // 6. Trigger hostile aura effects on enemies in radius if configured
+    let periodicReport = { affectedEnemies: [] };
+    if (typeof this.triggerAuraPeriodicEffects === 'function') {
+      periodicReport = await this.triggerAuraPeriodicEffects(spellItem, { radius, token });
+    }
+
     return {
       active: true,
       radius,
       slots,
       hpPerSlot,
       totalTempHp,
+      tempBarsGranted: { slots, hpPerSlot, totalTempHp },
       remainingRounds: rounds,
       target: sys.target || 'Self',
       targetFilter: areaConfig?.targetFilter || sys.area?.targetFilter || 'allies',
       tokenCenter: token ? { x: token.center?.x, y: token.center?.y } : null,
       templateId: template?.id || null,
-      affectedAllies
+      affectedAllies,
+      affectedEnemies: periodicReport.affectedEnemies
     };
+  }
+
+  /**
+   * Trigger periodic aura effects (damage & debuffs) on enemy tokens within burst radius.
+   * @param {DCCItem} spellItem
+   * @param {object} [options={}]
+   * @returns {Promise<{ affectedEnemies: Array<object> }>}
+   */
+  async triggerAuraPeriodicEffects(spellItem, options = {}) {
+    if (!spellItem) return { affectedEnemies: [] };
+    const sys = spellItem.system || {};
+    const areaConfig = sys.area || {};
+    const rank = Number(this.getSpellRank ? this.getSpellRank(spellItem.name) : (sys.modifiedRank ?? sys.rank)) || Number(sys.rank) || 1;
+
+    let radius = Number(options.radius ?? areaConfig.radius ?? sys.area?.radius);
+    if (!Number.isFinite(radius) || radius <= 0) radius = 5;
+
+    if (options.radius === undefined) {
+      if (rank >= 10) radius += Number(sys.rankBreaks?.rank10?.area?.radiusBonus || 0);
+      if (rank >= 15) radius += Number(sys.rankBreaks?.rank15?.area?.radiusBonus || 0);
+      if (rank >= 20) radius += Number(sys.rankBreaks?.rank20?.area?.radiusBonus || 0);
+    }
+
+    const filter = (areaConfig.targetFilter || sys.area?.targetFilter || 'allies').toLowerCase();
+    const canAffectEnemies = filter === 'enemies' || filter === 'both' || Boolean(areaConfig.hasPeriodicDamage);
+    const hasDmg = Boolean(areaConfig.hasPeriodicDamage && areaConfig.periodicDamageFormula);
+    const hasDebuff = Boolean(areaConfig.inflictDebuff);
+
+    if (!canAffectEnemies || (!hasDmg && !hasDebuff)) {
+      return { affectedEnemies: [] };
+    }
+
+    const affectedEnemies = [];
+    if (typeof canvas !== 'undefined' && canvas?.tokens?.placeables) {
+      const casterToken = options.token || canvas.tokens.placeables.find(t => t.actor?.id === this.id) || canvas.tokens.controlled?.[0];
+      if (!casterToken) return { affectedEnemies };
+
+      const myX = casterToken.center?.x ?? casterToken.x;
+      const myY = casterToken.center?.y ?? casterToken.y;
+      const gridSize = canvas.grid?.size || 50;
+      const gridDist = canvas.scene?.grid?.distance || 5;
+
+      for (const tok of canvas.tokens.placeables) {
+        if (!tok.actor || tok.actor.id === this.id) continue;
+        const isEnemy = tok.document?.disposition === (globalThis.CONST?.TOKEN_DISPOSITIONS?.HOSTILE ?? -1) ||
+                        tok.disposition === -1 ||
+                        tok.actor.type === 'mob';
+        if (!isEnemy) continue;
+
+        let dist = 0;
+        if (canvas.grid && typeof canvas.grid.measureDistance === 'function') {
+          dist = canvas.grid.measureDistance(casterToken, tok);
+        } else {
+          const tokX = tok.center?.x ?? tok.x;
+          const tokY = tok.center?.y ?? tok.y;
+          dist = (Math.hypot(tokX - myX, tokY - myY) / gridSize) * gridDist;
+        }
+
+        if (dist <= radius) {
+          let rolledDamage = 0;
+          if (hasDmg) {
+            const formula = String(areaConfig.periodicDamageFormula || '1d6');
+            try {
+              if (typeof Roll !== 'undefined') {
+                const roll = new Roll(formula);
+                await roll.evaluate();
+                rolledDamage = roll.total;
+              } else {
+                rolledDamage = parseInt(formula, 10) || 4;
+              }
+            } catch (err) {
+              rolledDamage = parseInt(formula, 10) || 4;
+            }
+
+            if (typeof tok.actor.applyDamage === 'function') {
+              await tok.actor.applyDamage(rolledDamage, { damageType: areaConfig.periodicDamageType || 'Physical' });
+            }
+          }
+
+          if (hasDebuff) {
+            const debuffName = areaConfig.inflictDebuff;
+            const existing = tok.actor.items?.find ? tok.actor.items.find(i => i.name === debuffName) : null;
+            if (!existing && typeof tok.actor.createEmbeddedDocuments === 'function') {
+              await tok.actor.createEmbeddedDocuments('Item', [{
+                name: debuffName,
+                type: 'debuff',
+                system: {
+                  duration: `${spellItem.name} Aura`,
+                  description: `Inflicted while in ${spellItem.name} radius.`
+                }
+              }]);
+            }
+          }
+
+          affectedEnemies.push({
+            actor: tok.actor,
+            damage: rolledDamage,
+            debuff: areaConfig.inflictDebuff || null
+          });
+        }
+      }
+    }
+
+    return { affectedEnemies };
   }
 
   /**
@@ -5037,7 +5154,7 @@ export class DCCActor extends BaseActor {
       }
     }
 
-    return { active: false };
+    return { active: false, deactivated: true };
   }
 
   /**

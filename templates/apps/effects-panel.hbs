@@ -1,0 +1,53 @@
+<div id="dcc-effects-panel" class="dcc-effects-panel">
+  {{#each effects as |effect|}}
+    <div class="dcc-effect-badge {{effect.typeClass}} {{#if effect.expanded}}is-expanded{{/if}}"
+         data-effect-id="{{effect.id}}"
+         data-item-id="{{effect.itemId}}"
+         data-actor-id="{{effect.actorId}}"
+         title="{{effect.name}} ({{effect.durationLabel}})">
+      
+      <div class="dcc-effect-icon-wrap">
+        <img class="dcc-effect-icon" src="{{effect.img}}" alt="{{effect.name}}" />
+        {{#if effect.durationLabel}}
+          <span class="dcc-effect-duration-pill">{{effect.durationLabel}}</span>
+        {{/if}}
+        {{#if effect.isAuraEmitter}}
+          <span class="dcc-aura-emitter-ring" title="Aura Emitter"></span>
+        {{/if}}
+      </div>
+
+      {{#if effect.expanded}}
+        <div class="dcc-effect-flyout">
+          <header class="dcc-flyout-header">
+            <span class="dcc-flyout-type-badge">{{effect.typeBadge}}</span>
+            <h4 class="dcc-flyout-title">{{effect.name}}</h4>
+          </header>
+          <div class="dcc-flyout-body">
+            <div class="dcc-flyout-row">
+              <span class="dcc-flyout-label">Source:</span>
+              <span class="dcc-flyout-val">{{effect.sourceName}}</span>
+            </div>
+            <div class="dcc-flyout-row">
+              <span class="dcc-flyout-label">Duration:</span>
+              <span class="dcc-flyout-val">{{effect.fullDurationText}}</span>
+            </div>
+            {{#if effect.detailsText}}
+              <div class="dcc-flyout-row dcc-flyout-details">
+                <span class="dcc-flyout-label">Effect:</span>
+                <span class="dcc-flyout-val">{{effect.detailsText}}</span>
+              </div>
+            {{/if}}
+            {{#if effect.canDismiss}}
+              <footer class="dcc-flyout-footer">
+                <button type="button" class="dcc-btn-dismiss-effect" data-action="dismiss-effect">
+                  <i class="fa-solid fa-ban"></i> Dismiss Aura
+                </button>
+              </footer>
+            {{/if}}
+          </div>
+        </div>
+      {{/if}}
+
+    </div>
+  {{/each}}
+</div>
