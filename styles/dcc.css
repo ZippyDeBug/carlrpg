@@ -9930,5 +9930,51 @@ body.dark-mode .dcc-tag-manager-container .dcc-custom-tag-namespace,
   border-top: 1px solid #ddd;
 }
 
+.dcc-armor-piercing-badge {
+  background: #2c3e50;
+  color: #f1c40f;
+  border: 1px solid #f1c40f;
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-left: 4px;
+  font-weight: bold;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.dcc-heal-effect {
+  margin: 8px 0;
+  padding: 8px 10px;
+  background: #eafaf1;
+  border: 1px solid #2ecc71;
+  border-radius: 4px;
+  color: #1e8449;
+  font-size: 12px;
+}
+
+.dcc-cleanse-debuff-btn {
+  background: #16a085;
+  color: #ffffff;
+  border: 1px solid #117a65;
+  border-radius: 3px;
+  padding: 4px;
+  font-size: 11px;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: var(--font-primary, sans-serif);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: background 0.15s ease;
+}
+
+.dcc-cleanse-debuff-btn:hover {
+  background: #1abc9c;
+}
+
 
 

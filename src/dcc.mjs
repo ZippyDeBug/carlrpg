@@ -1194,7 +1194,16 @@ export function onRenderChatMessage(message, html, data) {
       const attackType = card.dataset?.attackType || $card?.data('attack-type') || 'attack';
       const rawDamage = Number(card.dataset?.damageValue ?? $card?.data('damage-value')) || 0;
       const multiplier = Number(btn.dataset?.multiplier ?? $btn?.data('multiplier')) || 1;
-      const ignoreDR = Boolean(btn.dataset?.ignoreDr ?? $btn?.data('ignore-dr'));
+      const ignoreDR = Boolean(
+        btn.dataset?.ignoreDr === 'true' ||
+        btn.dataset?.ignoreDr === true ||
+        $btn?.data('ignore-dr') === true ||
+        $btn?.data('ignore-dr') === 'true' ||
+        card.dataset?.isArmorPiercing === 'true' ||
+        card.dataset?.isArmorPiercing === true ||
+        $card?.data('is-armor-piercing') === true ||
+        $card?.data('is-armor-piercing') === 'true'
+      );
 
       const attacker = game.actors?.get(attackerId) || null;
 
@@ -1706,6 +1715,61 @@ export function onRenderChatMessage(message, html, data) {
       btn.addEventListener('click', hotClickHandler);
     } else if (typeof $ !== 'undefined') {
       $(btn).click(hotClickHandler);
+    }
+  }
+
+  // 7b. Handle click on "Cleanse Debuff" from chat card
+  const cleanseDebuffButtons = query('.dcc-cleanse-debuff-btn');
+  for (const btn of cleanseDebuffButtons) {
+    if (btn.dataset) {
+      if (btn.dataset.dccBound) continue;
+      btn.dataset.dccBound = 'true';
+    }
+
+    const cleanseClickHandler = async (ev) => {
+      ev.preventDefault();
+      const $btn = (typeof $ !== 'undefined') ? $(btn) : null;
+      const targetId = btn.dataset?.targetId || $btn?.data('target-id');
+      const debuffName = btn.dataset?.debuffName || $btn?.data('debuff-name') || '';
+
+      let targetTokens = Array.from(game.user?.targets || []);
+      if (!targetTokens.length && targetId && canvas?.tokens?.placeables) {
+        const found = canvas.tokens.placeables.find(t => t.actor?.id === targetId || t.id === targetId);
+        if (found) targetTokens = [found];
+      }
+      if (!targetTokens.length && canvas?.tokens?.controlled) {
+        targetTokens = canvas.tokens.controlled.filter(t => t.actor);
+      }
+
+      let targetActors = targetTokens.map(t => t.actor).filter(Boolean);
+      if (!targetActors.length && targetId && game.actors?.get) {
+        const directActor = game.actors.get(targetId);
+        if (directActor) targetActors = [directActor];
+      }
+
+      if (!targetActors.length) {
+        ui.notifications?.warn('DCC RPG | No target found! Please select or target a token on the canvas.');
+        return;
+      }
+
+      const cleansedAll = [];
+      for (const targetActor of targetActors) {
+        if (typeof targetActor.cleanseDebuff === 'function') {
+          const removed = await targetActor.cleanseDebuff(debuffName);
+          if (removed.length > 0) {
+            cleansedAll.push(`${targetActor.name}: cleansed [${removed.join(', ')}]`);
+          } else {
+            cleansedAll.push(`${targetActor.name}: no matching debuffs to cleanse`);
+          }
+        }
+      }
+      ui.notifications?.info(`DCC RPG | ${cleansedAll.join('; ')}`);
+    };
+
+    if (typeof btn.addEventListener === 'function') {
+      btn.addEventListener('click', cleanseClickHandler);
+    } else if (typeof $ !== 'undefined') {
+      $(btn).click(cleanseClickHandler);
     }
   }
 

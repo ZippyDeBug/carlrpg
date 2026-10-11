@@ -24,6 +24,7 @@ export const TAG_NAMESPACES = {
   technique:    { label: 'Combat Technique Target', description: 'Skill targeted by combat techniques' },
   rule:         { label: 'Special Rule Flag', description: 'Engine mechanics and overrides' },
   resource:     { label: 'Resource Type', description: 'Character resource pools (mana, health bars, temporary bars)' },
+  trigger:      { label: 'Condition Trigger', description: 'Triggers on critical hit, fumble, or combat condition' },
   id:           { label: 'Identity Tag', description: 'Stable unique item identity: id.<type>.<slug>' },
   custom:       { label: 'Custom User Tag', description: 'User-created tags' }
 };
@@ -49,6 +50,10 @@ export const DCC_TAGS = [
   { id: 'action.restore', label: 'Restore / Refill', namespace: 'action' },
   { id: 'action.passive', label: 'Passive', namespace: 'action' },
   { id: 'action.interrupt', label: 'Interrupt', namespace: 'action' },
+  { id: 'action.hot', label: 'Heal Over Time (HoT)', namespace: 'action' },
+  { id: 'action.cleanse', label: 'Cleanse Debuff', namespace: 'action' },
+  { id: 'action.armor_piercing', label: 'Armor Piercing', namespace: 'action' },
+  { id: 'action.ignore_dr', label: 'Ignore Damage Resistance', namespace: 'action' },
 
   // --- Resources ---
   { id: 'resource.mana', label: 'Mana Points', namespace: 'resource' },
@@ -181,7 +186,12 @@ export const DCC_TAGS = [
   { id: 'rule.emits-light', label: 'Emits Light', namespace: 'rule' },
   { id: 'rule.causes-darkness', label: 'Causes Darkness', namespace: 'rule' },
   { id: 'rule.depletes-on-empty', label: 'Depletes When Empty', namespace: 'rule' },
-  { id: 'rule.cooldown-hours', label: 'Cooldown (2h per Rank)', namespace: 'rule' }
+  { id: 'rule.cooldown-hours', label: 'Cooldown (2h per Rank)', namespace: 'rule' },
+
+  // --- Condition Triggers ---
+  { id: 'trigger.crit', label: 'Critical Hit Trigger', namespace: 'trigger' },
+  { id: 'trigger.fumble', label: 'Fumble Trigger', namespace: 'trigger' },
+  { id: 'trigger.on_hit', label: 'On-Hit Debuff Trigger', namespace: 'trigger' }
 ];
 
 /** Fast lookup map of registered tags */
@@ -410,6 +420,52 @@ export function computeDerivedTags(item) {
     if (sys.isAttack) {
       derived.add('action.attack');
     }
+  }
+
+  // Healing, HoT, and Cleansing derived tags
+  if (sys.healing?.hasHealing) {
+    derived.add('action.heal');
+    derived.add('resource.hp-bars');
+    if (sys.healing.isHoT) {
+      derived.add('action.hot');
+      derived.add('duration.rounds');
+    }
+    if (Array.isArray(sys.healing.cleanseDebuffs) && sys.healing.cleanseDebuffs.length > 0) {
+      derived.add('action.cleanse');
+    }
+  }
+
+  // Armor Piercing / Ignore DR derived tags
+  if (sys.ignoreDR || sys.isArmorPiercing || sys.techniqueConfig?.isArmorPiercing) {
+    derived.add('action.armor_piercing');
+    derived.add('action.ignore_dr');
+  }
+
+  // Condition Triggers & Rank Break Triggers
+  let hasCritTrigger = Boolean(
+    (sys.critMultiplier && Number(sys.critMultiplier) > 1) ||
+    (sys.critMultiplierR5 && Number(sys.critMultiplierR5) > 1) ||
+    (sys.critMultiplierR15 && Number(sys.critMultiplierR15) > 1)
+  );
+  let hasOnHitTrigger = Boolean(sys.onHitDebuff);
+
+  if (sys.rankBreaks && typeof sys.rankBreaks === 'object') {
+    for (const rb of Object.values(sys.rankBreaks)) {
+      if (rb && typeof rb === 'object') {
+        if (Number(rb.critMultiplier) > 1) hasCritTrigger = true;
+        if (rb.debuff) hasOnHitTrigger = true;
+      }
+    }
+  }
+
+  if (hasCritTrigger) {
+    derived.add('trigger.crit');
+  }
+  if (sys.fumbleDebuff) {
+    derived.add('trigger.fumble');
+  }
+  if (hasOnHitTrigger) {
+    derived.add('trigger.on_hit');
   }
 
   // Weapon gear

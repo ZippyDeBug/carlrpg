@@ -32,6 +32,15 @@ export class SpellDataModel extends BaseItemDataModel {
       onHitDebuffMinRank: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
       optionalEffects: new fields.ArrayField(new fields.StringField()),
       selectedEffect: new fields.StringField({ initial: '' }),
+      ignoreDR: new fields.BooleanField({ initial: false }),
+      healing: new fields.SchemaField({
+        hasHealing: new fields.BooleanField({ initial: false }),
+        barsFormula: new fields.StringField({ initial: '2' }),
+        targetFilter: new fields.StringField({ initial: 'allies' }),
+        isHoT: new fields.BooleanField({ initial: false }),
+        hotRounds: new fields.NumberField({ integer: true, min: 1, initial: 3 }),
+        cleanseDebuffs: new fields.ArrayField(new fields.StringField(), { initial: [] })
+      }),
       aiFavor: new fields.NumberField({ integer: true, initial: 0 }),
       favored: new fields.StringField({ initial: '' }),
       limitations: new fields.StringField({ initial: '' }),
@@ -45,11 +54,18 @@ export class SpellDataModel extends BaseItemDataModel {
       }),
       rankBreaks: new fields.SchemaField({
         rank5: new fields.SchemaField({
+          rank: new fields.NumberField({ integer: true, min: 1, max: 20, initial: 5 }),
+          critMultiplier: new fields.NumberField({ integer: true, min: 1, initial: 1 }),
           damageDice: new fields.StringField({ initial: '' }),
           rankDamageDice: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
           buffsResistances: new fields.StringField({ initial: '' }),
           debuff: new fields.StringField({ initial: '' }),
           notes: new fields.StringField({ initial: '' }),
+          isArmorPiercing: new fields.BooleanField({ initial: false }),
+          healing: new fields.SchemaField({
+            barsBonus: new fields.NumberField({ integer: true, initial: 0 }),
+            cleanseDebuff: new fields.StringField({ initial: '' })
+          }),
           area: new fields.SchemaField({
             radiusBonus: new fields.NumberField({ integer: true, initial: 0 })
           }),
@@ -58,11 +74,18 @@ export class SpellDataModel extends BaseItemDataModel {
           })
         }),
         rank10: new fields.SchemaField({
+          rank: new fields.NumberField({ integer: true, min: 1, max: 20, initial: 10 }),
+          critMultiplier: new fields.NumberField({ integer: true, min: 1, initial: 1 }),
           damageDice: new fields.StringField({ initial: '' }),
           rankDamageDice: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
           buffsResistances: new fields.StringField({ initial: '' }),
           debuff: new fields.StringField({ initial: '' }),
           notes: new fields.StringField({ initial: '' }),
+          isArmorPiercing: new fields.BooleanField({ initial: false }),
+          healing: new fields.SchemaField({
+            barsBonus: new fields.NumberField({ integer: true, initial: 0 }),
+            cleanseDebuff: new fields.StringField({ initial: '' })
+          }),
           area: new fields.SchemaField({
             radiusBonus: new fields.NumberField({ integer: true, initial: 0 })
           }),
@@ -71,11 +94,18 @@ export class SpellDataModel extends BaseItemDataModel {
           })
         }),
         rank15: new fields.SchemaField({
+          rank: new fields.NumberField({ integer: true, min: 1, max: 20, initial: 15 }),
+          critMultiplier: new fields.NumberField({ integer: true, min: 1, initial: 1 }),
           damageDice: new fields.StringField({ initial: '' }),
           rankDamageDice: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
           buffsResistances: new fields.StringField({ initial: '' }),
           debuff: new fields.StringField({ initial: '' }),
           notes: new fields.StringField({ initial: '' }),
+          isArmorPiercing: new fields.BooleanField({ initial: false }),
+          healing: new fields.SchemaField({
+            barsBonus: new fields.NumberField({ integer: true, initial: 0 }),
+            cleanseDebuff: new fields.StringField({ initial: '' })
+          }),
           area: new fields.SchemaField({
             radiusBonus: new fields.NumberField({ integer: true, initial: 0 })
           }),
@@ -84,11 +114,18 @@ export class SpellDataModel extends BaseItemDataModel {
           })
         }),
         rank20: new fields.SchemaField({
+          rank: new fields.NumberField({ integer: true, min: 1, max: 20, initial: 20 }),
+          critMultiplier: new fields.NumberField({ integer: true, min: 1, initial: 1 }),
           damageDice: new fields.StringField({ initial: '' }),
           rankDamageDice: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
           buffsResistances: new fields.StringField({ initial: '' }),
           debuff: new fields.StringField({ initial: '' }),
           notes: new fields.StringField({ initial: '' }),
+          isArmorPiercing: new fields.BooleanField({ initial: false }),
+          healing: new fields.SchemaField({
+            barsBonus: new fields.NumberField({ integer: true, initial: 0 }),
+            cleanseDebuff: new fields.StringField({ initial: '' })
+          }),
           area: new fields.SchemaField({
             radiusBonus: new fields.NumberField({ integer: true, initial: 0 })
           }),

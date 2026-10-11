@@ -2545,10 +2545,10 @@ export class DCCActor extends BaseActor {
 
     if (sys.rankBreaks) {
       const breaks = [
-        { thresh: 5, key: 'rank5', data: sys.rankBreaks.rank5, label: 'Rank 5' },
-        { thresh: 10, key: 'rank10', data: sys.rankBreaks.rank10, label: 'Rank 10' },
-        { thresh: 15, key: 'rank15', data: sys.rankBreaks.rank15, label: 'Rank 15' },
-        { thresh: 20, key: 'rank20', data: sys.rankBreaks.rank20, label: 'Rank 20' }
+        { thresh: Number(sys.rankBreaks.rank5?.rank) || 5, key: 'rank5', data: sys.rankBreaks.rank5, label: `Rank ${Number(sys.rankBreaks.rank5?.rank) || 5}` },
+        { thresh: Number(sys.rankBreaks.rank10?.rank) || 10, key: 'rank10', data: sys.rankBreaks.rank10, label: `Rank ${Number(sys.rankBreaks.rank10?.rank) || 10}` },
+        { thresh: Number(sys.rankBreaks.rank15?.rank) || 15, key: 'rank15', data: sys.rankBreaks.rank15, label: `Rank ${Number(sys.rankBreaks.rank15?.rank) || 15}` },
+        { thresh: Number(sys.rankBreaks.rank20?.rank) || 20, key: 'rank20', data: sys.rankBreaks.rank20, label: `Rank ${Number(sys.rankBreaks.rank20?.rank) || 20}` }
       ];
       for (const b of breaks) {
         if (rank >= b.thresh && b.data) {
@@ -3107,7 +3107,7 @@ export class DCCActor extends BaseActor {
     let upgradedDice = '';
     let extraWeaponRankDiceCount = 0;
     const baseDiceCandidate = matchingSkill?.system?.baseDamage || sys.damageDice || sys.damageParts?.[0]?.dice || '';
-    if ((matchingSkill || sys.rankBreaks) && skillRank >= 5) {
+    if ((matchingSkill || sys.rankBreaks) && skillRank >= 1) {
       const dm = baseDiceCandidate.match(/(\d+)d(\d+)/i);
       if (dm) {
         let count = parseInt(dm[1], 10);
@@ -3118,10 +3118,10 @@ export class DCCActor extends BaseActor {
         const rb = matchingSkill?.system?.rankBreaks || sys.rankBreaks;
         if (rb) {
           const breaks = [
-            { thresh: 5, key: 'rank5', data: rb.rank5 },
-            { thresh: 10, key: 'rank10', data: rb.rank10 },
-            { thresh: 15, key: 'rank15', data: rb.rank15 },
-            { thresh: 20, key: 'rank20', data: rb.rank20 }
+            { thresh: Number(rb.rank5?.rank) || 5, key: 'rank5', data: rb.rank5 },
+            { thresh: Number(rb.rank10?.rank) || 10, key: 'rank10', data: rb.rank10 },
+            { thresh: Number(rb.rank15?.rank) || 15, key: 'rank15', data: rb.rank15 },
+            { thresh: Number(rb.rank20?.rank) || 20, key: 'rank20', data: rb.rank20 }
           ];
           for (const b of breaks) {
             if (skillRank >= b.thresh && b.data) {
@@ -3879,10 +3879,14 @@ export class DCCActor extends BaseActor {
     // Rank break extra dice
     const activeRankBreaks = matchingSkill?.system?.rankBreaks || sys.rankBreaks;
     if (activeRankBreaks) {
-      if (skillRank >= 5 && activeRankBreaks.rank5?.damageDice) combinedDice += ` + ${activeRankBreaks.rank5.damageDice.replace(/^\+/, '')}`;
-      if (skillRank >= 10 && activeRankBreaks.rank10?.damageDice) combinedDice += ` + ${activeRankBreaks.rank10.damageDice.replace(/^\+/, '')}`;
-      if (skillRank >= 15 && activeRankBreaks.rank15?.damageDice) combinedDice += ` + ${activeRankBreaks.rank15.damageDice.replace(/^\+/, '')}`;
-      if (skillRank >= 20 && activeRankBreaks.rank20?.damageDice) combinedDice += ` + ${activeRankBreaks.rank20.damageDice.replace(/^\+/, '')}`;
+      const r5Thresh = Number(activeRankBreaks.rank5?.rank) || 5;
+      const r10Thresh = Number(activeRankBreaks.rank10?.rank) || 10;
+      const r15Thresh = Number(activeRankBreaks.rank15?.rank) || 15;
+      const r20Thresh = Number(activeRankBreaks.rank20?.rank) || 20;
+      if (skillRank >= r5Thresh && activeRankBreaks.rank5?.damageDice) combinedDice += ` + ${activeRankBreaks.rank5.damageDice.replace(/^\+/, '')}`;
+      if (skillRank >= r10Thresh && activeRankBreaks.rank10?.damageDice) combinedDice += ` + ${activeRankBreaks.rank10.damageDice.replace(/^\+/, '')}`;
+      if (skillRank >= r15Thresh && activeRankBreaks.rank15?.damageDice) combinedDice += ` + ${activeRankBreaks.rank15.damageDice.replace(/^\+/, '')}`;
+      if (skillRank >= r20Thresh && activeRankBreaks.rank20?.damageDice) combinedDice += ` + ${activeRankBreaks.rank20.damageDice.replace(/^\+/, '')}`;
     }
 
     // Include extra weapon damage parts additively
@@ -3937,11 +3941,35 @@ export class DCCActor extends BaseActor {
       .trim();
     const displayDamage = `${cleanFormula}${typeStr}${extra}`;
 
-    const critMult = (skillRank >= 15 && matchingSkill?.system?.critMultiplierR15) ? matchingSkill.system.critMultiplierR15
-      : ((skillRank >= 5 && matchingSkill?.system?.critMultiplierR5) ? matchingSkill.system.critMultiplierR5 : (sys.critMultiplier !== undefined ? Number(sys.critMultiplier) : 2));
+    let critMult = (sys.critMultiplier !== undefined) ? Number(sys.critMultiplier) : 2;
+    let critRankReached = skillRank >= 15 ? 15 : 5;
+    if (matchingSkill?.system?.rankBreaks) {
+      const sRb = matchingSkill.system.rankBreaks;
+      const sBreaks = [
+        { thresh: Number(sRb.rank5?.rank) || 5, mult: Number(sRb.rank5?.critMultiplier) || 1 },
+        { thresh: Number(sRb.rank10?.rank) || 10, mult: Number(sRb.rank10?.critMultiplier) || 1 },
+        { thresh: Number(sRb.rank15?.rank) || 15, mult: Number(sRb.rank15?.critMultiplier) || 1 },
+        { thresh: Number(sRb.rank20?.rank) || 20, mult: Number(sRb.rank20?.critMultiplier) || 1 }
+      ].sort((a, b) => a.thresh - b.thresh);
+      for (const sb of sBreaks) {
+        if (skillRank >= sb.thresh && sb.mult > 1) {
+          critMult = sb.mult;
+          critRankReached = sb.thresh;
+        }
+      }
+    }
+    if (critMult === 2 || critMult === Number(sys.critMultiplier)) {
+      if (skillRank >= 15 && matchingSkill?.system?.critMultiplierR15) {
+        critMult = Number(matchingSkill.system.critMultiplierR15);
+        critRankReached = 15;
+      } else if (skillRank >= 5 && matchingSkill?.system?.critMultiplierR5) {
+        critMult = Number(matchingSkill.system.critMultiplierR5);
+        critRankReached = 5;
+      }
+    }
     let effects = sys.effects || sys.notes || '';
     if (critMult > 1) {
-      effects = effects ? `${critMult}x Crit (R${skillRank >= 15 ? 15 : 5}). ${effects}` : `${critMult}x Crit (R${skillRank >= 15 ? 15 : 5})`;
+      effects = effects ? `${critMult}x Crit (R${critRankReached}). ${effects}` : `${critMult}x Crit (R${critRankReached})`;
     }
 
     return {
@@ -4080,12 +4108,38 @@ export class DCCActor extends BaseActor {
       .trim();
     const displayDamage = `${cleanFormula} (${damageType})`;
 
-    const critMult = (rank >= 15 && sys.critMultiplierR15) ? sys.critMultiplierR15
-      : ((rank >= 5 && sys.critMultiplierR5) ? sys.critMultiplierR5 : (rank >= 5 ? 4 : 2));
+    let critMult = 2;
+    let critRankReached = rank >= 15 ? 15 : 5;
+    if (sys.rankBreaks) {
+      const sBreaks = [
+        { thresh: Number(sys.rankBreaks.rank5?.rank) || 5, mult: Number(sys.rankBreaks.rank5?.critMultiplier) || 1 },
+        { thresh: Number(sys.rankBreaks.rank10?.rank) || 10, mult: Number(sys.rankBreaks.rank10?.critMultiplier) || 1 },
+        { thresh: Number(sys.rankBreaks.rank15?.rank) || 15, mult: Number(sys.rankBreaks.rank15?.critMultiplier) || 1 },
+        { thresh: Number(sys.rankBreaks.rank20?.rank) || 20, mult: Number(sys.rankBreaks.rank20?.critMultiplier) || 1 }
+      ].sort((a, b) => a.thresh - b.thresh);
+      for (const sb of sBreaks) {
+        if (rank >= sb.thresh && sb.mult > 1) {
+          critMult = sb.mult;
+          critRankReached = sb.thresh;
+        }
+      }
+    }
+    if (critMult === 2) {
+      if (rank >= 15 && sys.critMultiplierR15) {
+        critMult = Number(sys.critMultiplierR15);
+        critRankReached = 15;
+      } else if (rank >= 5 && sys.critMultiplierR5) {
+        critMult = Number(sys.critMultiplierR5);
+        critRankReached = 5;
+      } else if (rank >= 5) {
+        critMult = 4;
+        critRankReached = 5;
+      }
+    }
 
     let effects = sys.notes || '';
     if (critMult > 2) {
-      effects = `${critMult}x Crit (R${rank >= 15 ? 15 : 5}). ${effects}`;
+      effects = `${critMult}x Crit (R${critRankReached}). ${effects}`;
     }
 
     const validEffects = typeof this.getValidDamageEffects === 'function' ? this.getValidDamageEffects(skill) : [];
@@ -4623,21 +4677,64 @@ export class DCCActor extends BaseActor {
       const { matchingSkill: matchedSkill } = this._resolveWeaponSkills(attackItem);
       if (matchedSkill) {
         const skillRank = Math.max(Number(matchedSkill.modifiedRank) || 0, Number(matchedSkill.system?.modifiedRank) || 0, Number(matchedSkill.system?.rank) || 0);
-        if (matchedSkill.system?.critMultiplierR15 && skillRank >= 15) {
+        const rb = matchedSkill.system?.rankBreaks;
+        if (rb) {
+          const sBreaks = [
+            { thresh: Number(rb.rank5?.rank) || 5, data: rb.rank5 },
+            { thresh: Number(rb.rank10?.rank) || 10, data: rb.rank10 },
+            { thresh: Number(rb.rank15?.rank) || 15, data: rb.rank15 },
+            { thresh: Number(rb.rank20?.rank) || 20, data: rb.rank20 }
+          ].sort((a, b) => a.thresh - b.thresh);
+          for (const sb of sBreaks) {
+            if (skillRank >= sb.thresh && sb.data) {
+              if (sb.data.critMultiplier && Number(sb.data.critMultiplier) > 1) {
+                critMultiplier = Number(sb.data.critMultiplier);
+              }
+              if (sb.data.debuff && !onHitDebuffs.includes(sb.data.debuff)) {
+                onHitDebuffs.push(sb.data.debuff);
+              }
+            }
+          }
+        }
+        if (matchedSkill.system?.critMultiplierR15 && skillRank >= 15 && critMultiplier === 2) {
           critMultiplier = Number(matchedSkill.system.critMultiplierR15);
-        } else if (matchedSkill.system?.critMultiplierR5 && skillRank >= 5) {
+        } else if (matchedSkill.system?.critMultiplierR5 && skillRank >= 5 && critMultiplier === 2) {
           critMultiplier = Number(matchedSkill.system.critMultiplierR5);
         }
         if (matchedSkill.system?.onHitDebuff && skillRank >= (Number(matchedSkill.system?.onHitDebuffMinRank) || 0)) {
           onHitDebuffs.push(matchedSkill.system.onHitDebuff);
         }
-        const rb = matchedSkill.system?.rankBreaks;
-        if (rb) {
-          if (skillRank >= 5 && rb.rank5?.debuff && !onHitDebuffs.includes(rb.rank5.debuff)) onHitDebuffs.push(rb.rank5.debuff);
-          if (skillRank >= 10 && rb.rank10?.debuff && !onHitDebuffs.includes(rb.rank10.debuff)) onHitDebuffs.push(rb.rank10.debuff);
-          if (skillRank >= 15 && rb.rank15?.debuff && !onHitDebuffs.includes(rb.rank15.debuff)) onHitDebuffs.push(rb.rank15.debuff);
-          if (skillRank >= 20 && rb.rank20?.debuff && !onHitDebuffs.includes(rb.rank20.debuff)) onHitDebuffs.push(rb.rank20.debuff);
+      }
+
+      // Check for Armor Piercing / Ignore DR
+      const attackTags = attackItem.allTags || (typeof getItemAllTags === 'function' ? getItemAllTags(attackItem) : new Set(attackItem.system?.tags || []));
+      let isArmorPiercing = Boolean(
+        attackItem.system?.ignoreDR ||
+        attackItem.system?.isArmorPiercing ||
+        attackTags.has('action.armor_piercing') ||
+        attackTags.has('action.ignore_dr')
+      );
+
+      if (matchedSkill) {
+        const sRank = Math.max(Number(matchedSkill.modifiedRank) || 0, Number(matchedSkill.system?.modifiedRank) || 0, Number(matchedSkill.system?.rank) || 0);
+        const sRb = matchedSkill.system?.rankBreaks;
+        if (sRb) {
+          if (sRank >= (Number(sRb.rank5?.rank) || 5) && sRb.rank5?.isArmorPiercing) isArmorPiercing = true;
+          if (sRank >= (Number(sRb.rank10?.rank) || 10) && sRb.rank10?.isArmorPiercing) isArmorPiercing = true;
+          if (sRank >= (Number(sRb.rank15?.rank) || 15) && sRb.rank15?.isArmorPiercing) isArmorPiercing = true;
+          if (sRank >= (Number(sRb.rank20?.rank) || 20) && sRb.rank20?.isArmorPiercing) isArmorPiercing = true;
         }
+      }
+
+      for (const t of activeTechs) {
+        if (t.isArmorPiercing || t.system?.techniqueConfig?.isArmorPiercing || t.techniqueConfig?.isArmorPiercing) {
+          isArmorPiercing = true;
+        }
+      }
+
+      const equippedGear = (this.items || []).filter(i => i.type === 'gear' && i.system?.equipped);
+      for (const w of equippedGear) {
+        if (w.system?.ignoreDR || w.system?.isArmorPiercing) isArmorPiercing = true;
       }
 
       const cardContent = `
@@ -4648,12 +4745,14 @@ export class DCCActor extends BaseActor {
           data-damage-value="${totalRawDamage}"
           data-typed-damage='${typedDamageJson}'
           data-damage-effect="${chosenEffect || 'none'}"
-          data-attack-type="${attackItem.type || 'attack'}">
+          data-attack-type="${attackItem.type || 'attack'}"
+          data-is-armor-piercing="${isArmorPiercing}">
           <div class="dcc-damage-card-header">
             <strong>${this.name}</strong>: ${attackItem.name} Damage
             ${chosenEffect && chosenEffect !== 'none' ? `<span style="background: #c0392b; color: #fff; font-size: 10px; padding: 1px 5px; border-radius: 3px; margin-left: 6px; text-transform: uppercase;">${chosenEffect}</span>` : ''}
             ${chosenEffect === 'none' && favorBonus > 0 ? `<span style="background: #27ae60; color: #fff; font-size: 10px; padding: 1px 5px; border-radius: 3px; margin-left: 6px; text-transform: uppercase;">+${favorBonus} AI Favor</span>` : ''}
             ${activeTechs.map(t => `<span class="dcc-technique-badge" style="background: #d35400; color: #fff; font-size: 10px; padding: 1px 5px; border-radius: 3px; margin-left: 4px; text-transform: uppercase;">⚡ ${t.name}</span>`).join('')}
+            ${isArmorPiercing ? `<span class="dcc-armor-piercing-badge" style="background: #2c3e50; color: #f1c40f; border: 1px solid #f1c40f; font-size: 10px; padding: 1px 5px; border-radius: 3px; margin-left: 4px; font-weight: bold; text-transform: uppercase;"><i class="fa-solid fa-shield-halved"></i> [ARMOR-PIERCING]</span>` : ''}
           </div>
           <div class="dcc-damage-card-result" style="margin: 6px 0;">
             <span class="dcc-damage-value" style="font-size: 20px; font-weight: bold; color: #c0392b;">${totalRawDamage}</span>
@@ -4664,8 +4763,8 @@ export class DCCActor extends BaseActor {
           </div>
           ${sys.effects ? `<div class="dcc-damage-effects" style="font-size: 11px; margin-bottom: 6px;"><em>${sys.effects}</em></div>` : ''}
           <div class="dcc-damage-actions">
-            <button type="button" class="dcc-apply-damage-btn" data-multiplier="1" title="Apply damage to targeted token(s), deducting their DR">
-              <i class="fa-solid fa-crosshairs"></i> Apply to Target(s)
+            <button type="button" class="dcc-apply-damage-btn" data-multiplier="1" ${isArmorPiercing ? 'data-ignore-dr="true"' : ''} title="Apply damage to targeted token(s)${isArmorPiercing ? ' (Armor-Piercing: Ignores DR)' : ', deducting their DR'}">
+              <i class="fa-solid fa-crosshairs"></i> Apply to Target(s) ${isArmorPiercing ? '(Ignores DR)' : ''}
             </button>
             <div class="dcc-damage-sub-actions">
               <button type="button" class="dcc-apply-damage-btn" data-multiplier="0.5" title="Apply half damage">Half</button>
@@ -4709,7 +4808,8 @@ export class DCCActor extends BaseActor {
             aiFavorBonus: (chosenEffect === 'none' && favorBonus > 0) ? favorBonus : 0,
             rawDamage: totalRawDamage,
             typedDamage,
-            parts: evaluatedParts
+            parts: evaluatedParts,
+            critMultiplier
           }
         }
       });
@@ -4819,22 +4919,23 @@ export class DCCActor extends BaseActor {
       radius = 5;
     }
 
-    // Add cumulative bonuses at Rank 5, Rank 10, Rank 15, and Rank 20
-    if (rank >= 5) {
-      const r5Bonus = Number(rankBreaksConfig?.rank5?.area?.radiusBonus ?? sys.rankBreaks?.rank5?.area?.radiusBonus) || 0;
-      radius += r5Bonus;
+    // Add cumulative bonuses based on rank break milestones
+    const r5 = rankBreaksConfig?.rank5 ?? sys.rankBreaks?.rank5;
+    const r10 = rankBreaksConfig?.rank10 ?? sys.rankBreaks?.rank10;
+    const r15 = rankBreaksConfig?.rank15 ?? sys.rankBreaks?.rank15;
+    const r20 = rankBreaksConfig?.rank20 ?? sys.rankBreaks?.rank20;
+
+    if (r5 && rank >= (Number(r5.rank) || 5)) {
+      radius += Number(r5.area?.radiusBonus) || 0;
     }
-    if (rank >= 10) {
-      const r10Bonus = Number(rankBreaksConfig?.rank10?.area?.radiusBonus ?? sys.rankBreaks?.rank10?.area?.radiusBonus) || 0;
-      radius += r10Bonus;
+    if (r10 && rank >= (Number(r10.rank) || 10)) {
+      radius += Number(r10.area?.radiusBonus) || 0;
     }
-    if (rank >= 15) {
-      const r15Bonus = Number(rankBreaksConfig?.rank15?.area?.radiusBonus ?? sys.rankBreaks?.rank15?.area?.radiusBonus) || 0;
-      radius += r15Bonus;
+    if (r15 && rank >= (Number(r15.rank) || 15)) {
+      radius += Number(r15.area?.radiusBonus) || 0;
     }
-    if (rank >= 20) {
-      const r20Bonus = Number(rankBreaksConfig?.rank20?.area?.radiusBonus ?? sys.rankBreaks?.rank20?.area?.radiusBonus) || 0;
-      radius += r20Bonus;
+    if (r20 && rank >= (Number(r20.rank) || 20)) {
+      radius += Number(r20.area?.radiusBonus) || 0;
     }
 
     // 2. Calculate temporary health bars if configured
@@ -4860,14 +4961,22 @@ export class DCCActor extends BaseActor {
       }
       slots = Math.max(1, slots);
 
-      if (rank >= 20 && (rankBreaksConfig?.rank20?.tempBars?.hpPerSlot || sys.rankBreaks?.rank20?.tempBars?.hpPerSlot)) {
-        hpPerSlot = Number(rankBreaksConfig?.rank20?.tempBars?.hpPerSlot ?? sys.rankBreaks?.rank20?.tempBars?.hpPerSlot);
-      } else if (rank >= 15 && (rankBreaksConfig?.rank15?.tempBars?.hpPerSlot || sys.rankBreaks?.rank15?.tempBars?.hpPerSlot)) {
-        hpPerSlot = Number(rankBreaksConfig?.rank15?.tempBars?.hpPerSlot ?? sys.rankBreaks?.rank15?.tempBars?.hpPerSlot);
-      } else if (rank >= 10 && (rankBreaksConfig?.rank10?.tempBars?.hpPerSlot || sys.rankBreaks?.rank10?.tempBars?.hpPerSlot)) {
-        hpPerSlot = Number(rankBreaksConfig?.rank10?.tempBars?.hpPerSlot ?? sys.rankBreaks?.rank10?.tempBars?.hpPerSlot);
-      } else if (rank >= 5 && (rankBreaksConfig?.rank5?.tempBars?.hpPerSlot || sys.rankBreaks?.rank5?.tempBars?.hpPerSlot)) {
-        hpPerSlot = Number(rankBreaksConfig?.rank5?.tempBars?.hpPerSlot ?? sys.rankBreaks?.rank5?.tempBars?.hpPerSlot);
+      const tempBreaks = [
+        { thresh: Number(r5?.rank) || 5, hp: Number(r5?.tempBars?.hpPerSlot) || 0 },
+        { thresh: Number(r10?.rank) || 10, hp: Number(r10?.tempBars?.hpPerSlot) || 0 },
+        { thresh: Number(r15?.rank) || 15, hp: Number(r15?.tempBars?.hpPerSlot) || 0 },
+        { thresh: Number(r20?.rank) || 20, hp: Number(r20?.tempBars?.hpPerSlot) || 0 }
+      ].sort((a, b) => b.thresh - a.thresh);
+
+      let breakHpPerSlot = 0;
+      for (const tb of tempBreaks) {
+        if (rank >= tb.thresh && tb.hp > 0) {
+          breakHpPerSlot = tb.hp;
+          break;
+        }
+      }
+      if (breakHpPerSlot > 0) {
+        hpPerSlot = breakHpPerSlot;
       } else {
         hpPerSlot = Number(tempBarsConfig?.hpPerSlot ?? sys.tempBars?.hpPerSlot) || 2;
       }
@@ -5023,10 +5132,12 @@ export class DCCActor extends BaseActor {
     let radius = Number(options.radius ?? areaConfig.radius ?? sys.area?.radius);
     if (!Number.isFinite(radius) || radius <= 0) radius = 5;
 
-    if (options.radius === undefined) {
-      if (rank >= 10) radius += Number(sys.rankBreaks?.rank10?.area?.radiusBonus || 0);
-      if (rank >= 15) radius += Number(sys.rankBreaks?.rank15?.area?.radiusBonus || 0);
-      if (rank >= 20) radius += Number(sys.rankBreaks?.rank20?.area?.radiusBonus || 0);
+    if (options.radius === undefined && sys.rankBreaks) {
+      const rb = sys.rankBreaks;
+      if (rb.rank5 && rank >= (Number(rb.rank5.rank) || 5)) radius += Number(rb.rank5.area?.radiusBonus || 0);
+      if (rb.rank10 && rank >= (Number(rb.rank10.rank) || 10)) radius += Number(rb.rank10.area?.radiusBonus || 0);
+      if (rb.rank15 && rank >= (Number(rb.rank15.rank) || 15)) radius += Number(rb.rank15.area?.radiusBonus || 0);
+      if (rb.rank20 && rank >= (Number(rb.rank20.rank) || 20)) radius += Number(rb.rank20.area?.radiusBonus || 0);
     }
 
     const filter = (areaConfig.targetFilter || sys.area?.targetFilter || 'allies').toLowerCase();
@@ -5810,8 +5921,98 @@ export class DCCActor extends BaseActor {
       `;
     }
 
+    let healHtml = '';
+    const hasHealing = Boolean(
+      sys.healing?.hasHealing ||
+      skillTags.has('action.heal')
+    );
+    if (hasHealing) {
+      const hpPerBar = getHpPerBar(this);
+      const effectiveRank = modifiedRank || 1;
+      let barsToHeal = 1;
+      const formulaRaw = (sys.healing?.barsFormula || '1').toString().trim().toLowerCase();
+      if (/^\d+$/.test(formulaRaw)) {
+        barsToHeal = parseInt(formulaRaw, 10);
+      } else {
+        let calculated = 0;
+        const tokens = formulaRaw.split('+').map(t => t.trim());
+        for (const t of tokens) {
+          if (/^\d+$/.test(t)) calculated += parseInt(t, 10);
+          else if (['con', 'int', 'cha', 'str', 'dex'].includes(t)) calculated += Number(this.system?.abilities?.[t]?.mod) || 0;
+        }
+        barsToHeal = Math.max(1, calculated);
+      }
+
+      const rb = sys.rankBreaks;
+      if (rb) {
+        if (effectiveRank >= (Number(rb.rank5?.rank) || 5) && rb.rank5?.healing?.barsBonus) barsToHeal += Number(rb.rank5.healing.barsBonus);
+        if (effectiveRank >= (Number(rb.rank10?.rank) || 10) && rb.rank10?.healing?.barsBonus) barsToHeal += Number(rb.rank10.healing.barsBonus);
+        if (effectiveRank >= (Number(rb.rank15?.rank) || 15) && rb.rank15?.healing?.barsBonus) barsToHeal += Number(rb.rank15.healing.barsBonus);
+        if (effectiveRank >= (Number(rb.rank20?.rank) || 20) && rb.rank20?.healing?.barsBonus) barsToHeal += Number(rb.rank20.healing.barsBonus);
+      }
+
+      const debuffsToCleanse = [];
+      if (Array.isArray(sys.healing?.cleanseDebuffs)) debuffsToCleanse.push(...sys.healing.cleanseDebuffs.filter(Boolean));
+      if (rb) {
+        if (effectiveRank >= (Number(rb.rank5?.rank) || 5) && rb.rank5?.healing?.cleanseDebuff) debuffsToCleanse.push(rb.rank5.healing.cleanseDebuff.trim());
+        if (effectiveRank >= (Number(rb.rank10?.rank) || 10) && rb.rank10?.healing?.cleanseDebuff) debuffsToCleanse.push(rb.rank10.healing.cleanseDebuff.trim());
+        if (effectiveRank >= (Number(rb.rank15?.rank) || 15) && rb.rank15?.healing?.cleanseDebuff) debuffsToCleanse.push(rb.rank15.healing.cleanseDebuff.trim());
+        if (effectiveRank >= (Number(rb.rank20?.rank) || 20) && rb.rank20?.healing?.cleanseDebuff) debuffsToCleanse.push(rb.rank20.healing.cleanseDebuff.trim());
+      }
+
+      const isSelfTarget = sys.healing?.targetFilter === 'self' || options.target === 'self';
+      const isHoT = Boolean(sys.healing?.isHoT);
+      const hotRounds = Number(sys.healing?.hotRounds) || 3;
+      let actualHealed = 0;
+      let cleansedDebuffs = [];
+      if (isSelfTarget) {
+        if (isHoT) {
+          await this.applyHoT({ name: `${skillItem.name} (HoT)`, healBars: barsToHeal, rounds: hotRounds });
+        } else {
+          const res = await this.applyHealingBars(barsToHeal);
+          actualHealed = res.actualHealed;
+        }
+        for (const deb of debuffsToCleanse) {
+          const c = await this.cleanseDebuff(deb);
+          cleansedDebuffs.push(...c);
+        }
+      }
+
+      healHtml = `
+        <div class="dcc-heal-effect" style="margin: 8px 0; padding: 8px 10px; background: #eafaf1; border: 1px solid #2ecc71; border-radius: 4px; color: #1e8449; font-size: 12px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-heart-pulse" style="font-size: 20px; color: #27ae60;"></i>
+            <div style="flex: 1;">
+              <div style="font-weight: bold; font-size: 13px;">
+                ${isSelfTarget ? (isHoT ? `Applied HoT: +${barsToHeal} Bars/Round for ${hotRounds} Rounds` : (actualHealed > 0 ? `Healed +${actualHealed} HP` : 'Already at Full Health')) : `Restores +${barsToHeal} Health Bar Slots (${barsToHeal * hpPerBar} HP)`}
+                <span style="font-weight: normal; font-size: 11px; color: #27ae60;">(${barsToHeal} Bar${barsToHeal > 1 ? 's' : ''} • Target: ${sys.healing?.targetFilter || 'allies'})</span>
+              </div>
+              ${cleansedDebuffs.length ? `<div style="font-size: 11px; color: #16a085; margin-top: 2px;"><i class="fa-solid fa-sparkles"></i> Cleansed: <strong>[${cleansedDebuffs.join(', ')}]</strong></div>` : ''}
+              ${debuffsToCleanse.length && !cleansedDebuffs.length ? `<div style="font-size: 11px; color: #16a085; margin-top: 2px;"><i class="fa-solid fa-sparkles"></i> Cures: <strong>[${debuffsToCleanse.join(', ')}]</strong></div>` : ''}
+            </div>
+          </div>
+          <div class="dcc-healing-actions" style="margin-top: 8px; display: flex; flex-direction: column; gap: 4px;">
+            ${!isHoT ? `
+              <button type="button" class="dcc-apply-healing-btn" data-bars="${barsToHeal}" data-target-id="${this.id}" style="width: 100%; background: #27ae60; color: #fff; border: 1px solid #1e8449; border-radius: 3px; padding: 4px; font-size: 11px; cursor: pointer; font-weight: bold; font-family: var(--font-primary, sans-serif);">
+                <i class="fa-solid fa-heart-pulse"></i> Apply Healing (+${barsToHeal} Health Bar${barsToHeal > 1 ? 's' : ''})
+              </button>
+            ` : `
+              <button type="button" class="dcc-apply-hot-btn" data-bars="${barsToHeal}" data-rounds="${hotRounds}" data-name="${skillItem.name}" data-target-id="${this.id}" style="width: 100%; background: #2980b9; color: #fff; border: 1px solid #1f618d; border-radius: 3px; padding: 4px; font-size: 11px; cursor: pointer; font-weight: bold; font-family: var(--font-primary, sans-serif);">
+                <i class="fa-solid fa-clock-rotate-left"></i> Apply HoT (+${barsToHeal} Bars/Round for ${hotRounds} Rounds)
+              </button>
+            `}
+            ${debuffsToCleanse.map(deb => `
+              <button type="button" class="dcc-cleanse-debuff-btn" data-debuff-name="${deb}" data-target-id="${this.id}" style="width: 100%; background: #16a085; color: #fff; border: 1px solid #117a65; border-radius: 3px; padding: 4px; font-size: 11px; cursor: pointer; font-weight: bold; font-family: var(--font-primary, sans-serif);">
+                <i class="fa-solid fa-sparkles"></i> Cleanse [${deb}]
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
     const rollHtml = typeof roll.render === 'function' ? await roll.render() : '';
-    const content = `${rollHtml || ''}${dmgBtnHtml || ''}${auraHtml || ''}`.trim() || undefined;
+    const content = `${rollHtml || ''}${dmgBtnHtml || ''}${auraHtml || ''}${healHtml || ''}`.trim() || undefined;
 
     return roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor: this }),
@@ -5869,10 +6070,10 @@ export class DCCActor extends BaseActor {
 
     if (sys.rankBreaks) {
       const breaks = [
-        { thresh: 5, key: 'rank5', data: sys.rankBreaks.rank5, label: 'Rank 5' },
-        { thresh: 10, key: 'rank10', data: sys.rankBreaks.rank10, label: 'Rank 10' },
-        { thresh: 15, key: 'rank15', data: sys.rankBreaks.rank15, label: 'Rank 15' },
-        { thresh: 20, key: 'rank20', data: sys.rankBreaks.rank20, label: 'Rank 20' }
+        { thresh: Number(sys.rankBreaks.rank5?.rank) || 5, key: 'rank5', data: sys.rankBreaks.rank5, label: `Rank ${Number(sys.rankBreaks.rank5?.rank) || 5}` },
+        { thresh: Number(sys.rankBreaks.rank10?.rank) || 10, key: 'rank10', data: sys.rankBreaks.rank10, label: `Rank ${Number(sys.rankBreaks.rank10?.rank) || 10}` },
+        { thresh: Number(sys.rankBreaks.rank15?.rank) || 15, key: 'rank15', data: sys.rankBreaks.rank15, label: `Rank ${Number(sys.rankBreaks.rank15?.rank) || 15}` },
+        { thresh: Number(sys.rankBreaks.rank20?.rank) || 20, key: 'rank20', data: sys.rankBreaks.rank20, label: `Rank ${Number(sys.rankBreaks.rank20?.rank) || 20}` }
       ];
       for (const b of breaks) {
         if (rank >= b.thresh && b.data) {
@@ -6074,12 +6275,43 @@ export class DCCActor extends BaseActor {
     }
     const effectsStr = effectsList.join(' | ');
 
-    // Dynamic critical multiplier
+    // Dynamic critical multiplier from rankBreaks or legacy settings
     let critMultiplier = (sys.critMultiplier !== undefined) ? Number(sys.critMultiplier) : 2;
-    if (sys.critMultiplierR15 && rank >= 15) {
-      critMultiplier = Number(sys.critMultiplierR15);
-    } else if (sys.critMultiplierR5 && rank >= 5) {
-      critMultiplier = Number(sys.critMultiplierR5);
+    if (sys.rankBreaks) {
+      const breaks = [
+        { thresh: Number(sys.rankBreaks.rank5?.rank) || 5, data: sys.rankBreaks.rank5 },
+        { thresh: Number(sys.rankBreaks.rank10?.rank) || 10, data: sys.rankBreaks.rank10 },
+        { thresh: Number(sys.rankBreaks.rank15?.rank) || 15, data: sys.rankBreaks.rank15 },
+        { thresh: Number(sys.rankBreaks.rank20?.rank) || 20, data: sys.rankBreaks.rank20 }
+      ].sort((a, b) => a.thresh - b.thresh);
+      for (const b of breaks) {
+        if (rank >= b.thresh && b.data?.critMultiplier && Number(b.data.critMultiplier) > 1) {
+          critMultiplier = Number(b.data.critMultiplier);
+        }
+      }
+    }
+    if (critMultiplier === 2) {
+      if (sys.critMultiplierR15 && rank >= 15) {
+        critMultiplier = Number(sys.critMultiplierR15);
+      } else if (sys.critMultiplierR5 && rank >= 5) {
+        critMultiplier = Number(sys.critMultiplierR5);
+      }
+    }
+
+    // Check for Armor Piercing / Ignore DR
+    const spellTags = spellItem.allTags || (typeof getItemAllTags === 'function' ? getItemAllTags(spellItem) : new Set(sys.tags || []));
+    let isArmorPiercing = Boolean(
+      sys.ignoreDR ||
+      sys.isArmorPiercing ||
+      spellTags.has('action.armor_piercing') ||
+      spellTags.has('action.ignore_dr')
+    );
+    const rb = sys.rankBreaks;
+    if (rb) {
+      if (rank >= (Number(rb.rank5?.rank) || 5) && rb.rank5?.isArmorPiercing) isArmorPiercing = true;
+      if (rank >= (Number(rb.rank10?.rank) || 10) && rb.rank10?.isArmorPiercing) isArmorPiercing = true;
+      if (rank >= (Number(rb.rank15?.rank) || 15) && rb.rank15?.isArmorPiercing) isArmorPiercing = true;
+      if (rank >= (Number(rb.rank20?.rank) || 20) && rb.rank20?.isArmorPiercing) isArmorPiercing = true;
     }
 
     // On-hit debuff buttons
@@ -6098,9 +6330,10 @@ export class DCCActor extends BaseActor {
     }
 
     const cardContent = `
-      <div class="dcc-chat-card dcc-damage-card" data-attacker-id="${this.id}" data-item-id="${spellItem.id}" data-item-name="${spellItem.name}" data-damage-value="${roll.total}" data-attack-type="spell">
+      <div class="dcc-chat-card dcc-damage-card" data-attacker-id="${this.id}" data-item-id="${spellItem.id}" data-item-name="${spellItem.name}" data-damage-value="${roll.total}" data-attack-type="spell" data-is-armor-piercing="${isArmorPiercing}">
         <div class="dcc-damage-card-header">
           <strong>${this.name}</strong>: ${spellItem.name} Damage${damageTypeStr}
+          ${isArmorPiercing ? `<span class="dcc-armor-piercing-badge" style="background: #2c3e50; color: #f1c40f; border: 1px solid #f1c40f; font-size: 10px; padding: 1px 5px; border-radius: 3px; margin-left: 4px; font-weight: bold; text-transform: uppercase;"><i class="fa-solid fa-shield-halved"></i> [ARMOR-PIERCING]</span>` : ''}
         </div>
         <div class="dcc-damage-card-result">
           <span class="dcc-damage-value">${roll.total}</span>
@@ -6108,8 +6341,8 @@ export class DCCActor extends BaseActor {
         </div>
         ${effectsStr ? `<div class="dcc-damage-effects"><em>${effectsStr}</em></div>` : ''}
         <div class="dcc-damage-actions">
-          <button type="button" class="dcc-apply-damage-btn" data-multiplier="1" title="Apply damage to targeted token(s), deducting their DR">
-            <i class="fa-solid fa-crosshairs"></i> Apply to Target(s)
+          <button type="button" class="dcc-apply-damage-btn" data-multiplier="1" ${isArmorPiercing ? 'data-ignore-dr="true"' : ''} title="Apply damage to targeted token(s)${isArmorPiercing ? ' (Armor-Piercing: Ignores DR)' : ', deducting their DR'}">
+            <i class="fa-solid fa-crosshairs"></i> Apply to Target(s) ${isArmorPiercing ? '(Ignores DR)' : ''}
           </button>
           <div class="dcc-damage-sub-actions">
             <button type="button" class="dcc-apply-damage-btn" data-multiplier="0.5" title="Apply half damage">Half</button>
@@ -6381,36 +6614,113 @@ export class DCCActor extends BaseActor {
       updates['system.attributes.mana.value'] = newMana;
     }
 
-    // Check if casting Heal (target: self only, heals up to 2 bars of health, capped at max HP)
-    const isHealSpell = spellItem.name?.trim().toLowerCase() === 'heal' ||
-      (sys.spellType === 'Heal' && /2\s*(?:health\s*bar)?\s*slots?/i.test(sys.baseDamage || ''));
+    // Check data-driven healing capabilities
+    const hasHealing = Boolean(
+      sys.healing?.hasHealing ||
+      spellTags.has('action.heal') ||
+      sys.spellType?.toLowerCase() === 'heal' ||
+      (typeof spellItem.name === 'string' && spellItem.name.toLowerCase() === 'heal')
+    );
 
     let healInfo = null;
-    if (isHealSpell) {
+    let cleansedDebuffs = [];
+    if (hasHealing) {
       const hpPerBar = getHpPerBar(this);
-      const barsToHeal = 2;
-      const maxHealAmount = barsToHeal * hpPerBar;
+      const effectiveRank = Math.max(Number(sys.modifiedRank) || 0, Number(sys.rank) || 0, 1);
+
+      // Calculate bars to heal from barsFormula
+      let barsToHeal = 2; // default
+      const formulaRaw = (sys.healing?.barsFormula || (sys.spellType === 'Heal' ? '2' : '1')).toString().trim().toLowerCase();
+      if (/^\d+$/.test(formulaRaw)) {
+        barsToHeal = parseInt(formulaRaw, 10);
+      } else {
+        let calculated = 0;
+        const tokens = formulaRaw.split('+').map(t => t.trim());
+        for (const t of tokens) {
+          if (/^\d+$/.test(t)) {
+            calculated += parseInt(t, 10);
+          } else if (['con', 'int', 'cha', 'str', 'dex'].includes(t)) {
+            calculated += Number(this.system?.abilities?.[t]?.mod) || 0;
+          }
+        }
+        barsToHeal = Math.max(1, calculated);
+      }
+
+      // Add cumulative healing bonuses from rank breaks
+      const rb = sys.rankBreaks;
+      if (rb) {
+        if (effectiveRank >= (Number(rb.rank5?.rank) || 5) && rb.rank5?.healing?.barsBonus) barsToHeal += Number(rb.rank5.healing.barsBonus);
+        if (effectiveRank >= (Number(rb.rank10?.rank) || 10) && rb.rank10?.healing?.barsBonus) barsToHeal += Number(rb.rank10.healing.barsBonus);
+        if (effectiveRank >= (Number(rb.rank15?.rank) || 15) && rb.rank15?.healing?.barsBonus) barsToHeal += Number(rb.rank15.healing.barsBonus);
+        if (effectiveRank >= (Number(rb.rank20?.rank) || 20) && rb.rank20?.healing?.barsBonus) barsToHeal += Number(rb.rank20.healing.barsBonus);
+      }
+
+      // Collect cleanse debuffs
+      const debuffsToCleanse = [];
+      if (Array.isArray(sys.healing?.cleanseDebuffs)) {
+        debuffsToCleanse.push(...sys.healing.cleanseDebuffs.filter(Boolean));
+      }
+      if (rb) {
+        if (effectiveRank >= (Number(rb.rank5?.rank) || 5) && rb.rank5?.healing?.cleanseDebuff) debuffsToCleanse.push(rb.rank5.healing.cleanseDebuff.trim());
+        if (effectiveRank >= (Number(rb.rank10?.rank) || 10) && rb.rank10?.healing?.cleanseDebuff) debuffsToCleanse.push(rb.rank10.healing.cleanseDebuff.trim());
+        if (effectiveRank >= (Number(rb.rank15?.rank) || 15) && rb.rank15?.healing?.cleanseDebuff) debuffsToCleanse.push(rb.rank15.healing.cleanseDebuff.trim());
+        if (effectiveRank >= (Number(rb.rank20?.rank) || 20) && rb.rank20?.healing?.cleanseDebuff) debuffsToCleanse.push(rb.rank20.healing.cleanseDebuff.trim());
+      }
+
+      const targetFilter = sys.healing?.targetFilter || sys.healing?.targetType || '';
+      const isExplicitSelf = (
+        opts.target === 'self' ||
+        targetFilter === 'self' ||
+        (typeof sys.target === 'string' && sys.target.toLowerCase().includes('self')) ||
+        (typeof sys.range === 'string' && sys.range.toLowerCase().includes('self'))
+      );
+      const isExplicitNonSelf = (targetFilter === 'ally' || targetFilter === 'allies' || targetFilter === 'area') && !isExplicitSelf;
+      const isSelfTarget = isExplicitSelf || !isExplicitNonSelf;
+
+      const isHoT = Boolean(sys.healing?.isHoT);
+      const hotRounds = Number(sys.healing?.hotRounds) || 3;
+
       const currentHp = Number(this.system?.attributes?.hp?.value ?? this.system?.attributes?.hp?.max ?? 0);
       const maxHp = Number(this.system?.attributes?.hp?.max) || (10 * hpPerBar);
-      const newHp = Math.min(maxHp, currentHp + maxHealAmount);
-      const actualHealed = Math.max(0, newHp - currentHp);
-      const newPct = maxHp > 0 ? Math.min(100, Math.max(0, Math.round((newHp / maxHp) * 100))) : 100;
+      let newHp = currentHp;
+      let actualHealed = 0;
+      let newPct = maxHp > 0 ? Math.min(100, Math.max(0, Math.round((currentHp / maxHp) * 100))) : 100;
 
-      if (this.system?.attributes?.hp) {
-        updates['system.attributes.hp.value'] = newHp;
-        updates['system.attributes.hp.pct'] = newPct;
+      if (isSelfTarget) {
+        if (isHoT) {
+          await this.applyHoT({ name: `${spellItem.name} (HoT)`, healBars: barsToHeal, rounds: hotRounds });
+        } else {
+          const healAmt = barsToHeal * hpPerBar;
+          newHp = Math.min(maxHp, currentHp + healAmt);
+          actualHealed = Math.max(0, newHp - currentHp);
+          newPct = maxHp > 0 ? Math.min(100, Math.max(0, Math.round((newHp / maxHp) * 100))) : 100;
+          if (this.system?.attributes?.hp) {
+            updates['system.attributes.hp.value'] = newHp;
+            updates['system.attributes.hp.pct'] = newPct;
+          }
+        }
+        for (const deb of debuffsToCleanse) {
+          const c = await this.cleanseDebuff(deb);
+          cleansedDebuffs.push(...c);
+        }
       }
 
       healInfo = {
+        hasHealing: true,
         hpPerBar,
         barsToHeal,
-        maxHealAmount,
+        maxHealAmount: barsToHeal * hpPerBar,
         actualHealed,
         currentHp,
         newHp,
         maxHp,
         newPct,
-        target: 'self'
+        target: isSelfTarget ? 'self' : (targetFilter || 'allies'),
+        isSelfTarget,
+        isHoT,
+        hotRounds,
+        debuffsToCleanse,
+        cleansedDebuffs
       };
     }
 
@@ -6466,7 +6776,7 @@ export class DCCActor extends BaseActor {
         <div><strong>Mana:</strong> ${manaDisplay}</div>
         ${sourceBadge}
         <div><strong>Range:</strong> ${sys.range || (isAura ? 'Self' : '30 feet')}</div>
-        <div><strong>Target:</strong> ${sys.target || (isAura ? 'Self' : (healInfo ? 'Self only' : 'Target'))}</div>
+        <div><strong>Target:</strong> ${sys.target || (isAura ? 'Self' : (healInfo ? (healInfo.isSelfTarget ? 'Self only' : healInfo.target) : 'Target'))}</div>
         <div><strong>Duration:</strong> ${sys.duration || 'Instantaneous'}</div>
         ${sys.cooldown && sys.cooldown !== 'None' ? `<div><strong>Cooldown:</strong> ${sys.cooldown}</div>` : ''}
         ${sys.favored ? `<div><strong>Favored:</strong> ${sys.favored}</div>` : ''}
@@ -6476,16 +6786,38 @@ export class DCCActor extends BaseActor {
 
     if (healInfo) {
       content += `
-        <div class="dcc-heal-effect" style="margin: 8px 0; padding: 8px 10px; background: #eafaf1; border: 1px solid #2ecc71; border-radius: 4px; color: #1e8449; font-size: 12px; display: flex; align-items: center; gap: 8px;">
-          <i class="fa-solid fa-heart-pulse" style="font-size: 18px; color: #27ae60;"></i>
-          <div style="flex: 1;">
-            <div style="font-weight: bold; font-size: 13px;">
-              ${healInfo.actualHealed > 0 ? `Healed +${healInfo.actualHealed} HP` : 'Already at Full Health'}
-              <span style="font-weight: normal; font-size: 11px; color: #27ae60;">(up to ${healInfo.barsToHeal} Health Bar slots)</span>
+        <div class="dcc-heal-effect" style="margin: 8px 0; padding: 8px 10px; background: #eafaf1; border: 1px solid #2ecc71; border-radius: 4px; color: #1e8449; font-size: 12px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-heart-pulse" style="font-size: 20px; color: #27ae60;"></i>
+            <div style="flex: 1;">
+              <div style="font-weight: bold; font-size: 13px;">
+                ${healInfo.isSelfTarget
+                  ? (healInfo.isHoT ? `Applied HoT: +${healInfo.barsToHeal} Bars/Round for ${healInfo.hotRounds} Rounds` : (healInfo.actualHealed > 0 ? `Healed +${healInfo.actualHealed} HP` : 'Already at Full Health'))
+                  : `Restores +${healInfo.barsToHeal} Health Bar Slots (${healInfo.maxHealAmount} HP)`}
+                <span style="font-weight: normal; font-size: 11px; color: #27ae60;">(up to ${healInfo.barsToHeal} Health Bar slots)</span>
+              </div>
+              <div style="font-size: 11px; color: #444; margin-top: 2px;">
+                Target: <strong>${healInfo.isSelfTarget ? 'Self only' : healInfo.target}</strong>${healInfo.isSelfTarget ? ` • Health: <strong>${healInfo.newHp} / ${healInfo.maxHp} HP</strong> (${healInfo.newPct}%)` : ''}
+              </div>
+              ${healInfo.cleansedDebuffs?.length ? `<div style="font-size: 11px; color: #16a085; margin-top: 2px;"><i class="fa-solid fa-sparkles"></i> Cleansed: <strong>[${healInfo.cleansedDebuffs.join(', ')}]</strong></div>` : ''}
+              ${healInfo.debuffsToCleanse?.length && !healInfo.cleansedDebuffs?.length ? `<div style="font-size: 11px; color: #16a085; margin-top: 2px;"><i class="fa-solid fa-sparkles"></i> Cures: <strong>[${healInfo.debuffsToCleanse.join(', ')}]</strong></div>` : ''}
             </div>
-            <div style="font-size: 11px; color: #444; margin-top: 2px;">
-              Target: <strong>Self only</strong> • Health: <strong>${healInfo.newHp} / ${healInfo.maxHp} HP</strong> (${healInfo.newPct}%)
-            </div>
+          </div>
+          <div class="dcc-healing-actions" style="margin-top: 8px; display: flex; flex-direction: column; gap: 4px;">
+            ${!healInfo.isHoT ? `
+              <button type="button" class="dcc-apply-healing-btn" data-bars="${healInfo.barsToHeal}" data-target-id="${this.id}" style="width: 100%; background: #27ae60; color: #fff; border: 1px solid #1e8449; border-radius: 3px; padding: 4px; font-size: 11px; cursor: pointer; font-weight: bold; font-family: var(--font-primary, sans-serif);">
+                <i class="fa-solid fa-heart-pulse"></i> Apply Healing (+${healInfo.barsToHeal} Health Bar${healInfo.barsToHeal > 1 ? 's' : ''})
+              </button>
+            ` : `
+              <button type="button" class="dcc-apply-hot-btn" data-bars="${healInfo.barsToHeal}" data-rounds="${healInfo.hotRounds}" data-name="${spellItem.name}" data-target-id="${this.id}" style="width: 100%; background: #2980b9; color: #fff; border: 1px solid #1f618d; border-radius: 3px; padding: 4px; font-size: 11px; cursor: pointer; font-weight: bold; font-family: var(--font-primary, sans-serif);">
+                <i class="fa-solid fa-clock-rotate-left"></i> Apply HoT (+${healInfo.barsToHeal} Bars/Round for ${healInfo.hotRounds} Rounds)
+              </button>
+            `}
+            ${healInfo.debuffsToCleanse?.map(deb => `
+              <button type="button" class="dcc-cleanse-debuff-btn" data-debuff-name="${deb}" data-target-id="${this.id}" style="width: 100%; background: #16a085; color: #fff; border: 1px solid #117a65; border-radius: 3px; padding: 4px; font-size: 11px; cursor: pointer; font-weight: bold; font-family: var(--font-primary, sans-serif);">
+                <i class="fa-solid fa-sparkles"></i> Cleanse [${deb}]
+              </button>
+            `).join('')}
           </div>
         </div>
       `;
@@ -7211,6 +7543,32 @@ export class DCCActor extends BaseActor {
       return item;
     }
     return null;
+  }
+
+  /**
+   * Cleanse / remove debuffs matching a specified name or all debuffs.
+   * @param {string} [debuffName] - Specific debuff name to cleanse, or empty to remove all debuffs
+   * @returns {Promise<Array<string>>} - Array of cleansed debuff names
+   */
+  async cleanseDebuff(debuffName = '') {
+    const cleansed = [];
+    const targetName = (debuffName || '').trim().toLowerCase();
+    const debuffs = (this.items || []).filter(i => i.type === 'debuff');
+    const toDelete = [];
+    for (const d of debuffs) {
+      if (!targetName || d.name.toLowerCase().trim() === targetName) {
+        toDelete.push(d.id || d._id);
+        cleansed.push(d.name);
+      }
+    }
+    if (toDelete.length > 0) {
+      if (typeof this.deleteEmbeddedDocuments === 'function') {
+        await this.deleteEmbeddedDocuments('Item', toDelete);
+      } else if (Array.isArray(this.items)) {
+        this.items = this.items.filter(i => !toDelete.includes(i.id || i._id));
+      }
+    }
+    return cleansed;
   }
 
   /**

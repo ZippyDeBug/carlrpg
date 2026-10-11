@@ -36,6 +36,7 @@ export class GearDataModel extends BaseItemDataModel {
       critMultiplier: new fields.NumberField({ integer: true, min: 1 }),
       optionalEffects: new fields.ArrayField(new fields.StringField(), { initial: [] }),
       selectedEffect: new fields.StringField({ initial: '' }),
+      ignoreDR: new fields.BooleanField({ initial: false }),
       drBonus: new fields.NumberField({ integer: true, initial: 0 }),
       evadeBonus: new fields.NumberField({ integer: true, initial: 0 }),
       abilityModifiers: new fields.SchemaField({

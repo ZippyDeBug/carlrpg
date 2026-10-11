@@ -1,3 +1,50 @@
+## 3.2.7
+
+### CarlRPG 3.2.7 — Rank Break Critical Milestones, Selectable Ranks 1–20 & Unified Trigger Tags
+
+- **Consolidated Critical Multipliers into Rank Break Milestones (`template.json`, `src/models/items/spell-model.mjs`, `src/models/items/skill-model.mjs`)**:
+  - Removed redundant `critMultiplierR5` and `critMultiplierR15` separate inputs, consolidating critical multipliers directly into milestone breaks (`critMultiplier`, defaulting to 1).
+  - Liberated the milestone system from the hardcoded Ranks 5, 10, 15, 20 convention: each milestone break now features a selectable `rank` dropdown (1–20 inclusive, defaulting to 5, 10, 15, and 20).
+  - Any milestone break (e.g. Rank 10, Rank 17, or custom milestone) can now specify critical multipliers (e.g. 4x, 6x, 8x), allowing flexible homebrew and emerging canon progression.
+  - Fully backward compatible with existing items still utilizing legacy `critMultiplierR5` and `critMultiplierR15` properties.
+- **Unified Tag System Triggers (`src/data/tags.mjs`)**:
+  - Registered `trigger` namespace in `TAG_NAMESPACES`.
+  - Added official condition trigger tags: `trigger.crit`, `trigger.fumble`, and `trigger.on_hit` to `DCC_TAGS`.
+  - Dynamically derives `trigger.crit` from rank break critical multipliers (`critMultiplier > 1`) or legacy properties, `trigger.fumble` from fumble debuffs, and `trigger.on_hit` from on-hit debuff configurations.
+- **Actor Mechanics & Combat Routing (`src/documents/actor.mjs`)**:
+  - Dynamic rank threshold evaluation: actor rolls (`rollSpellDamage`, `rollAttack`, `getSpellDamageData`) now sort milestone breaks dynamically by `Number(rb.rank)` ascending rather than assuming hardcoded ranks.
+  - Custom critical multipliers and debuffs apply as soon as the actor's effective item rank reaches the configured milestone rank.
+  - Evaluates matching skill rank milestones when rolling weapon attack damage, routing critical multipliers and on-hit debuffs into chat card action buttons and message flags.
+- **Progressive Disclosure UI Updates (`templates/items/parts/spell.hbs`, `templates/items/parts/skill.hbs`, `src/sheets/item-sheet.mjs`)**:
+  - Updated Condition Triggers section to point directly to milestone break cards.
+  - Added milestone `Rank` dropdown selector (1–20) and `Crit Multiplier` input inside all milestone cards on both Spell and Skill item sheets.
+  - Provided `availableRanks: [1, ..., 20]` in sheet context.
+- **Automated Verification (`tests/rank-break-critical-milestones.test.mjs`)**:
+  - Added unit test suite covering schema defaults, trigger tag derivation, selectable ranks 1–20 evaluation, multiple multiplier hierarchies, weapon attack skill integration, and legacy fallback.
+  - Verified all 1,214 tests passing across 219 suites with 0 failures.
+
+## 3.2.6
+
+### CarlRPG 3.2.6 — Data-Driven Healing, Health Bar Restoration, HoT, Cleansing & Armor-Piercing (DR Bypass) Subsystems
+
+- **Data-Driven Healing, HoT & Cleansing Subsystem (`template.json`, `src/models/items/spell-model.mjs`, `src/models/items/skill-model.mjs`)**:
+  - Added structured `healing` configuration to Spells and Skills: `hasHealing`, `barsFormula` (supports static integers or stat-scaled formulas like `1 + con`, `int`), `targetFilter` (`self`, `allies`, `area`), `isHoT` (Heal over Time toggle), `hotRounds`, and `cleanseDebuffs` (array of debuff names to cure).
+  - Added milestone rank break healing upgrades (`healing.barsBonus` and `healing.cleanseDebuff`) across Ranks 5, 10, 15, and 20.
+  - Implemented `DCCActor.prototype.applyHealingBars(bars)` (capped at max HP using strict DCC CON-modifier bar values), `applyHoT({ name, healBars, rounds })`, and `cleanseDebuff(name)` (removes matching debuff item documents or all debuffs).
+  - Automated interactive chat cards with `.dcc-heal-effect`, `.dcc-apply-healing-btn`, `.dcc-apply-hot-btn`, and `.dcc-cleanse-debuff-btn` for target token interactions.
+- **Armor-Piercing / Ignore Damage Resistance (DR) Mechanics (`template.json`, `src/models/items/attack-model.mjs`, `src/models/items/gear-model.mjs`, `src/models/items/spell-model.mjs`, `src/models/items/skill-model.mjs`)**:
+  - Added `ignoreDR: false` toggle to Attacks, Gear (weapons/accessories), and Spells; added `isArmorPiercing: false` to `techniqueConfig` and milestone `rankBreaks` (Ranks 5, 10, 15, 20).
+  - Evaluates armor-piercing across weapon gear, active technique skills, weapon skill milestone perks, and spell tags (`action.armor_piercing`, `action.ignore_dr`).
+  - Displays prominent `[ARMOR-PIERCING]` badge on chat damage cards and automatically assigns `data-ignore-dr="true"` on the primary `dcc-apply-damage-btn`.
+  - Fully integrated with `DCCCombatMetrics.applyDamageToTarget({ ignoreDR: true })` to bypass target's DR while strictly respecting DCC full damage bar absorption rules.
+- **Progressive Disclosure Sheet UI (`templates/items/parts/spell.hbs`, `skill.hbs`, `attack.hbs`, `gear.hbs`)**:
+  - Collapsible `<details class="dcc-collapsible-block">` for *Healing, Regeneration & Cleansing Configuration* on Spell and Skill sheets.
+  - Quick toggle checkbox for *Armor-Piercing (Ignores Target DR)* on Attack, Gear, Spell, and Skill sheets.
+- **Data Migrations & Automated Verification (`scripts/migrate-healing-and-armor-piercing.mjs`, `tests/healing-cleansing-mechanics.test.mjs`, `tests/armor-piercing-mechanics.test.mjs`)**:
+  - Migrated all 54 canonical spells and 121 canonical skills with structured healing and milestone armor-piercing attributes.
+  - Added 25 comprehensive unit tests across two new suites verifying end-to-end healing, cleansing, armor-piercing attack rolls, milestone rank break activations, and DR bypass in combat metrics.
+  - 1,198 tests in 213 suites passing with 0 failures.
+
 ## 3.2.5
 
 ### CarlRPG 3.2.5 — Skill Aura Mechanics & Build Engine Unification

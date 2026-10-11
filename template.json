@@ -271,7 +271,8 @@
         "damageBonus": "",
         "damageType": "",
         "debuffName": "",
-        "cooldown": "None"
+        "cooldown": "None",
+        "isArmorPiercing": false
       },
       "optionalEffects": [],
       "selectedEffect": "",
@@ -280,14 +281,29 @@
       "onHitDebuffMinRank": 0,
       "critMultiplierR5": 1,
       "critMultiplierR15": 1,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      },
       "rankBreaks": {
         "rank5": {
+          "rank": 5,
+          "critMultiplier": 1,
           "damageDice": "",
           "baseDiceCountMod": "",
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
           "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          },
           "area": {
             "radiusBonus": 0
           },
@@ -296,12 +312,19 @@
           }
         },
         "rank10": {
+          "rank": 10,
+          "critMultiplier": 1,
           "damageDice": "",
           "baseDiceCountMod": "",
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
           "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          },
           "area": {
             "radiusBonus": 0
           },
@@ -310,12 +333,19 @@
           }
         },
         "rank15": {
+          "rank": 15,
+          "critMultiplier": 1,
           "damageDice": "",
           "baseDiceCountMod": "",
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
           "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          },
           "area": {
             "radiusBonus": 0
           },
@@ -324,12 +354,19 @@
           }
         },
         "rank20": {
+          "rank": 20,
+          "critMultiplier": 1,
           "damageDice": "",
           "baseDiceCountMod": "",
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
           "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          },
           "area": {
             "radiusBonus": 0
           },
@@ -390,38 +427,51 @@
       "effects": "",
       "optionalEffects": [],
       "selectedEffect": "",
+      "ignoreDR": false,
       "rankBreaks": {
         "rank5": {
+          "rank": 5,
+          "critMultiplier": 1,
           "damageDice": "",
           "baseDiceCountMod": "",
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false
         },
         "rank10": {
+          "rank": 10,
+          "critMultiplier": 1,
           "damageDice": "",
           "baseDiceCountMod": "",
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false
         },
         "rank15": {
+          "rank": 15,
+          "critMultiplier": 1,
           "damageDice": "",
           "baseDiceCountMod": "",
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false
         },
         "rank20": {
+          "rank": 20,
+          "critMultiplier": 1,
           "damageDice": "",
           "baseDiceCountMod": "",
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false
         }
       },
       "tags": [],
@@ -448,6 +498,15 @@
       "onHitDebuffMinRank": 0,
       "optionalEffects": [],
       "selectedEffect": "",
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      },
       "aiFavor": 0,
       "favored": "",
       "limitations": "",
@@ -460,11 +519,18 @@
       },
       "rankBreaks": {
         "rank5": {
+          "rank": 5,
+          "critMultiplier": 1,
           "damageDice": "",
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
           "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          },
           "area": {
             "radiusBonus": 0
           },
@@ -473,11 +539,18 @@
           }
         },
         "rank10": {
+          "rank": 10,
+          "critMultiplier": 1,
           "damageDice": "",
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
           "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          },
           "area": {
             "radiusBonus": 0
           },
@@ -486,11 +559,18 @@
           }
         },
         "rank15": {
+          "rank": 15,
+          "critMultiplier": 1,
           "damageDice": "",
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
           "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          },
           "area": {
             "radiusBonus": 0
           },
@@ -499,11 +579,18 @@
           }
         },
         "rank20": {
+          "rank": 20,
+          "critMultiplier": 1,
           "damageDice": "",
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
           "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          },
           "area": {
             "radiusBonus": 0
           },
@@ -569,6 +656,7 @@
       "selectedSkill": "",
       "optionalEffects": [],
       "selectedEffect": "",
+      "ignoreDR": false,
       "drBonus": 0,
       "evadeBonus": 0,
       "abilityModifiers": {
@@ -624,6 +712,8 @@
       "notes": "",
       "rankBreaks": {
         "rank5": {
+          "rank": 5,
+          "critMultiplier": 1,
           "damageDice": "",
           "baseDiceCountMod": "",
           "rankDamageDice": 0,
@@ -632,6 +722,8 @@
           "notes": ""
         },
         "rank10": {
+          "rank": 10,
+          "critMultiplier": 1,
           "damageDice": "",
           "baseDiceCountMod": "",
           "rankDamageDice": 0,
@@ -640,6 +732,8 @@
           "notes": ""
         },
         "rank15": {
+          "rank": 15,
+          "critMultiplier": 1,
           "damageDice": "",
           "baseDiceCountMod": "",
           "rankDamageDice": 0,
@@ -648,6 +742,8 @@
           "notes": ""
         },
         "rank20": {
+          "rank": 20,
+          "critMultiplier": 1,
           "damageDice": "",
           "baseDiceCountMod": "",
           "rankDamageDice": 0,

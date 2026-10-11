@@ -96,6 +96,12 @@
         <span class="dcc-field-label"><i class="fa-solid fa-burst" style="color: #c0392b;"></i> Crit Multiplier</span>
         <input class="dcc-field-input" type="number" name="system.critMultiplier" value="{{#if system.critMultiplier}}{{system.critMultiplier}}{{else}}1{{/if}}" placeholder="1" min="1" style="font-size: 11px;" title="Critical Hit Multiplier (defaults to 1x, adjustable by GM)" />
       </div>
+      <div class="dcc-field-group small" style="text-align: center; max-width: 90px;">
+        <span class="dcc-field-label">Armor Pierce</span>
+        <label style="display: flex; align-items: center; justify-content: center; height: 28px; cursor: pointer;" title="Check if this weapon penetrates armor and ignores Damage Resistance (DR)">
+          <input type="checkbox" name="system.ignoreDR" {{#if system.ignoreDR}}checked{{/if}} style="width: 18px; height: 18px; cursor: pointer;" />
+        </label>
+      </div>
     </div>
 
     {{!-- ASSOCIATED SKILLS DATA-DRIVEN PICKER --}}

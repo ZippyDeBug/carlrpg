@@ -113,6 +113,61 @@ export class MockActor {
       'system.attributes.hp.temp': totalHp
     });
   }
+  async applyHealingBars(bars = 1) {
+    const hpPerBar = (this.system?.abilities?.con?.mod) || 2;
+    const healAmt = bars * hpPerBar;
+    const currentHp = Number(this.system?.attributes?.hp?.value ?? this.system?.attributes?.hp?.max ?? 0);
+    const maxHp = Number(this.system?.attributes?.hp?.max) || (10 * hpPerBar);
+    const newHp = Math.min(maxHp, currentHp + healAmt);
+    const actualHealed = Math.max(0, newHp - currentHp);
+    const hpPct = maxHp > 0 ? Math.round((newHp / maxHp) * 100) : 100;
+    await this.update({
+      'system.attributes.hp.value': newHp,
+      'system.attributes.hp.pct': hpPct
+    });
+    return { actualHealed, newHp, maxHp, bars, hpPerBar };
+  }
+  async applyHoT({ name = 'Regeneration', healBars = 1, rounds = 3 } = {}) {
+    const buffData = {
+      name,
+      type: 'buff',
+      system: {
+        buffType: 'heal',
+        healingPerRound: `${healBars} bars`,
+        durationRounds: rounds,
+        duration: `${rounds} Rounds`
+      }
+    };
+    if (typeof this.createEmbeddedDocuments === 'function') {
+      const created = await this.createEmbeddedDocuments('Item', [buffData]);
+      return created[0] || null;
+    } else if (Array.isArray(this.items)) {
+      const item = new MockItem(buffData, this);
+      this.items.push(item);
+      return item;
+    }
+    return null;
+  }
+  async cleanseDebuff(debuffName = '') {
+    const cleansed = [];
+    const targetName = (debuffName || '').trim().toLowerCase();
+    const debuffs = this.items.filter(i => i.type === 'debuff');
+    const toDelete = [];
+    for (const d of debuffs) {
+      if (!targetName || d.name.toLowerCase().trim() === targetName) {
+        toDelete.push(d.id || d._id);
+        cleansed.push(d.name);
+      }
+    }
+    if (toDelete.length > 0) {
+      if (typeof this.deleteEmbeddedDocuments === 'function') {
+        await this.deleteEmbeddedDocuments('Item', toDelete);
+      } else if (Array.isArray(this.items)) {
+        this.items = this.items.filter(i => !toDelete.includes(i.id || i._id));
+      }
+    }
+    return cleansed;
+  }
   async activateAura(spellItem, options = {}) {
     if (!spellItem) return { active: false, error: 'No item provided' };
     const sys = spellItem.system || {};

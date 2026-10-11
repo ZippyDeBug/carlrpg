@@ -681,6 +681,9 @@ export class DCCItemSheet extends BaseItemSheet {
     // Progressive Disclosure UI flags for collapsible blocks
     const sys = context.system || {};
 
+    // Available rank options (1-20 inclusive) for flexible milestone breaks
+    context.availableRanks = Array.from({ length: 20 }, (_, i) => i + 1);
+
     // Rank Breaks configuration check
     context.hasRankBreaksConfigured = Boolean(
       sys.rankBreaks &&
@@ -691,6 +694,10 @@ export class DCCItemSheet extends BaseItemSheet {
           Boolean(rb.buffsResistances) ||
           Boolean(rb.debuff) ||
           Boolean(rb.notes) ||
+          Boolean(rb.isArmorPiercing) ||
+          Number(rb.critMultiplier) > 1 ||
+          Number(rb.healing?.barsBonus) > 0 ||
+          Boolean(rb.healing?.cleanseDebuff) ||
           Number(rb.area?.radiusBonus) > 0 ||
           Number(rb.tempBars?.hpPerSlot) > 0
         )
@@ -700,17 +707,21 @@ export class DCCItemSheet extends BaseItemSheet {
     // Spell-specific flags
     if (context.item.type === 'spell') {
       context.hasAuraConfigured = Boolean(sys.area?.hasArea);
+      context.hasHealingConfigured = Boolean(sys.healing?.hasHealing || sys.healing?.isHoT || (sys.healing?.cleanseDebuffs && sys.healing.cleanseDebuffs.length > 0));
+      context.cleanseDebuffsString = Array.isArray(sys.healing?.cleanseDebuffs) ? sys.healing.cleanseDebuffs.join(', ') : (sys.healing?.cleanseDebuffs || '');
+      context.hasArmorPiercingConfigured = Boolean(sys.ignoreDR);
       context.hasDamageModifiersConfigured = Boolean(sys.damageModifiers?.length > 0);
       context.hasConditionTriggersConfigured = Boolean(
-        Number(sys.critMultiplierR5) > 1 ||
-        Number(sys.critMultiplierR15) > 1 ||
         Boolean(sys.fumbleDebuff) ||
-        Boolean(sys.onHitDebuff)
+        Boolean(sys.onHitDebuff) ||
+        Number(sys.critMultiplierR5) > 1 ||
+        Number(sys.critMultiplierR15) > 1
       );
     }
 
     // Attack-specific flags
     if (context.item.type === 'attack') {
+      context.hasArmorPiercingConfigured = Boolean(sys.ignoreDR);
       context.hasProficiencyConfigured = Boolean(
         sys.weaponCategory ||
         sys.weaponType ||
@@ -725,6 +736,7 @@ export class DCCItemSheet extends BaseItemSheet {
 
     // Gear-specific flags
     if (context.item.type === 'gear') {
+      context.hasArmorPiercingConfigured = Boolean(sys.ignoreDR);
       context.hasAbilityModifiers = Boolean(
         Number(sys.abilityModifiers?.str?.value) ||
         Number(sys.abilityModifiers?.int?.value) ||
@@ -745,12 +757,16 @@ export class DCCItemSheet extends BaseItemSheet {
 
     // Skill-specific flags
     if (context.item.type === 'skill') {
+      context.hasHealingConfigured = Boolean(sys.healing?.hasHealing || sys.healing?.isHoT || (sys.healing?.cleanseDebuffs && sys.healing.cleanseDebuffs.length > 0));
+      context.cleanseDebuffsString = Array.isArray(sys.healing?.cleanseDebuffs) ? sys.healing.cleanseDebuffs.join(', ') : (sys.healing?.cleanseDebuffs || '');
+      context.hasArmorPiercingConfigured = Boolean(sys.techniqueConfig?.isArmorPiercing);
       context.hasTechniqueConfigured = Boolean(
         sys.isTechnique ||
         sys.techniqueConfig?.isDamageEffect ||
         Boolean(sys.techniqueConfig?.damageBonus) ||
         Boolean(sys.techniqueConfig?.flatDamageMod) ||
         Boolean(sys.techniqueConfig?.baseDiceCountMod) ||
+        Boolean(sys.techniqueConfig?.isArmorPiercing) ||
         Number(sys.critMultiplierR5) > 1 ||
         Number(sys.critMultiplierR15) > 1 ||
         Boolean(sys.fumbleDebuff) ||
@@ -929,7 +945,18 @@ export class DCCItemSheet extends BaseItemSheet {
             rankDamageDice: raw.rankDamageDice !== undefined ? (parseInt(raw.rankDamageDice, 10) || 0) : (existingBreak.rankDamageDice || 0),
             buffsResistances: raw.buffsResistances !== undefined ? raw.buffsResistances.trim() : (existingBreak.buffsResistances || ''),
             debuff: raw.debuff !== undefined ? raw.debuff.trim() : (existingBreak.debuff || ''),
-            notes: (raw.notes !== undefined && raw.notes.trim() !== '') ? raw.notes.trim() : (existingBreak.notes || '')
+            notes: (raw.notes !== undefined && raw.notes.trim() !== '') ? raw.notes.trim() : (existingBreak.notes || ''),
+            isArmorPiercing: raw.isArmorPiercing !== undefined ? Boolean(raw.isArmorPiercing) : Boolean(existingBreak.isArmorPiercing),
+            healing: {
+              barsBonus: raw.healing?.barsBonus !== undefined ? (parseInt(raw.healing.barsBonus, 10) || 0) : (existingBreak.healing?.barsBonus || 0),
+              cleanseDebuff: raw.healing?.cleanseDebuff !== undefined ? raw.healing.cleanseDebuff.trim() : (existingBreak.healing?.cleanseDebuff || '')
+            },
+            area: {
+              radiusBonus: raw.area?.radiusBonus !== undefined ? (parseInt(raw.area.radiusBonus, 10) || 0) : (existingBreak.area?.radiusBonus || 0)
+            },
+            tempBars: {
+              hpPerSlot: raw.tempBars?.hpPerSlot !== undefined ? (parseInt(raw.tempBars.hpPerSlot, 10) || 0) : (existingBreak.tempBars?.hpPerSlot || 0)
+            }
           };
         }
         for (const key of Object.keys(formData)) {
@@ -938,6 +965,22 @@ export class DCCItemSheet extends BaseItemSheet {
           }
         }
         formData['system.rankBreaks'] = cleanedBreaks;
+
+        // Clean cleanseDebuffs if provided
+        if (['spell', 'skill'].includes(this.item.type)) {
+          let cDebuffs = expanded.system?.healing?.cleanseDebuffs;
+          if (typeof cDebuffs === 'string') {
+            cDebuffs = cDebuffs.split(',').map(s => s.trim()).filter(Boolean);
+          }
+          if (cDebuffs !== undefined) {
+            for (const key of Object.keys(formData)) {
+              if (key.startsWith('system.healing.cleanseDebuffs')) {
+                delete formData[key];
+              }
+            }
+            formData['system.healing.cleanseDebuffs'] = Array.isArray(cDebuffs) ? cDebuffs : [];
+          }
+        }
 
         // Keep legacy upgrades synchronized
         if (this.item.type === 'spell' && !formData['system.upgrades']) {

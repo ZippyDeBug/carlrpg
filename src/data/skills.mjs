@@ -33,7 +33,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage"
+          "notes": "+1d8 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d8",
@@ -41,7 +46,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage. You may latch on to move when the foe moves during their next Action (then you let go)."
+          "notes": "+1d8 base damage. You may latch on to move when the foe moves during their next Action (then you let go).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d8",
@@ -49,7 +59,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Woozy",
-          "notes": "+1d8 base damage, and the target gains the Woozy Debuff."
+          "notes": "+1d8 base damage, and the target gains the Woozy Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -57,7 +72,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "bite",
@@ -68,7 +88,18 @@ export const DCC_SKILLS = [
         "skillGroup.combat",
         "stat.str",
         "weaponClass.natural"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -100,7 +131,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d6 base damage"
+          "notes": "+1d6 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d6",
@@ -108,7 +144,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d6 base damage"
+          "notes": "+1d6 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d6",
@@ -116,7 +157,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Blood Trail",
-          "notes": "+1d6 base damage, and the target gains the Blood Trail Debuff."
+          "notes": "+1d6 base damage, and the target gains the Blood Trail Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -124,7 +170,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "back-claw",
@@ -135,7 +186,18 @@ export const DCC_SKILLS = [
         "skillGroup.combat",
         "stat.str",
         "weaponClass.natural"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -167,7 +229,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage"
+          "notes": "+1d4 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d4",
@@ -175,7 +242,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage"
+          "notes": "+1d4 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "2d4",
@@ -183,7 +255,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+2d4 base damage"
+          "notes": "+2d4 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -191,7 +268,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "slice-attack",
@@ -202,7 +284,18 @@ export const DCC_SKILLS = [
         "skillGroup.combat",
         "stat.dex",
         "weaponClass.natural"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -234,7 +327,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d6 base damage"
+          "notes": "+1d6 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d6",
@@ -242,7 +340,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Woozy",
-          "notes": "+1d6 base damage, and the target gains the Woozy Debuff."
+          "notes": "+1d6 base damage, and the target gains the Woozy Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d6",
@@ -250,7 +353,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Take Down",
-          "notes": "+1d6 base damage, and if the target loses at least 3 Health Bar slots, they gain the Take Down Debuff."
+          "notes": "+1d6 base damage, and if the target loses at least 3 Health Bar slots, they gain the Take Down Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -258,7 +366,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "club",
@@ -271,7 +384,18 @@ export const DCC_SKILLS = [
         "stat.str",
         "weapon.club",
         "weaponClass.melee"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -303,7 +427,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage, and you can throw the item (using this Skill) up to a range of Rank ×5 feet."
+          "notes": "+1d4 base damage, and you can throw the item (using this Skill) up to a range of Rank ×5 feet.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d4",
@@ -311,7 +440,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage, and you roll your first Attack each combat with Advantage."
+          "notes": "+1d4 base damage, and you roll your first Attack each combat with Advantage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d4",
@@ -319,7 +453,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage."
+          "notes": "+1d4 base damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -327,7 +466,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "improvised-weapons",
@@ -340,7 +484,18 @@ export const DCC_SKILLS = [
         "stat.str",
         "weapon.improvised",
         "weaponClass.melee"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -372,7 +527,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d10 base damage"
+          "notes": "+1d10 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d10",
@@ -380,7 +540,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d10 base damage"
+          "notes": "+1d10 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d10",
@@ -388,7 +553,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d10 base damage, and the target (of your size or smaller) is pushed 15 feet."
+          "notes": "+1d10 base damage, and the target (of your size or smaller) is pushed 15 feet.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -396,7 +566,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "warhammer",
@@ -409,7 +584,18 @@ export const DCC_SKILLS = [
         "stat.str",
         "weapon.warhammer",
         "weaponClass.melee"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -441,7 +627,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d6 base damage"
+          "notes": "+1d6 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d6",
@@ -449,7 +640,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d6 base damage, and you may make an extra free Attack with Disadvantage against another adjacent foe."
+          "notes": "+1d6 base damage, and you may make an extra free Attack with Disadvantage against another adjacent foe.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d6",
@@ -457,7 +653,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d6 base damage, and on an Amazing Success or better, sever an arm (disarming two-handed weapons)."
+          "notes": "+1d6 base damage, and on an Amazing Success or better, sever an arm (disarming two-handed weapons).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -465,7 +666,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "axe",
@@ -478,7 +684,18 @@ export const DCC_SKILLS = [
         "stat.str",
         "weapon.axe",
         "weaponClass.melee"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -510,7 +727,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage, and this Attack deals Armor-Piercing damage (ignores DR)."
+          "notes": "+1d4 base damage, and this Attack deals Armor-Piercing damage (ignores DR).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d4",
@@ -518,7 +740,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage, and you can throw this weapon up to a range of Rank × 5 feet."
+          "notes": "+1d4 base damage, and you can throw this weapon up to a range of Rank × 5 feet.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d4",
@@ -526,7 +753,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage, and Attacks targeting the back deal ×2 damage."
+          "notes": "+1d4 base damage, and Attacks targeting the back deal ×2 damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -534,7 +766,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "dagger",
@@ -547,7 +784,18 @@ export const DCC_SKILLS = [
         "stat.dex",
         "weapon.dagger",
         "weaponClass.melee"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -579,7 +827,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage"
+          "notes": "+1d8 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d8",
@@ -587,7 +840,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage"
+          "notes": "+1d8 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d8",
@@ -595,7 +853,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+1 Eva",
           "debuff": "",
-          "notes": "+1d8 base damage, and you gain a +1 Evade Buff."
+          "notes": "+1d8 base damage, and you gain a +1 Evade Buff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -603,7 +866,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "longsword",
@@ -616,7 +884,18 @@ export const DCC_SKILLS = [
         "stat.str",
         "weapon.longsword",
         "weaponClass.melee"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -648,7 +927,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d6 base damage"
+          "notes": "+1d6 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d6",
@@ -656,7 +940,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+1 Eva",
           "debuff": "",
-          "notes": "+1d6 base damage, and you gain a +1 Evade Buff."
+          "notes": "+1d6 base damage, and you gain a +1 Evade Buff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d6",
@@ -664,7 +953,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+1 Eva",
           "debuff": "",
-          "notes": "+1d6 base damage, and you gain a +1 Evade Buff."
+          "notes": "+1d6 base damage, and you gain a +1 Evade Buff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -672,7 +966,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "rapier",
@@ -685,7 +984,18 @@ export const DCC_SKILLS = [
         "stat.dex",
         "weapon.rapier",
         "weaponClass.melee"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -721,7 +1031,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage"
+          "notes": "+1d4 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d4",
@@ -729,7 +1044,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage"
+          "notes": "+1d4 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d4",
@@ -737,7 +1057,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Sore as Shit",
-          "notes": "+1d4 base damage, and the target gains the Sore as Shit Debuff."
+          "notes": "+1d4 base damage, and the target gains the Sore as Shit Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -745,7 +1070,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "foot-soldier",
@@ -756,7 +1086,18 @@ export const DCC_SKILLS = [
         "skillGroup.combat",
         "stat.str",
         "weaponClass.unarmed"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -792,7 +1133,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage, and you don’t take any damage from your own Attack."
+          "notes": "+1d4 base damage, and you don’t take any damage from your own Attack.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d4",
@@ -800,7 +1146,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 1,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage, and add 1 Rank damage die."
+          "notes": "+1d4 base damage, and add 1 Rank damage die.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d4",
@@ -808,7 +1159,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Woozy",
-          "notes": "+1d4 base damage, and the target gains the Woozy Debuff."
+          "notes": "+1d4 base damage, and the target gains the Woozy Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -816,7 +1172,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "noggin-nocker",
@@ -827,7 +1188,18 @@ export const DCC_SKILLS = [
         "skillGroup.combat",
         "stat.str",
         "weaponClass.unarmed"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -864,7 +1236,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+2d2 base damage"
+          "notes": "+2d2 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d2",
@@ -872,7 +1249,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d2 base damage"
+          "notes": "+1d2 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d2",
@@ -880,7 +1262,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d2 base damage, and you may make an extra free Attack with Disadvantage."
+          "notes": "+1d2 base damage, and you may make an extra free Attack with Disadvantage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -888,7 +1275,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "pugilism",
@@ -899,7 +1291,18 @@ export const DCC_SKILLS = [
         "skillGroup.combat",
         "stat.dex",
         "weaponClass.unarmed"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -932,7 +1335,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage"
+          "notes": "+1d4 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d4",
@@ -940,7 +1348,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage"
+          "notes": "+1d4 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "2d4",
@@ -948,7 +1361,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+2d4 base damage"
+          "notes": "+2d4 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -956,7 +1374,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "unarmed-combat",
@@ -968,7 +1391,18 @@ export const DCC_SKILLS = [
         "skillGroup.combat",
         "stat.str",
         "weaponClass.unarmed"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1005,7 +1439,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Held",
-          "notes": "Maintain Held at no Action cost, but check to prevent escape is at Disadvantage."
+          "notes": "Maintain Held at no Action cost, but check to prevent escape is at Disadvantage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d4",
@@ -1013,7 +1452,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage"
+          "notes": "+1d4 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d4",
@@ -1021,7 +1465,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage."
+          "notes": "+1d4 base damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1029,7 +1478,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "wrasslin",
@@ -1040,7 +1494,18 @@ export const DCC_SKILLS = [
         "skillGroup.combat",
         "stat.str",
         "weaponClass.unarmed"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1077,7 +1542,8 @@ export const DCC_SKILLS = [
         "damageBonus": "",
         "damageType": "",
         "debuffName": "",
-        "cooldown": "None"
+        "cooldown": "None",
+        "isArmorPiercing": false
       },
       "rankBreaks": {
         "rank5": {
@@ -1086,7 +1552,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Activates at 20% Health Bar or less"
+          "notes": "Activates at 20% Health Bar or less",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -1094,7 +1565,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Activates at 40% Health Bar or less, deals ×4 total damage"
+          "notes": "Activates at 40% Health Bar or less, deals ×4 total damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -1102,7 +1578,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Activates at 80% Health Bar or less, deals ×8 total damage"
+          "notes": "Activates at 80% Health Bar or less, deals ×8 total damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1110,7 +1591,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "choke-out",
@@ -1120,7 +1606,15 @@ export const DCC_SKILLS = [
         "skillGroup.utility",
         "stat.str",
         "technique.wrasslin"
-      ]
+      ],
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1159,7 +1653,8 @@ export const DCC_SKILLS = [
         "damageBonus": "",
         "damageType": "",
         "debuffName": "Woozy",
-        "cooldown": "None"
+        "cooldown": "None",
+        "isArmorPiercing": false
       },
       "rankBreaks": {
         "rank5": {
@@ -1168,7 +1663,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "The Taint",
-          "notes": "Also apply The Taint Debuff"
+          "notes": "Also apply The Taint Debuff",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -1176,7 +1676,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Blinded",
-          "notes": "Also apply Blinded Debuff. No longer lose Popularity on Critical Fails."
+          "notes": "Also apply Blinded Debuff. No longer lose Popularity on Critical Fails.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -1184,7 +1689,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Minor Injury",
-          "notes": "Apply an immediate Minor Injury Debuff."
+          "notes": "Apply an immediate Minor Injury Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1192,7 +1702,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "dirty-fighting",
@@ -1203,7 +1718,15 @@ export const DCC_SKILLS = [
         "stat.str",
         "technique.pugilism",
         "technique.wrasslin"
-      ]
+      ],
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1239,7 +1762,8 @@ export const DCC_SKILLS = [
         "damageBonus": "1d2",
         "damageType": "Physical",
         "debuffName": "",
-        "cooldown": "None"
+        "cooldown": "None",
+        "isArmorPiercing": false
       },
       "rankBreaks": {
         "rank5": {
@@ -1248,7 +1772,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 1,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Add 1 Rank damage die"
+          "notes": "Add 1 Rank damage die",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -1256,7 +1785,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Stunned",
-          "notes": "Choose to have target gain Stunned Debuff"
+          "notes": "Choose to have target gain Stunned Debuff",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -1264,7 +1798,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 1,
           "buffsResistances": "",
           "debuff": "Stunned",
-          "notes": "Add 1 Rank damage die, and target gains Stunned Debuff"
+          "notes": "Add 1 Rank damage die, and target gains Stunned Debuff",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1272,7 +1811,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "iron-punch",
@@ -1282,7 +1826,15 @@ export const DCC_SKILLS = [
         "skillGroup.utility",
         "stat.str",
         "technique.pugilism"
-      ]
+      ],
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1323,7 +1875,8 @@ export const DCC_SKILLS = [
         "damageBonus": "1d6",
         "damageType": "",
         "debuffName": "",
-        "cooldown": "30 hours"
+        "cooldown": "30 hours",
+        "isArmorPiercing": false
       },
       "rankBreaks": {
         "rank5": {
@@ -1332,7 +1885,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Cooldown is 10 hours"
+          "notes": "Cooldown is 10 hours",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -1340,7 +1898,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Cooldown is 5 hours"
+          "notes": "Cooldown is 5 hours",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -1348,7 +1911,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Cooldown is 2 hours"
+          "notes": "Cooldown is 2 hours",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1356,7 +1924,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "powerful-strike",
@@ -1368,7 +1941,15 @@ export const DCC_SKILLS = [
         "technique.foot_soldier",
         "technique.noggin_nocker",
         "technique.pugilism"
-      ]
+      ],
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1405,7 +1986,8 @@ export const DCC_SKILLS = [
         "damageBonus": "1d4",
         "damageType": "Physical",
         "debuffName": "",
-        "cooldown": "None"
+        "cooldown": "None",
+        "isArmorPiercing": false
       },
       "rankBreaks": {
         "rank5": {
@@ -1414,7 +1996,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage if target is same size"
+          "notes": "+1d4 base damage if target is same size",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -1422,7 +2009,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 1,
           "buffsResistances": "",
           "debuff": "Stunned",
-          "notes": "If same size, add 1 Rank damage die and target gains Stunned Debuff"
+          "notes": "If same size, add 1 Rank damage die and target gains Stunned Debuff",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -1430,7 +2022,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 1,
           "buffsResistances": "",
           "debuff": "Blood Trail",
-          "notes": "Add 1 Rank damage die and target gains Blood Trail Debuff"
+          "notes": "Add 1 Rank damage die and target gains Blood Trail Debuff",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1438,7 +2035,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "skullcracker",
@@ -1448,7 +2050,15 @@ export const DCC_SKILLS = [
         "skillGroup.utility",
         "stat.str",
         "technique.noggin_nocker"
-      ]
+      ],
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1484,7 +2094,8 @@ export const DCC_SKILLS = [
         "damageBonus": "",
         "damageType": "",
         "debuffName": "",
-        "cooldown": "Once per round"
+        "cooldown": "Once per round",
+        "isArmorPiercing": false
       },
       "rankBreaks": {
         "rank5": {
@@ -1493,7 +2104,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Activates at 30% Health Bar or less and deals ×3 damage"
+          "notes": "Activates at 30% Health Bar or less and deals ×3 damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -1501,7 +2117,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "No cooldown"
+          "notes": "No cooldown",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -1509,7 +2130,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Activates at 40% Health Bar or less and deals ×4 damage"
+          "notes": "Activates at 40% Health Bar or less and deals ×4 damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1517,7 +2143,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "smush",
@@ -1527,7 +2158,15 @@ export const DCC_SKILLS = [
         "skillGroup.utility",
         "stat.str",
         "technique.foot_soldier"
-      ]
+      ],
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1564,7 +2203,8 @@ export const DCC_SKILLS = [
         "damageBonus": "1d8",
         "damageType": "Bludgeoning",
         "debuffName": "",
-        "cooldown": "None"
+        "cooldown": "None",
+        "isArmorPiercing": false
       },
       "rankBreaks": {
         "rank5": {
@@ -1573,7 +2213,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Toss foes up to own size"
+          "notes": "Toss foes up to own size",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -1581,7 +2226,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Toss foes one size larger"
+          "notes": "Toss foes one size larger",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d8",
@@ -1589,7 +2239,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage, toss foes two sizes larger"
+          "notes": "+1d8 base damage, toss foes two sizes larger",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1597,7 +2252,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "toss",
@@ -1607,7 +2267,15 @@ export const DCC_SKILLS = [
         "skillGroup.utility",
         "stat.str",
         "technique.wrasslin"
-      ]
+      ],
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1639,7 +2307,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d6 base damage"
+          "notes": "+1d6 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d6",
@@ -1647,7 +2320,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 1,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d6 base damage, add 1 Rank damage die."
+          "notes": "+1d6 base damage, add 1 Rank damage die.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d6",
@@ -1655,7 +2333,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Blood Trail",
-          "notes": "+1d6 base damage, and target gains Blood Trail Debuff."
+          "notes": "+1d6 base damage, and target gains Blood Trail Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1663,7 +2346,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "bow",
@@ -1676,7 +2364,18 @@ export const DCC_SKILLS = [
         "stat.dex",
         "weapon.bow",
         "weaponClass.ranged"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1708,7 +2407,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage"
+          "notes": "+1d8 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d8",
@@ -1716,7 +2420,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Blood Trail",
-          "notes": "+1d8 base damage, target gains Blood Trail Debuff."
+          "notes": "+1d8 base damage, target gains Blood Trail Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d8",
@@ -1724,7 +2433,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage, range is 100 feet."
+          "notes": "+1d8 base damage, range is 100 feet.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1732,7 +2446,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "crossbow",
@@ -1745,7 +2464,18 @@ export const DCC_SKILLS = [
         "stat.dex",
         "weapon.crossbow",
         "weaponClass.ranged"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1777,7 +2507,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage"
+          "notes": "+1d8 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d8",
@@ -1785,7 +2520,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage"
+          "notes": "+1d8 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d8",
@@ -1793,7 +2533,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Staggered",
-          "notes": "+1d8 base damage, target gains Staggered Debuff."
+          "notes": "+1d8 base damage, target gains Staggered Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1801,7 +2546,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "handgun",
@@ -1814,7 +2564,18 @@ export const DCC_SKILLS = [
         "stat.dex",
         "weapon.handgun",
         "weaponClass.ranged"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1846,7 +2607,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage"
+          "notes": "+1d8 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d8",
@@ -1854,7 +2620,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage, deals Armor-Piercing damage (ignores DR)."
+          "notes": "+1d8 base damage, deals Armor-Piercing damage (ignores DR).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d8",
@@ -1862,7 +2633,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage, range increases by Str in feet."
+          "notes": "+1d8 base damage, range increases by Str in feet.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1870,7 +2646,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "javelin",
@@ -1883,7 +2664,18 @@ export const DCC_SKILLS = [
         "stat.dex",
         "weapon.javelin",
         "weaponClass.ranged"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1915,7 +2707,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d10 base damage"
+          "notes": "+1d10 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d10",
@@ -1923,7 +2720,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d10 base damage"
+          "notes": "+1d10 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d10",
@@ -1931,7 +2733,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d10 base damage, +5ft Splash."
+          "notes": "+1d10 base damage, +5ft Splash.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1939,7 +2746,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "shotgun",
@@ -1952,7 +2764,18 @@ export const DCC_SKILLS = [
         "stat.dex",
         "weapon.shotgun",
         "weaponClass.ranged"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1984,7 +2807,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage, range is 40 feet."
+          "notes": "+1d4 base damage, range is 40 feet.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d4",
@@ -1992,7 +2820,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage, make an extra free attack with Disadvantage."
+          "notes": "+1d4 base damage, make an extra free attack with Disadvantage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d4",
@@ -2000,7 +2833,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage, make an extra free attack with Disadvantage."
+          "notes": "+1d4 base damage, make an extra free attack with Disadvantage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2008,7 +2846,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "shuriken",
@@ -2021,7 +2864,18 @@ export const DCC_SKILLS = [
         "stat.dex",
         "weapon.shuriken",
         "weaponClass.ranged"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2053,7 +2907,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d2 base damage, range increases by Str in feet."
+          "notes": "+1d2 base damage, range increases by Str in feet.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d2",
@@ -2061,7 +2920,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 1,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d2 base damage, add 1 Rank damage die."
+          "notes": "+1d2 base damage, add 1 Rank damage die.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d2",
@@ -2069,7 +2933,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 1,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d2 base damage, add 1 Rank damage die."
+          "notes": "+1d2 base damage, add 1 Rank damage die.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2077,7 +2946,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "slingshot",
@@ -2090,7 +2964,18 @@ export const DCC_SKILLS = [
         "stat.dex",
         "weapon.slingshot",
         "weaponClass.ranged"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2122,7 +3007,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage, slide target 5 feet."
+          "notes": "+1d4 base damage, slide target 5 feet.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d4",
@@ -2130,7 +3020,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage, can make a Sling attack with range 50 ft using Dex to hit."
+          "notes": "+1d4 base damage, can make a Sling attack with range 50 ft using Dex to hit.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d4",
@@ -2138,7 +3033,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Take Down",
-          "notes": "+1d4 base damage, target gains Take Down Debuff."
+          "notes": "+1d4 base damage, target gains Take Down Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2146,7 +3046,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "herding-weapons",
@@ -2159,7 +3064,18 @@ export const DCC_SKILLS = [
         "stat.str",
         "weapon.herding_weapon",
         "weaponClass.melee"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2191,7 +3107,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d12 base damage"
+          "notes": "+1d12 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d12",
@@ -2199,7 +3120,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+1 dam",
           "debuff": "",
-          "notes": "+1d12 base damage, +1 damage per 10 ft mount moved this turn."
+          "notes": "+1d12 base damage, +1 damage per 10 ft mount moved this turn.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d12",
@@ -2207,7 +3133,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d12 base damage, +X damage (X = size of mount)."
+          "notes": "+1d12 base damage, +X damage (X = size of mount).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2215,7 +3146,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "lance",
@@ -2228,7 +3164,18 @@ export const DCC_SKILLS = [
         "stat.str",
         "weapon.lance",
         "weaponClass.melee"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2260,7 +3207,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage"
+          "notes": "+1d8 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d8",
@@ -2268,7 +3220,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+1 Ran",
           "debuff": "",
-          "notes": "+1d8 base damage, and +1 Rank in Zone of Control Skill."
+          "notes": "+1d8 base damage, and +1 Rank in Zone of Control Skill.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d8",
@@ -2276,7 +3233,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+1 Ran",
           "debuff": "",
-          "notes": "+1d8 base damage, and +1 Rank in Zone of Control Skill."
+          "notes": "+1d8 base damage, and +1 Rank in Zone of Control Skill.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2284,7 +3246,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "polearm",
@@ -2297,7 +3264,18 @@ export const DCC_SKILLS = [
         "stat.str",
         "weapon.polearm",
         "weaponClass.melee"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2329,7 +3307,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d6 base damage"
+          "notes": "+1d6 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d6",
@@ -2337,7 +3320,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+1 Eva",
           "debuff": "",
-          "notes": "+1d6 base damage, and gain a +1 Evade Buff."
+          "notes": "+1d6 base damage, and gain a +1 Evade Buff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d6",
@@ -2345,7 +3333,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+1 Eva",
           "debuff": "",
-          "notes": "+1d6 base damage, and gain a +1 Evade Buff."
+          "notes": "+1d6 base damage, and gain a +1 Evade Buff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2353,7 +3346,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "quarterstaff",
@@ -2366,7 +3364,18 @@ export const DCC_SKILLS = [
         "stat.str",
         "weapon.quarterstaff",
         "weaponClass.melee"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2395,7 +3404,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -2403,7 +3417,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -2411,7 +3430,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2419,7 +3443,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "edged-weapons",
@@ -2427,7 +3456,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.combat",
         "stat.str"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2456,7 +3496,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -2464,7 +3509,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -2472,7 +3522,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2480,7 +3535,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "blunt-weapons",
@@ -2488,7 +3548,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.combat",
         "stat.str"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2517,7 +3588,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -2525,7 +3601,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -2533,7 +3614,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2541,7 +3627,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "reach-weapons",
@@ -2549,7 +3640,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.combat",
         "stat.str"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2578,7 +3680,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -2586,7 +3693,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -2594,7 +3706,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2602,7 +3719,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "ranged-weapons",
@@ -2610,7 +3732,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.combat",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2639,7 +3772,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -2647,7 +3785,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -2655,7 +3798,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2663,7 +3811,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "strike-weapons",
@@ -2671,7 +3824,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.combat",
         "stat.str"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2697,7 +3861,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Mob size and encounter history added to red dot."
+          "notes": "Mob size and encounter history added to red dot.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -2705,7 +3874,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Lower level Mobs cannot Ambush your party."
+          "notes": "Lower level Mobs cannot Ambush your party.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -2713,7 +3887,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Mobs cannot Ambush your party."
+          "notes": "Mobs cannot Ambush your party.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2721,7 +3900,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "acute-ears",
@@ -2729,7 +3913,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2755,7 +3950,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 damage"
+          "notes": "+1d4 damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d4",
@@ -2763,7 +3963,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage"
+          "notes": "+1d4 base damage",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d4",
@@ -2771,7 +3976,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage."
+          "notes": "+1d4 base damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2779,7 +3989,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "aiming",
@@ -2788,7 +4003,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2814,7 +4040,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+10 bon",
           "debuff": "",
-          "notes": "Craft potions up to +10 bonus level."
+          "notes": "Craft potions up to +10 bonus level.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -2822,7 +4053,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Create additional potions without extra time."
+          "notes": "Create additional potions without extra time.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -2830,7 +4066,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Write the recipe for any potion you find."
+          "notes": "Write the recipe for any potion you find.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2838,7 +4079,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "alchemy",
@@ -2846,7 +4092,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2872,7 +4129,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Add Ambush Rank damage die to Surprise Attack damage."
+          "notes": "Add Ambush Rank damage die to Surprise Attack damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -2880,7 +4142,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Party members roll this skill untrained normally."
+          "notes": "Party members roll this skill untrained normally.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -2888,7 +4155,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Gain a second bonus surprise Action (non-Attack)."
+          "notes": "Gain a second bonus surprise Action (non-Attack).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2896,7 +4168,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "ambush",
@@ -2904,7 +4181,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2930,7 +4218,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Specialize in animal type (Advantage). Gain bonus surprise Action."
+          "notes": "Specialize in animal type (Advantage). Gain bonus surprise Action.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -2938,7 +4231,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Pet bonding takes half time."
+          "notes": "Pet bonding takes half time.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -2946,7 +4244,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Can have up to two pets."
+          "notes": "Can have up to two pets.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2954,7 +4257,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "animal-handling",
@@ -2962,7 +4270,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.cha"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2988,7 +4307,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Determine Rank and bonus level of magical items."
+          "notes": "Determine Rank and bonus level of magical items.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -2996,7 +4320,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Imbue items with inherent spells at Arcanist Table."
+          "notes": "Imbue items with inherent spells at Arcanist Table.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3004,7 +4333,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Default cooldown of imbued spells is 3 hours."
+          "notes": "Default cooldown of imbued spells is 3 hours.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3012,7 +4346,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "arcane",
@@ -3020,7 +4359,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3046,7 +4396,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "If foe moves into adjacent space, they must stop."
+          "notes": "If foe moves into adjacent space, they must stop.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3054,7 +4409,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Foe Step no longer prevents this ability."
+          "notes": "Foe Step no longer prevents this ability.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3062,7 +4422,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Roll Attack check with Advantage."
+          "notes": "Roll Attack check with Advantage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3070,7 +4435,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "attack-of-opportunity",
@@ -3079,7 +4449,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3105,7 +4486,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Identify placement time; neutralize takes 5 min."
+          "notes": "Identify placement time; neutralize takes 5 min.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3113,7 +4499,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Identify creation time; deconstruct takes 30 min."
+          "notes": "Identify creation time; deconstruct takes 30 min.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3121,7 +4512,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Identify trap designer; deconstruct takes 15 min."
+          "notes": "Identify trap designer; deconstruct takes 15 min.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3129,7 +4525,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "backfire",
@@ -3137,7 +4538,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3163,7 +4575,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Move Actions in difficult terrain without penalty."
+          "notes": "Move Actions in difficult terrain without penalty.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3171,7 +4588,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Avoid Take Down or involuntary Move as free Interrupt."
+          "notes": "Avoid Take Down or involuntary Move as free Interrupt.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3179,7 +4601,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Step on vertical surfaces."
+          "notes": "Step on vertical surfaces.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3187,7 +4614,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "balance",
@@ -3195,7 +4627,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3221,7 +4664,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Experiments take 1 hour."
+          "notes": "Experiments take 1 hour.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3229,7 +4677,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Choose specialty; roll with Advantage."
+          "notes": "Choose specialty; roll with Advantage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3237,7 +4690,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Experiments take 30 minutes."
+          "notes": "Experiments take 30 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3245,7 +4703,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "basic-science",
@@ -3253,7 +4716,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3279,7 +4753,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Takes 30 minutes."
+          "notes": "Takes 30 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3287,7 +4766,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Never make Explosives Handling check when using this skill."
+          "notes": "Never make Explosives Handling check when using this skill.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3295,7 +4779,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Round dice up when cutting dynamite; takes 15 minutes."
+          "notes": "Round dice up when cutting dynamite; takes 15 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3303,7 +4792,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "bomb-surgeon",
@@ -3311,7 +4805,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3337,7 +4842,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Advantage on next Cha check vs recipient."
+          "notes": "Advantage on next Cha check vs recipient.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3345,7 +4855,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Craft scrolls as if a crafting skill."
+          "notes": "Craft scrolls as if a crafting skill.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3353,7 +4868,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Once per floor, craft scroll for spell seen within 2 hours."
+          "notes": "Once per floor, craft scroll for spell seen within 2 hours.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3361,7 +4881,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "calligraphy",
@@ -3369,7 +4894,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3395,7 +4931,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Return from whence you came quickly."
+          "notes": "Return from whence you came quickly.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3403,7 +4944,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Provide Advantage die to Tracking or spatial relation checks."
+          "notes": "Provide Advantage die to Tracking or spatial relation checks.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3411,7 +4957,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Navigate point A to point B via most direct path."
+          "notes": "Navigate point A to point B via most direct path.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3419,7 +4970,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "cartography",
@@ -3427,7 +4983,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3453,7 +5020,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Reduce Surprise Attack damage taken by Rank."
+          "notes": "Reduce Surprise Attack damage taken by Rank.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3461,7 +5033,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Reduce all Area damage by 50%."
+          "notes": "Reduce all Area damage by 50%.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3469,7 +5046,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+1 Eva",
           "debuff": "Held",
-          "notes": "+10ft Move, +1 Evade Buff, Advantage to Evade Held effects."
+          "notes": "+10ft Move, +1 Evade Buff, Advantage to Evade Held effects.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3477,7 +5059,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "cat-like-reflexes",
@@ -3485,7 +5072,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3514,7 +5112,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+5 DR",
           "debuff": "",
-          "notes": "Gain +5 DR when using this Skill."
+          "notes": "Gain +5 DR when using this Skill.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3522,7 +5125,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+5 DR",
           "debuff": "",
-          "notes": "Gain +5 DR when using this Skill."
+          "notes": "Gain +5 DR when using this Skill.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3530,7 +5138,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+5 DR",
           "debuff": "",
-          "notes": "Gain +5 DR and ignore attached Debuffs."
+          "notes": "Gain +5 DR and ignore attached Debuffs.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3538,7 +5151,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "catcher",
@@ -3547,7 +5165,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.str"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3573,7 +5202,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Throw range Str × 20 feet."
+          "notes": "Throw range Str × 20 feet.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3581,7 +5215,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 1,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Add 1 Rank damage die to thrown Attacks."
+          "notes": "Add 1 Rank damage die to thrown Attacks.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3589,7 +5228,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Throw range Str × 30 feet."
+          "notes": "Throw range Str × 30 feet.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3597,7 +5241,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "cesta-punta",
@@ -3605,7 +5254,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3631,7 +5291,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Random Classes increase in rarity and power."
+          "notes": "Random Classes increase in rarity and power.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3639,7 +5304,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Skill Ranks in granted skills persist across floors."
+          "notes": "Skill Ranks in granted skills persist across floors.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3647,7 +5317,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Choose Class from any available."
+          "notes": "Choose Class from any available.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3655,7 +5330,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "character-actor",
@@ -3664,7 +5344,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.cha"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3690,7 +5381,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Chopper has +5ft Move."
+          "notes": "Chopper has +5ft Move.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3698,7 +5394,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Attacking while piloting no longer suffers Disadvantage."
+          "notes": "Attacking while piloting no longer suffers Disadvantage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3706,7 +5407,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Chopper has +5ft Move; Advantage on crazy stunts."
+          "notes": "Chopper has +5ft Move; Advantage on crazy stunts.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3714,7 +5420,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "chopper-pilot",
@@ -3722,7 +5433,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3748,7 +5470,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Check every 5 minutes."
+          "notes": "Check every 5 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3756,7 +5483,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Check every 10 minutes; no Disadvantage on Attacks."
+          "notes": "Check every 10 minutes; no Disadvantage on Attacks.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3764,7 +5496,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Check every 15 minutes; party rolls untrained normally."
+          "notes": "Check every 15 minutes; party rolls untrained normally.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3772,7 +5509,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "climbing",
@@ -3780,7 +5522,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.str"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3806,7 +5559,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "No check required."
+          "notes": "No check required.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3814,7 +5572,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Health Bar unaffected by damage that would drop to 0%."
+          "notes": "Health Bar unaffected by damage that would drop to 0%.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3822,7 +5585,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Cooldown twice per scene. Heal to 100% and gain +Rank DR for 1 round."
+          "notes": "Cooldown twice per scene. Heal to 100% and gain +Rank DR for 1 round.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3830,7 +5598,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "cockroach",
@@ -3838,7 +5611,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.con"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3864,7 +5648,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Takes 30 minutes with makeshift ingredients."
+          "notes": "Takes 30 minutes with makeshift ingredients.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3872,7 +5661,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Diners gain 'You are full!' Buff (heal 2 HB slots/hr)."
+          "notes": "Diners gain 'You are full!' Buff (heal 2 HB slots/hr).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3880,7 +5674,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "'You are full!' Buff ends Debuffs if dropping to 10% HB."
+          "notes": "'You are full!' Buff ends Debuffs if dropping to 10% HB.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3888,7 +5687,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "cooking",
@@ -3896,7 +5700,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3922,7 +5737,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Usable while gambling."
+          "notes": "Usable while gambling.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3930,7 +5750,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Usable to forge documents."
+          "notes": "Usable to forge documents.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3938,7 +5763,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "If failed, perform one Action before foes react."
+          "notes": "If failed, perform one Action before foes react.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3946,7 +5776,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "deception",
@@ -3954,7 +5789,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.cha"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3980,7 +5826,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Ignore effects of Major Fail."
+          "notes": "Ignore effects of Major Fail.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3988,7 +5839,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Ignore effects of Critical Fail."
+          "notes": "Ignore effects of Critical Fail.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3996,7 +5852,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Detect lies in text and audio without seeing speaker."
+          "notes": "Detect lies in text and audio without seeing speaker.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -4004,7 +5865,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "detect-lies",
@@ -4012,7 +5878,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -4038,7 +5915,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Detect magical traps."
+          "notes": "Detect magical traps.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -4046,7 +5928,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "No Disadvantage when scanning broadly or moving."
+          "notes": "No Disadvantage when scanning broadly or moving.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -4054,7 +5941,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Party gains Advantage on first check to avoid detected trap."
+          "notes": "Party gains Advantage on first check to avoid detected trap.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -4062,7 +5954,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "detect-trap",
@@ -4070,7 +5967,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -4096,7 +6004,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Sort inventory and gear by value (without revealing exact value)."
+          "notes": "Sort inventory and gear by value (without revealing exact value).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -4104,7 +6017,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "View exact gold values of all items and gear."
+          "notes": "View exact gold values of all items and gear.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -4112,7 +6030,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Gold value of new items displayed on pickup."
+          "notes": "Gold value of new items displayed on pickup.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -4120,7 +6043,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "determine-value",
@@ -4129,7 +6057,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -4155,7 +6094,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Advantage if not a member of either party."
+          "notes": "Advantage if not a member of either party.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -4163,7 +6107,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Parties accept consequences for breaking deal."
+          "notes": "Parties accept consequences for breaking deal.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -4171,7 +6120,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Hostilities cease for remainder of the day."
+          "notes": "Hostilities cease for remainder of the day.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -4179,7 +6133,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "diplomacy",
@@ -4187,7 +6146,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.cha"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -4213,7 +6183,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+1 Eva",
           "debuff": "",
-          "notes": "+1 Evade Buff, Step additional 5 ft when Evading."
+          "notes": "+1 Evade Buff, Step additional 5 ft when Evading.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -4221,7 +6196,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+2 Eva",
           "debuff": "",
-          "notes": "+2 Evade Buff, Advantage to Evade Spells and Ranged Attacks."
+          "notes": "+2 Evade Buff, Advantage to Evade Spells and Ranged Attacks.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -4229,7 +6209,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+2 Eva",
           "debuff": "",
-          "notes": "+2 Evade Buff, Evade Action costs no Action in combat."
+          "notes": "+2 Evade Buff, Evade Action costs no Action in combat.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -4237,7 +6222,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "dodge",
@@ -4246,7 +6236,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -4272,7 +6273,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "First Attack made with Advantage."
+          "notes": "First Attack made with Advantage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -4280,7 +6286,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "2nd Attack upgrades to Crit on Standard Success+."
+          "notes": "2nd Attack upgrades to Crit on Standard Success+.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -4288,7 +6299,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "2nd Attack with Advantage; deals ×3 damage on Crit."
+          "notes": "2nd Attack with Advantage; deals ×3 damage on Crit.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -4296,7 +6312,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "double-tap",
@@ -4305,7 +6326,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -4331,7 +6363,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "No Disadvantage when attacking while driving."
+          "notes": "No Disadvantage when attacking while driving.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -4339,7 +6376,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Vehicle has +5ft Move; Advantage to Evade vehicle attacks."
+          "notes": "Vehicle has +5ft Move; Advantage to Evade vehicle attacks.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -4347,7 +6389,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Vehicle has +5ft Move; Advantage on extreme stunts."
+          "notes": "Vehicle has +5ft Move; Advantage on extreme stunts.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -4355,7 +6402,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "driving",
@@ -4363,7 +6415,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -4389,7 +6452,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Find 1 Rank damage die's worth of Misc Junk."
+          "notes": "Find 1 Rank damage die's worth of Misc Junk.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -4397,7 +6465,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Takes 30 minutes; additional item on Crit."
+          "notes": "Takes 30 minutes; additional item on Crit.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -4405,7 +6478,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Takes 10 minutes; additional item on Amazing Success."
+          "notes": "Takes 10 minutes; additional item on Amazing Success.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -4413,7 +6491,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "dumpster-diving",
@@ -4421,7 +6504,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -4447,7 +6541,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Ignore effects of Major Fail."
+          "notes": "Ignore effects of Major Fail.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -4455,7 +6554,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Fatigued",
-          "notes": "Advantage if not Fatigued or in extreme conditions."
+          "notes": "Advantage if not Fatigued or in extreme conditions.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -4463,7 +6567,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Critical Fail converted to Standard Fail."
+          "notes": "Critical Fail converted to Standard Fail.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -4471,7 +6580,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "endurance",
@@ -4479,7 +6593,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.con"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -4505,7 +6630,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Specialize in mundane item type with Advantage."
+          "notes": "Specialize in mundane item type with Advantage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -4513,7 +6643,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+1 bon",
           "debuff": "",
-          "notes": "Craft specialty item with +1 bonus level enchantment."
+          "notes": "Craft specialty item with +1 bonus level enchantment.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -4521,7 +6656,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+2 bon",
           "debuff": "",
-          "notes": "Craft up to +2 bonus level enchantment; takes half time."
+          "notes": "Craft up to +2 bonus level enchantment; takes half time.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -4529,7 +6669,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "engineering",
@@ -4537,7 +6682,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -4563,7 +6719,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Access system-concealed displays and Dungeon Locator signs."
+          "notes": "Access system-concealed displays and Dungeon Locator signs.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -4571,7 +6732,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Read hidden sigils used to direct Mob movement."
+          "notes": "Read hidden sigils used to direct Mob movement.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -4579,7 +6745,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Read hidden messages and redactions in dungeon documents."
+          "notes": "Read hidden messages and redactions in dungeon documents.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -4587,7 +6758,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "escape-plan",
@@ -4596,7 +6772,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -4622,7 +6809,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Escape unseen and take unseen Step."
+          "notes": "Escape unseen and take unseen Step.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -4630,7 +6822,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Party rolls untrained normally."
+          "notes": "Party rolls untrained normally.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -4638,7 +6835,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Immediately take an Action with Advantage upon slipping out."
+          "notes": "Immediately take an Action with Advantage upon slipping out.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -4646,7 +6848,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "escape-artist",
@@ -4654,7 +6861,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -4680,7 +6898,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Determine type, status, and raw materials of explosives."
+          "notes": "Determine type, status, and raw materials of explosives.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -4688,7 +6911,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Craft explosives with Sapper's Table."
+          "notes": "Craft explosives with Sapper's Table.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -4696,7 +6924,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Create explosive raw materials out of non-volatile materials; takes half time."
+          "notes": "Create explosive raw materials out of non-volatile materials; takes half time.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -4704,7 +6937,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "explosives-handling",
@@ -4712,7 +6950,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -4738,7 +6987,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Specialize in mundane item with Advantage."
+          "notes": "Specialize in mundane item with Advantage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -4746,7 +7000,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+1 bon",
           "debuff": "",
-          "notes": "Craft specialty item with +1 bonus level enchantment."
+          "notes": "Craft specialty item with +1 bonus level enchantment.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -4754,7 +7013,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+2 bon",
           "debuff": "",
-          "notes": "Craft with up to +2 bonus level enchantment; takes half time."
+          "notes": "Craft with up to +2 bonus level enchantment; takes half time.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -4762,7 +7026,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "fabricate",
@@ -4770,7 +7039,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -4796,7 +7076,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Detection range increases to 5 miles."
+          "notes": "Detection range increases to 5 miles.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -4804,7 +7089,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Detection range increases to 10 miles."
+          "notes": "Detection range increases to 10 miles.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -4812,7 +7102,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Input crawler's name to learn exact location anywhere in dungeon."
+          "notes": "Input crawler's name to learn exact location anywhere in dungeon.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -4820,7 +7115,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "find-crawler",
@@ -4829,7 +7129,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -4855,7 +7166,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Traps appear on HUD up to 5 seconds before triggering."
+          "notes": "Traps appear on HUD up to 5 seconds before triggering.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -4863,7 +7179,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Traps within 10 ft appear as you approach."
+          "notes": "Traps within 10 ft appear as you approach.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -4871,7 +7192,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Traps within 15 ft appear as you approach."
+          "notes": "Traps within 15 ft appear as you approach.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -4879,7 +7205,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "find-trap",
@@ -4888,7 +7219,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -4914,7 +7256,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Spend 5 min to heal Minor Injury Debuff."
+          "notes": "Spend 5 min to heal Minor Injury Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -4922,7 +7269,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Spend 10 min to heal Long-Term Minor Injury Debuff."
+          "notes": "Spend 10 min to heal Long-Term Minor Injury Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -4930,7 +7282,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Regain +1 HB slot; spend 15 min to heal Major Injury Debuff."
+          "notes": "Regain +1 HB slot; spend 15 min to heal Major Injury Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -4938,7 +7295,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "first-aid",
@@ -4946,7 +7308,21 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": true,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": [
+          "Bleed",
+          "Minor Injury"
+        ]
+      }
     }
   },
   {
@@ -4972,7 +7348,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Build custom vehicles with no bonus level limits."
+          "notes": "Build custom vehicles with no bonus level limits.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -4980,7 +7361,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+1 Bon",
           "debuff": "",
-          "notes": "+10ft Move per +1 Bonus Level; use as Repair for engines."
+          "notes": "+10ft Move per +1 Bonus Level; use as Repair for engines.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -4988,7 +7374,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Cut engine/vehicle crafting time in half."
+          "notes": "Cut engine/vehicle crafting time in half.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -4996,7 +7387,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "gear-head",
@@ -5004,7 +7400,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -5030,7 +7437,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Critical Fail on Nat 3-; determine type and status."
+          "notes": "Critical Fail on Nat 3-; determine type and status.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -5038,7 +7450,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Critical Fail on Nat 2-; craft explosives with Sapper's Table."
+          "notes": "Critical Fail on Nat 2-; craft explosives with Sapper's Table.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -5046,7 +7463,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Critical Fail on Nat 1 as usual; create raw materials."
+          "notes": "Critical Fail on Nat 1 as usual; create raw materials.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -5054,7 +7476,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "goblin-explosives",
@@ -5062,7 +7489,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -5088,7 +7526,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Lower level Mob won't attack party unless attacked."
+          "notes": "Lower level Mob won't attack party unless attacked.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -5096,7 +7539,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Up to double level won't attack unless provoked."
+          "notes": "Up to double level won't attack unless provoked.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -5104,7 +7552,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Group of Mobs up to double level won't attack unless provoked."
+          "notes": "Group of Mobs up to double level won't attack unless provoked.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -5112,7 +7565,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "good-first-impression",
@@ -5120,7 +7578,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.cha"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -5146,7 +7615,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Crafting takes half time."
+          "notes": "Crafting takes half time.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -5154,7 +7628,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Devices deal d10s of damage instead of d6s."
+          "notes": "Devices deal d10s of damage instead of d6s.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -5162,7 +7641,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Devices can be set to trigger only against a specific Mob/NPC/crawler."
+          "notes": "Devices can be set to trigger only against a specific Mob/NPC/crawler.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -5170,7 +7654,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "improvised-explosive-device",
@@ -5178,7 +7667,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -5204,7 +7704,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Usable in dim light without cover."
+          "notes": "Usable in dim light without cover.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -5212,7 +7717,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Party rolls untrained normally."
+          "notes": "Party rolls untrained normally.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -5220,7 +7730,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Usable in lightly shaded area; can Step without breaking stealth."
+          "notes": "Usable in lightly shaded area; can Step without breaking stealth.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -5228,7 +7743,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "hide-in-shadows",
@@ -5236,7 +7756,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -5262,7 +7793,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Determine type, status, and raw materials."
+          "notes": "Determine type, status, and raw materials.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -5270,7 +7806,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Craft incendiary devices with Sapper's Table."
+          "notes": "Craft incendiary devices with Sapper's Table.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -5278,7 +7819,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+5 Spl",
           "debuff": "",
-          "notes": "Add +5 Splash at no added Difficulty; takes half time."
+          "notes": "Add +5 Splash at no added Difficulty; takes half time.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -5286,7 +7832,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "incendiary-device-handling",
@@ -5294,7 +7845,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -5320,7 +7882,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "One potion infuses 2 items at once."
+          "notes": "One potion infuses 2 items at once.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -5328,7 +7895,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "One potion infuses 5 items at once."
+          "notes": "One potion infuses 5 items at once.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -5336,7 +7908,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "One potion infuses 10 items at once."
+          "notes": "One potion infuses 10 items at once.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -5344,7 +7921,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "infusion",
@@ -5352,7 +7934,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -5378,7 +7971,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Target can only move away until end of next round."
+          "notes": "Target can only move away until end of next round.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -5386,7 +7984,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Woozy",
-          "notes": "Target also gains Woozy Debuff."
+          "notes": "Target also gains Woozy Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -5394,7 +7997,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Paralyzed",
-          "notes": "Target drops held items and gains Paralyzed Debuff."
+          "notes": "Target drops held items and gains Paralyzed Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -5402,7 +8010,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "intimidate",
@@ -5410,7 +8023,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.str"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -5436,7 +8060,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Advantage if familiar with area."
+          "notes": "Advantage if familiar with area.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -5444,7 +8073,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Each attempt takes 5 minutes."
+          "notes": "Each attempt takes 5 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -5452,7 +8086,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Advantage if you know the parties involved."
+          "notes": "Advantage if you know the parties involved.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -5460,7 +8099,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "investigation",
@@ -5468,7 +8112,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -5494,7 +8149,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+1 add",
           "debuff": "",
-          "notes": "On Crit, gain +1 additional permanent Int."
+          "notes": "On Crit, gain +1 additional permanent Int.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -5502,7 +8162,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+1 per",
           "debuff": "",
-          "notes": "Standard Success+ grants +1 permanent Int; eat cursed items safely."
+          "notes": "Standard Success+ grants +1 permanent Int; eat cursed items safely.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -5510,7 +8175,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Choose which Stat is permanently increased."
+          "notes": "Choose which Stat is permanently increased.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -5518,7 +8188,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "iron-stomach",
@@ -5526,7 +8201,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.con"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -5552,7 +8238,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Add Dex to height of Jump."
+          "notes": "Add Dex to height of Jump.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -5560,7 +8251,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+1 Eva",
           "debuff": "",
-          "notes": "Gain +1 Evade Buff."
+          "notes": "Gain +1 Evade Buff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -5568,7 +8264,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Leap distance is Rank + (Str × 2)."
+          "notes": "Leap distance is Rank + (Str × 2).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -5576,7 +8277,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "jumping",
@@ -5584,7 +8290,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.str"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -5610,7 +8327,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Extend free Call a Play to group Quest members."
+          "notes": "Extend free Call a Play to group Quest members.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -5618,7 +8340,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Party members may perform a free Move Action."
+          "notes": "Party members may perform a free Move Action.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -5626,7 +8353,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Party members may perform a free Evade Action."
+          "notes": "Party members may perform a free Evade Action.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -5634,7 +8366,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "leadership",
@@ -5642,7 +8379,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.cha"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -5668,7 +8416,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Distance Rank × 3, height Dex × 3."
+          "notes": "Distance Rank × 3, height Dex × 3.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -5676,7 +8429,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Leap straight up without arcing trajectory."
+          "notes": "Leap straight up without arcing trajectory.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -5684,7 +8442,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Leap may last Rank in seconds (gliding)."
+          "notes": "Leap may last Rank in seconds (gliding).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -5692,7 +8455,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "light-on-your-feet",
@@ -5700,7 +8468,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -5726,7 +8505,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Make no noise and leave no trace."
+          "notes": "Make no noise and leave no trace.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -5734,7 +8518,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Takes half time; alter lock so key no longer works."
+          "notes": "Takes half time; alter lock so key no longer works.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -5742,7 +8531,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "No Disadvantage when lacking tools."
+          "notes": "No Disadvantage when lacking tools.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -5750,7 +8544,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "lockpicking",
@@ -5758,7 +8557,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -5784,7 +8594,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Identify major factions in the area."
+          "notes": "Identify major factions in the area.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -5792,7 +8607,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Aware of important local NPCs."
+          "notes": "Aware of important local NPCs.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -5800,7 +8620,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Advantage on first Cha check when encountering organized group."
+          "notes": "Advantage on first Cha check when encountering organized group.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -5808,7 +8633,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "lore",
@@ -5816,7 +8646,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -5842,7 +8683,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Party members also buy/sell at negotiated price."
+          "notes": "Party members also buy/sell at negotiated price.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -5850,7 +8696,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Price adjusted an additional 10% in favor."
+          "notes": "Price adjusted an additional 10% in favor.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -5858,7 +8709,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Price adjusted an additional 15% in favor."
+          "notes": "Price adjusted an additional 15% in favor.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -5866,7 +8722,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "negotiation",
@@ -5874,7 +8735,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.cha"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -5900,7 +8772,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Notified when near saferoom or stairwell."
+          "notes": "Notified when near saferoom or stairwell.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -5908,7 +8785,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "See through HUD map while open."
+          "notes": "See through HUD map while open.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -5916,7 +8798,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Mobs appear as red dots on HUD map."
+          "notes": "Mobs appear as red dots on HUD map.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -5924,7 +8811,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "pathfinder",
@@ -5933,7 +8825,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -5959,7 +8862,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Halve penalty for cluttered areas."
+          "notes": "Halve penalty for cluttered areas.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -5967,7 +8875,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Halve penalty for short notice window."
+          "notes": "Halve penalty for short notice window.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -5975,7 +8888,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Halve penalty for distance range."
+          "notes": "Halve penalty for distance range.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -5983,7 +8901,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "perception",
@@ -5991,7 +8914,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -6017,7 +8951,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Choose additional performance specialty."
+          "notes": "Choose additional performance specialty.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -6025,7 +8964,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Coach others so they roll unskilled without Disadvantage."
+          "notes": "Coach others so they roll unskilled without Disadvantage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -6033,7 +8977,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Mimic another's performance after seeing it once."
+          "notes": "Mimic another's performance after seeing it once.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -6041,7 +8990,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "performance",
@@ -6049,7 +9003,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.cha"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -6075,7 +9040,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Follow suggestion even if costly."
+          "notes": "Follow suggestion even if costly.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -6083,7 +9053,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Follow suggestion even if dangerous."
+          "notes": "Follow suggestion even if dangerous.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -6091,7 +9066,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Follow suggestion even if against their nature."
+          "notes": "Follow suggestion even if against their nature.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -6099,7 +9079,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "persuasion",
@@ -6107,7 +9092,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.cha"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -6133,7 +9129,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Minor Injury",
-          "notes": "Minor Injury ends after 5 min; Major Injury ends after 10 min."
+          "notes": "Minor Injury ends after 5 min; Major Injury ends after 10 min.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -6141,7 +9142,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Long-Term Minor ends after 20 min; Long-Term Major ends after 1 hr."
+          "notes": "Long-Term Minor ends after 20 min; Long-Term Major ends after 1 hr.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -6149,7 +9155,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Time required to end injury debuffs halved."
+          "notes": "Time required to end injury debuffs halved.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -6157,7 +9168,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "regeneration",
@@ -6166,7 +9182,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.con"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": true,
+        "barsFormula": "1",
+        "targetFilter": "self",
+        "isHoT": true,
+        "hotRounds": 5,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -6192,7 +9219,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Identify followers on sight even when concealed."
+          "notes": "Identify followers on sight even when concealed.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -6200,7 +9232,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Know how to sow discord among religion's followers."
+          "notes": "Know how to sow discord among religion's followers.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -6208,7 +9245,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Know specific strengths and weaknesses of gods."
+          "notes": "Know specific strengths and weaknesses of gods.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -6216,7 +9258,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "religion",
@@ -6224,7 +9271,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -6250,7 +9308,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Repair things with moving parts."
+          "notes": "Repair things with moving parts.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -6258,7 +9321,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Repairs take 1 hour."
+          "notes": "Repairs take 1 hour.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -6266,7 +9334,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Rebuild destroyed items."
+          "notes": "Rebuild destroyed items.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -6274,7 +9347,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "repair",
@@ -6282,7 +9360,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -6308,7 +9397,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Held",
-          "notes": "Use as Attack (range 10 ft vs Evade); target gains Held Debuff."
+          "notes": "Use as Attack (range 10 ft vs Evade); target gains Held Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -6316,7 +9410,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Whip line to untie knot from distance and recover rope."
+          "notes": "Whip line to untie knot from distance and recover rope.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -6324,7 +9423,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Attack range increases to Strength score (min 15 ft)."
+          "notes": "Attack range increases to Strength score (min 15 ft).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -6332,7 +9436,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "ropework",
@@ -6340,7 +9449,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -6366,7 +9486,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Mount has +5ft Move; no Disadvantage on Attacks while riding."
+          "notes": "Mount has +5ft Move; no Disadvantage on Attacks while riding.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -6374,7 +9499,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Mount has +10ft Move; party rolls untrained normally."
+          "notes": "Mount has +10ft Move; party rolls untrained normally.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -6382,7 +9512,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Mount has +15ft Move; Advantage on extreme stunts."
+          "notes": "Mount has +15ft Move; Advantage on extreme stunts.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -6390,7 +9525,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "riding",
@@ -6398,7 +9538,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -6424,7 +9575,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Permanent +5ft Move Buff; check every 2 minutes."
+          "notes": "Permanent +5ft Move Buff; check every 2 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -6432,7 +9588,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Additional permanent +10ft Move Buff; check every 4 minutes."
+          "notes": "Additional permanent +10ft Move Buff; check every 4 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -6440,7 +9601,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Additional permanent +15ft Move Buff; check every 6 minutes."
+          "notes": "Additional permanent +15ft Move Buff; check every 6 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -6448,7 +9614,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "running",
@@ -6456,7 +9627,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -6482,7 +9664,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Salvage checks take 30 minutes."
+          "notes": "Salvage checks take 30 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -6490,7 +9677,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Recover 100% of important raw materials on Success."
+          "notes": "Recover 100% of important raw materials on Success.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -6498,7 +9690,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "On crafting Fail or Near Miss, reroll with Advantage (extra 15 min)."
+          "notes": "On crafting Fail or Near Miss, reroll with Advantage (extra 15 min).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -6506,7 +9703,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "salvage",
@@ -6514,7 +9716,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -6540,7 +9753,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Sew and iron patches onto clothing."
+          "notes": "Sew and iron patches onto clothing.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -6548,7 +9766,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Craft enchanted patches (1 per gear slot, no accessory slot cost)."
+          "notes": "Craft enchanted patches (1 per gear slot, no accessory slot cost).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -6556,7 +9779,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Takes half time; bonus value of patch enchantments increased by +1."
+          "notes": "Takes half time; bonus value of patch enchantments increased by +1.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -6564,7 +9792,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "scutelliphily",
@@ -6572,7 +9805,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -6598,7 +9842,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Usable against Spells and magical damage."
+          "notes": "Usable against Spells and magical damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -6606,7 +9855,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "On Crit, make free Shield Bash Interrupt Attack (3d6 + Str Bludgeoning)."
+          "notes": "On Crit, make free Shield Bash Interrupt Attack (3d6 + Str Bludgeoning).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d6",
@@ -6614,7 +9868,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d6 Shield Bash damage; further reduce incoming damage by Str Mod."
+          "notes": "+1d6 Shield Bash damage; further reduce incoming damage by Str Mod.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -6622,7 +9881,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "shield-block",
@@ -6631,7 +9895,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.str"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -6657,7 +9932,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Pick pockets of NPCs and Mobs."
+          "notes": "Pick pockets of NPCs and Mobs.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -6665,7 +9945,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Plant items on targets."
+          "notes": "Plant items on targets.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -6673,7 +9958,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Manipulate items up to half own size."
+          "notes": "Manipulate items up to half own size.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -6681,7 +9971,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "sleight-of-hand",
@@ -6689,7 +9984,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -6715,7 +10021,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+5 bon",
           "debuff": "",
-          "notes": "Craft items up to +5 bonus level."
+          "notes": "Craft items up to +5 bonus level.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -6723,7 +10034,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+10 bon",
           "debuff": "",
-          "notes": "Craft items up to +10 bonus level."
+          "notes": "Craft items up to +10 bonus level.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -6731,7 +10047,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Smithing takes half time."
+          "notes": "Smithing takes half time.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -6739,7 +10060,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "smithing",
@@ -6747,7 +10073,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.str"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -6773,7 +10110,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Surprise Action can be an Attack with Advantage."
+          "notes": "Surprise Action can be an Attack with Advantage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -6781,7 +10123,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Party rolls untrained normally."
+          "notes": "Party rolls untrained normally.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -6789,7 +10136,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Take full Move and Step; deal ×2 base damage dice on Surprise Attack."
+          "notes": "Take full Move and Step; deal ×2 base damage dice on Surprise Attack.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -6797,7 +10149,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "stealth",
@@ -6805,7 +10162,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -6831,7 +10199,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Hear or spread an additional rumor."
+          "notes": "Hear or spread an additional rumor.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -6839,7 +10212,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Quickly locate a hiding place in town."
+          "notes": "Quickly locate a hiding place in town.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -6847,7 +10225,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Uncover leverage on important person in town."
+          "notes": "Uncover leverage on important person in town.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -6855,7 +10238,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "streetwise",
@@ -6863,7 +10251,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.cha"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -6889,7 +10288,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "No extra damage from Critical Fails."
+          "notes": "No extra damage from Critical Fails.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -6897,7 +10301,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Party rolls untrained normally."
+          "notes": "Party rolls untrained normally.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -6905,7 +10314,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "No extra damage from Major Fails."
+          "notes": "No extra damage from Major Fails.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -6913,7 +10327,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "survival",
@@ -6921,7 +10340,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.con"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -6947,7 +10377,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Fatigued",
-          "notes": "Fatigued Debuff delayed to 2 minutes."
+          "notes": "Fatigued Debuff delayed to 2 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -6955,7 +10390,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Swim at full Move speed as Action."
+          "notes": "Swim at full Move speed as Action.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -6963,7 +10403,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Fatigued",
-          "notes": "Check every 5 minutes; Fatigued Debuff only on Critical Fail."
+          "notes": "Check every 5 minutes; Fatigued Debuff only on Critical Fail.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -6971,7 +10416,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "swimming",
@@ -6979,7 +10429,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.str"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -7005,7 +10466,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Advantage if observing battlefield 5 min prior to combat."
+          "notes": "Advantage if observing battlefield 5 min prior to combat.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -7013,7 +10479,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Roll 2d10 when you Call a Play (choose one)."
+          "notes": "Roll 2d10 when you Call a Play (choose one).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -7021,7 +10492,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Bonus applies to all three disciplines simultaneously."
+          "notes": "Bonus applies to all three disciplines simultaneously.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -7029,7 +10505,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "tactics",
@@ -7037,7 +10518,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -7063,7 +10555,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+5 bon",
           "debuff": "",
-          "notes": "Craft tattoos with up to +5 bonus level."
+          "notes": "Craft tattoos with up to +5 bonus level.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -7071,7 +10568,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+10 bon",
           "debuff": "",
-          "notes": "Craft tattoos with up to +10 bonus level."
+          "notes": "Craft tattoos with up to +10 bonus level.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -7079,7 +10581,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Crafting tattoos takes half time."
+          "notes": "Crafting tattoos takes half time.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -7087,7 +10594,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "tattoo-artistry",
@@ -7095,7 +10607,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -7124,7 +10647,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Free Evade check against each taunted Attack."
+          "notes": "Free Evade check against each taunted Attack.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -7132,7 +10660,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Affect Mobs within 60 feet."
+          "notes": "Affect Mobs within 60 feet.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -7140,7 +10673,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Free Evade checks against taunted Attacks rolled with Advantage."
+          "notes": "Free Evade checks against taunted Attacks rolled with Advantage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -7148,7 +10686,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "taunt",
@@ -7157,7 +10700,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.cha"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -7183,7 +10737,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Advantage when throwing to ally who wants to catch."
+          "notes": "Advantage when throwing to ally who wants to catch.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -7191,7 +10750,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Choose direction on miss instead of rolling 1d8."
+          "notes": "Choose direction on miss instead of rolling 1d8.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -7199,7 +10763,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Throw range increases to Str × 20 feet."
+          "notes": "Throw range increases to Str × 20 feet.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -7207,7 +10776,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "throwing",
@@ -7215,7 +10789,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.str"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -7241,7 +10826,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Follow for 30 min per check; gain 1 target info."
+          "notes": "Follow for 30 min per check; gain 1 target info.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -7249,7 +10839,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Follow for 1 hr per check; gain 2 target info."
+          "notes": "Follow for 1 hr per check; gain 2 target info.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -7257,7 +10852,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Follow for 2 hrs per check; gain 4 target info."
+          "notes": "Follow for 2 hrs per check; gain 4 target info.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -7265,7 +10865,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "tracking",
@@ -7273,7 +10878,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -7299,7 +10915,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Advantage when crafting non-explosive traps."
+          "notes": "Advantage when crafting non-explosive traps.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -7307,7 +10928,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Traps can be set to trigger only against specific target."
+          "notes": "Traps can be set to trigger only against specific target.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -7315,7 +10941,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+5 Spl",
           "debuff": "",
-          "notes": "Add +5 Splash to trap at no added Difficulty; takes half time."
+          "notes": "Add +5 Splash to trap at no added Difficulty; takes half time.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -7323,7 +10954,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "trap-engineer",
@@ -7331,7 +10967,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.int"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -7357,7 +11004,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Attack no longer made with Disadvantage."
+          "notes": "Attack no longer made with Disadvantage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -7365,7 +11017,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Target is pushed 5 feet."
+          "notes": "Target is pushed 5 feet.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -7373,7 +11030,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Attack check made with Advantage."
+          "notes": "Attack check made with Advantage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -7381,7 +11043,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "zone-of-control",
@@ -7390,7 +11057,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.utility",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -7420,7 +11098,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -7428,7 +11111,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -7436,7 +11124,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -7444,7 +11137,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "call-a-play",
@@ -7452,7 +11150,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.combat",
         "stat.cha"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -7482,7 +11191,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -7490,7 +11204,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -7498,7 +11217,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -7506,7 +11230,12 @@ export const DCC_SKILLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "intervene",
@@ -7514,7 +11243,18 @@ export const DCC_SKILLS = [
         "kind.skill",
         "skillGroup.combat",
         "stat.dex"
-      ]
+      ],
+      "techniqueConfig": {
+        "isArmorPiercing": false
+      },
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   }
 ];

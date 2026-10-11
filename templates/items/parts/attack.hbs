@@ -42,6 +42,12 @@
       {{/each}}
     </select>
   </div>
+  <div class="dcc-field-group small" style="text-align: center; max-width: 80px;">
+    <span class="dcc-field-label">Armor Pierce</span>
+    <label style="display: flex; align-items: center; justify-content: center; height: 28px; cursor: pointer;" title="Check if this attack ignores Damage Resistance (DR)">
+      <input type="checkbox" name="system.ignoreDR" {{#if system.ignoreDR}}checked{{/if}} style="width: 18px; height: 18px; cursor: pointer;" />
+    </label>
+  </div>
 </div>
 
 {{!-- WEAPON PROFICIENCY & HANDLING --}}

@@ -315,7 +315,7 @@ export class DCCCombatMetrics {
     const adjustedRaw = totalAdjustedRaw;
     const isImmune = anyImmune && totalAdjustedRaw === 0;
     const isResistant = anyResistant;
-    const dr = ignoreDR ? 0 : (Number(targetActor.system?.attributes?.dr?.total) || 0);
+    const dr = ignoreDR ? 0 : (Number(targetActor.system?.attributes?.dr?.total ?? targetActor.system?.attributes?.dr?.value) || 0);
     const damageAfterDR = Math.max(0, adjustedRaw - dr);
 
     // HP per damage bar (determined by CON modifier: 1 bar = CON mod HP)
@@ -477,7 +477,9 @@ export class DCCCombatMetrics {
       targetName: targetActor.name,
       rawDamage: adjustedRaw,
       dr,
+      effectiveDR: dr,
       damageAfterDR,
+      netDamage: damageAfterDR,
       hpPerBar,
       barsRemoved,
       excessDamage,
