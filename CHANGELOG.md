@@ -1,3 +1,21 @@
+## 3.2.5
+
+### CarlRPG 3.2.5 — Skill Aura Mechanics & Build Engine Unification
+
+- **Build Engine Unification with Skill Auras (`template.json`, `src/models/items/skill-model.mjs`)**:
+  - Unified skill items with the single aura engine, adding identical schemas for `area` (burst/cone/line, radius, mobile/placed origin, target filters, periodic damage, debuffs, element absorption), `tempBars` (temporary health bar grants, formulas, and HP per bar), `durationConfig`, and `active`.
+  - Added Rank Break aura milestones (`area.radiusBonus` and `tempBars.hpPerSlot`) across Ranks 5, 10, 15, and 20 milestone cards on skills.
+- **Progressive Disclosure Skill Sheet UI (`templates/items/parts/skill.hbs`, `src/sheets/item-sheet.mjs`)**:
+  - Added collapsible `<details class="dcc-collapsible-block">` for *Aura & Area of Effect Configuration* with automatic progressive disclosure expansion (`hasAuraConfigured`).
+  - Added `+ Radius Bonus (ft)` and `Upgraded Temp HP/Bar` inputs inside Rank 5, 10, 15, and 20 milestone break cards on the skill sheet.
+- **Actor Aura Activation, Deactivation & Toggle Pipeline (`src/documents/actor.mjs`, `src/apps/effects-panel.mjs`)**:
+  - Updated `activateAura(item)` to resolve modified ranks via `getSkillRank(item.name)` for skills, check `DCC_SKILLS` canonical definitions, and apply rank break bonuses starting from Rank 5.
+  - Updated `rollSkill(skillItem)` to detect aura skills (`area.hasArea` or `delivery: 'aura'`), toggling them between active and deactivated states with specialized chat cards and dismiss controls.
+  - Updated `DCCEffectsPanel.collectEffects()` to collect active skill auras alongside spells, displaying `[AURA EMITTER]` badges, live durations, burst radiuses, and temp health bar details.
+- **Automated Verification (`tests/skill-aura-mechanics.test.mjs`)**:
+  - Added comprehensive automated test suite verifying skill data model schema initialization, sheet context preparation, rank scaling, temporary health bar absorption, roll toggle dismissal, and effects panel integration.
+  - Verified 1,173 unit tests passing with 0 failures across 201 test suites.
+
 ## 3.2.4
 
 ### CarlRPG 3.2.4 — Tag Manager High-Contrast Checkbox Styling & Dark Mode Contrast Fixes

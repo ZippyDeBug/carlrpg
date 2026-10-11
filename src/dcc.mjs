@@ -1995,7 +1995,7 @@ export function onRenderChatMessage(message, html, data) {
       ev.preventDefault();
       const $btn = (typeof $ !== 'undefined') ? $(btn) : null;
       const actorId = btn.dataset?.actorId || $btn?.data('actor-id');
-      const spellId = btn.dataset?.spellId || $btn?.data('spell-id');
+      const spellId = btn.dataset?.spellId || btn.dataset?.itemId || $btn?.data('spell-id') || $btn?.data('item-id');
 
       let actor = (typeof game !== 'undefined' && game.actors?.get) ? game.actors.get(actorId) : null;
       if (!actor && canvas?.tokens?.controlled?.length) {

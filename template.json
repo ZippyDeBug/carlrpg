@@ -287,7 +287,13 @@
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "area": {
+            "radiusBonus": 0
+          },
+          "tempBars": {
+            "hpPerSlot": 0
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -295,7 +301,13 @@
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "area": {
+            "radiusBonus": 0
+          },
+          "tempBars": {
+            "hpPerSlot": 0
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -303,7 +315,13 @@
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "area": {
+            "radiusBonus": 0
+          },
+          "tempBars": {
+            "hpPerSlot": 0
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -311,9 +329,45 @@
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "area": {
+            "radiusBonus": 0
+          },
+          "tempBars": {
+            "hpPerSlot": 0
+          }
         }
       },
+      "area": {
+        "hasArea": false,
+        "shape": "burst",
+        "radius": 0,
+        "coneAngle": 53.13,
+        "lineLength": 0,
+        "lineWidth": 5,
+        "origin": "caster",
+        "targetFilter": "allies",
+        "radiusBonus": 0,
+        "absorbElement": "",
+        "hasPeriodicDamage": false,
+        "periodicDamageFormula": "",
+        "periodicDamageType": "",
+        "inflictDebuff": ""
+      },
+      "delivery": "placed",
+      "tempBars": {
+        "hasTempBars": false,
+        "slotsFormula": "",
+        "hpPerSlot": 0
+      },
+      "durationConfig": {
+        "type": "instant",
+        "rounds": 0,
+        "minutes": 0,
+        "hours": 0,
+        "remainingRounds": 0
+      },
+      "active": false,
       "tags": [],
       "identifier": "",
       "requires": []

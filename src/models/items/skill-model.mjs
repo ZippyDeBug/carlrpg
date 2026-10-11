@@ -57,7 +57,13 @@ export class SkillDataModel extends BaseItemDataModel {
           rankDamageDice: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
           buffsResistances: new fields.StringField({ initial: '' }),
           debuff: new fields.StringField({ initial: '' }),
-          notes: new fields.StringField({ initial: '' })
+          notes: new fields.StringField({ initial: '' }),
+          area: new fields.SchemaField({
+            radiusBonus: new fields.NumberField({ integer: true, initial: 0 })
+          }),
+          tempBars: new fields.SchemaField({
+            hpPerSlot: new fields.NumberField({ integer: true, initial: 0 })
+          })
         }),
         rank10: new fields.SchemaField({
           damageDice: new fields.StringField({ initial: '' }),
@@ -65,7 +71,13 @@ export class SkillDataModel extends BaseItemDataModel {
           rankDamageDice: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
           buffsResistances: new fields.StringField({ initial: '' }),
           debuff: new fields.StringField({ initial: '' }),
-          notes: new fields.StringField({ initial: '' })
+          notes: new fields.StringField({ initial: '' }),
+          area: new fields.SchemaField({
+            radiusBonus: new fields.NumberField({ integer: true, initial: 0 })
+          }),
+          tempBars: new fields.SchemaField({
+            hpPerSlot: new fields.NumberField({ integer: true, initial: 0 })
+          })
         }),
         rank15: new fields.SchemaField({
           damageDice: new fields.StringField({ initial: '' }),
@@ -73,7 +85,13 @@ export class SkillDataModel extends BaseItemDataModel {
           rankDamageDice: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
           buffsResistances: new fields.StringField({ initial: '' }),
           debuff: new fields.StringField({ initial: '' }),
-          notes: new fields.StringField({ initial: '' })
+          notes: new fields.StringField({ initial: '' }),
+          area: new fields.SchemaField({
+            radiusBonus: new fields.NumberField({ integer: true, initial: 0 })
+          }),
+          tempBars: new fields.SchemaField({
+            hpPerSlot: new fields.NumberField({ integer: true, initial: 0 })
+          })
         }),
         rank20: new fields.SchemaField({
           damageDice: new fields.StringField({ initial: '' }),
@@ -81,9 +99,45 @@ export class SkillDataModel extends BaseItemDataModel {
           rankDamageDice: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
           buffsResistances: new fields.StringField({ initial: '' }),
           debuff: new fields.StringField({ initial: '' }),
-          notes: new fields.StringField({ initial: '' })
+          notes: new fields.StringField({ initial: '' }),
+          area: new fields.SchemaField({
+            radiusBonus: new fields.NumberField({ integer: true, initial: 0 })
+          }),
+          tempBars: new fields.SchemaField({
+            hpPerSlot: new fields.NumberField({ integer: true, initial: 0 })
+          })
         })
-      })
+      }),
+      area: new fields.SchemaField({
+        hasArea: new fields.BooleanField({ initial: false }),
+        shape: new fields.StringField({ initial: 'burst', choices: ['burst', 'cone', 'line'] }),
+        radius: new fields.NumberField({ initial: 5, min: 0 }),
+        coneAngle: new fields.NumberField({ initial: 53.13 }),
+        lineLength: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
+        lineWidth: new fields.NumberField({ integer: true, min: 0, initial: 5 }),
+        origin: new fields.StringField({ initial: 'caster', choices: ['caster', 'placed'] }),
+        targetFilter: new fields.StringField({ initial: 'allies', choices: ['allies', 'enemies', 'both'] }),
+        radiusBonus: new fields.NumberField({ integer: true, initial: 0 }),
+        absorbElement: new fields.StringField({ initial: '' }),
+        hasPeriodicDamage: new fields.BooleanField({ initial: false }),
+        periodicDamageFormula: new fields.StringField({ initial: '' }),
+        periodicDamageType: new fields.StringField({ initial: '' }),
+        inflictDebuff: new fields.StringField({ initial: '' })
+      }),
+      delivery: new fields.StringField({ initial: 'placed' }),
+      tempBars: new fields.SchemaField({
+        hasTempBars: new fields.BooleanField({ initial: false }),
+        slotsFormula: new fields.StringField({ initial: 'con' }),
+        hpPerSlot: new fields.NumberField({ integer: true, min: 0, initial: 2 })
+      }),
+      durationConfig: new fields.SchemaField({
+        type: new fields.StringField({ initial: 'instant' }),
+        rounds: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
+        minutes: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
+        hours: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
+        remainingRounds: new fields.NumberField({ integer: true, min: 0, initial: 0 })
+      }),
+      active: new fields.BooleanField({ initial: false })
     };
   }
 

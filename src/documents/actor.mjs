@@ -16,6 +16,7 @@ import { CANONICAL_WEAPON_TECHNIQUE_MAP, getRecommendedAssociatedSkills } from '
 import { ARCHETYPE_TO_TAG, getItemAllTags, getTagDefinition, damageTypeToElement, elementToDamageType } from '../data/tags.mjs';
 import { matchesTagQuery, expandTagReferences } from '../utils/tag-query.mjs';
 import { DCC_SPELLS } from '../data/spells.mjs';
+import { DCC_SKILLS } from '../data/skills.mjs';
 
 /**
  * Calculate DCC RPG stat modifier based on enhanced stat value:
@@ -4784,16 +4785,21 @@ export class DCCActor extends BaseActor {
   async activateAura(spellItem, options = {}) {
     if (!spellItem) return { active: false, error: 'No item provided' };
     const sys = spellItem.system || {};
-    const rank = Number(this.getSpellRank ? this.getSpellRank(spellItem.name) : (sys.modifiedRank ?? sys.rank)) || Number(sys.rank) || 1;
+    const rank = Number(
+      spellItem.type === 'skill'
+        ? (this.getSkillRank ? this.getSkillRank(spellItem.name) : (sys.modifiedRank ?? sys.rank))
+        : (this.getSpellRank ? this.getSpellRank(spellItem.name) : (sys.modifiedRank ?? sys.rank))
+    ) || Number(sys.rank) || 1;
 
-    // Resolve canonical definition if spell properties are incomplete
+    // Resolve canonical definition if item properties are incomplete
     let tempBarsConfig = sys.tempBars;
     let rankBreaksConfig = sys.rankBreaks;
     let areaConfig = sys.area;
     if ((!tempBarsConfig?.hasTempBars || !areaConfig?.hasArea || !areaConfig?.radius) && spellItem.name) {
-      const canonical = typeof DCC_SPELLS !== 'undefined'
-        ? DCC_SPELLS.find(s => s.name?.toLowerCase().trim() === spellItem.name.toLowerCase().trim())
-        : null;
+      const canonicalPool = spellItem.type === 'skill'
+        ? (typeof DCC_SKILLS !== 'undefined' ? DCC_SKILLS : [])
+        : (typeof DCC_SPELLS !== 'undefined' ? DCC_SPELLS : []);
+      const canonical = canonicalPool.find(s => s.name?.toLowerCase().trim() === spellItem.name.toLowerCase().trim());
       if (canonical?.system) {
         if (!tempBarsConfig?.hasTempBars && canonical.system.tempBars?.hasTempBars) {
           tempBarsConfig = canonical.system.tempBars;
@@ -4813,7 +4819,11 @@ export class DCCActor extends BaseActor {
       radius = 5;
     }
 
-    // Add cumulative bonuses at Rank 10, Rank 15, and Rank 20
+    // Add cumulative bonuses at Rank 5, Rank 10, Rank 15, and Rank 20
+    if (rank >= 5) {
+      const r5Bonus = Number(rankBreaksConfig?.rank5?.area?.radiusBonus ?? sys.rankBreaks?.rank5?.area?.radiusBonus) || 0;
+      radius += r5Bonus;
+    }
     if (rank >= 10) {
       const r10Bonus = Number(rankBreaksConfig?.rank10?.area?.radiusBonus ?? sys.rankBreaks?.rank10?.area?.radiusBonus) || 0;
       radius += r10Bonus;
@@ -5582,6 +5592,44 @@ export class DCCActor extends BaseActor {
     }
 
     const sys = skillItem.system || {};
+    const skillTags = skillItem.allTags || (typeof getItemAllTags === 'function' ? getItemAllTags(skillItem) : new Set(sys.tags || []));
+    const isAura = sys.delivery === 'aura' || sys.area?.isAura || sys.area?.hasArea || (skillTags && (skillTags.has('delivery.aura') || skillTags.has('shape.aura'))) || (typeof skillItem.name === 'string' && skillItem.name.toLowerCase().includes('aura'));
+
+    // If an aura skill is currently active, activating it toggles/dismisses it
+    if (isAura && sys.active) {
+      await this.deactivateAura(skillItem);
+      const dismissContent = `
+        <div class="dcc-chat-card dcc-skill-card dcc-aura-dismissed" style="font-family: var(--font-primary, sans-serif); border: 2px solid #7f8c8d;">
+          <div class="dcc-chat-card-header" style="display: flex; align-items: center; gap: 8px; border-bottom: 2px solid #7f8c8d; padding-bottom: 4px; margin-bottom: 6px;">
+            <img src="${skillItem.img || 'icons/svg/aura.svg'}" style="width: 36px; height: 36px; border: 1px solid #000; border-radius: 4px;" />
+            <div>
+              <h3 style="margin: 0; font-size: 16px; font-weight: bold; color: #333;">${skillItem.name} — DISMISSED</h3>
+              <span style="font-size: 11px; text-transform: uppercase; color: #7f8c8d; font-weight: bold;">Skill Aura Deactivated</span>
+            </div>
+          </div>
+          <div style="font-size: 12px; color: #555; background: #f8f9fa; border: 1px solid #e9ecef; padding: 6px 8px; border-radius: 3px;">
+            <i class="fa-solid fa-power-off"></i> <strong>${this.name}</strong> dismissed the <strong>${skillItem.name}</strong> aura. Any temporary health bars or persistent effects have been cleared.
+          </div>
+        </div>
+      `;
+      return ChatMessage.create({
+        speaker: ChatMessage.getSpeaker({ actor: this }),
+        content: dismissContent,
+        flags: {
+          'carl-rpg': {
+            isSkillRoll: true,
+            isAuraDismiss: true,
+            auraItem: skillItem.id || skillItem._id
+          }
+        }
+      });
+    }
+
+    let auraData = null;
+    if (isAura) {
+      auraData = await this.activateAura(skillItem, options);
+    }
+
     const statKey = sys.stat || 'str';
     const statName = statKey.toUpperCase();
     const statMod = this.system.abilities?.[statKey]?.mod ?? 0;
@@ -5600,6 +5648,45 @@ export class DCCActor extends BaseActor {
     const typeBonus = Number(skillItem.typeBonus ?? sys.typeBonus) || 0;
     const totalSkill = modifiedRank + statMod;
     const checkType = (sys.checkType || '').toLowerCase();
+
+    // If this is an aura skill without attack action/damage, present activation card directly
+    if (isAura && (!sys.isAttack && !sys.hasDamage && !sys.baseDamage)) {
+      const auraHtml = `
+        <div class="dcc-chat-card dcc-skill-card dcc-aura-active" style="font-family: var(--font-primary, sans-serif); border: 2px solid #d4af37;">
+          <div class="dcc-chat-card-header" style="display: flex; align-items: center; gap: 8px; border-bottom: 2px solid #d4af37; padding-bottom: 4px; margin-bottom: 6px;">
+            <img src="${skillItem.img || 'icons/svg/aura.svg'}" style="width: 36px; height: 36px; border: 1px solid #000; border-radius: 4px;" />
+            <div>
+              <h3 style="margin: 0; font-size: 16px; font-weight: bold; color: #111;">${skillItem.name}</h3>
+              <span style="font-size: 11px; text-transform: uppercase; color: #b7791f; font-weight: bold;">Skill Aura Activated</span>
+            </div>
+          </div>
+          <div class="dcc-aura-effect" style="margin: 8px 0; padding: 8px 10px; background: #fff8e7; border: 1px solid #d4af37; border-radius: 4px; color: #856404; font-size: 12px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+              <span style="font-weight: bold; font-size: 13px; color: #b7791f;"><i class="fa-solid fa-atom"></i> Aura Active: ${auraData?.radius || 5}ft Radius</span>
+              <button type="button" class="dcc-btn dcc-dismiss-aura-btn" data-actor-id="${this.id}" data-item-id="${skillItem.id || skillItem._id}" data-spell-id="${skillItem.id || skillItem._id}" style="padding: 2px 6px; font-size: 11px; background: #e2e8f0; border: 1px solid #cbd5e0; border-radius: 3px; cursor: pointer; color: #2d3748;">
+                <i class="fa-solid fa-power-off"></i> Dismiss
+              </button>
+            </div>
+            ${auraData?.totalTempHp > 0 ? `<div><i class="fa-solid fa-shield-heart" style="color: #d4af37;"></i> Granted <strong>${auraData.slots}</strong> Temporary Health Bars (${auraData.hpPerSlot} HP/slot, <strong>${auraData.totalTempHp} Temp HP</strong> total)</div>` : ''}
+            ${auraData?.affectedAllies?.length ? `<div><i class="fa-solid fa-user-shield" style="color: #27ae60;"></i> Applied bonus health bars to <strong>${auraData.affectedAllies.length}</strong> allies in radius: ${auraData.affectedAllies.map(a => a.name).join(', ')}</div>` : ''}
+            <div><i class="fa-solid fa-users"></i> Target: <strong>${auraData?.target || 'Self'}</strong> (${auraData?.targetFilter || 'allies'} within <strong>${auraData?.radius || 5}ft</strong>) • Duration: <strong>${auraData?.remainingRounds || 2} combat rounds</strong></div>
+          </div>
+          ${sys.description ? `<div style="font-size: 12px; line-height: 1.4; margin-top: 6px;">${sys.description}</div>` : ''}
+          ${sys.notes ? `<div style="font-size: 11px; color: #666; margin-top: 4px;"><em>${sys.notes}</em></div>` : ''}
+        </div>
+      `;
+      return ChatMessage.create({
+        speaker: ChatMessage.getSpeaker({ actor: this }),
+        content: auraHtml,
+        flags: {
+          'carl-rpg': {
+            isSkillRoll: true,
+            isAuraActive: true,
+            auraItem: skillItem.id || skillItem._id
+          }
+        }
+      });
+    }
 
     // Passive skill handling
     if (checkType.includes('passive') || checkType.includes('no roll')) {
@@ -5706,8 +5793,25 @@ export class DCCActor extends BaseActor {
       </div>
     ` : '';
 
+    let auraHtml = '';
+    if (auraData) {
+      auraHtml = `
+        <div class="dcc-aura-effect" style="margin: 8px 0; padding: 8px 10px; background: #fff8e7; border: 1px solid #d4af37; border-radius: 4px; color: #856404; font-size: 12px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+            <span style="font-weight: bold; font-size: 13px; color: #b7791f;"><i class="fa-solid fa-atom"></i> Aura Active: ${auraData.radius}ft Radius</span>
+            <button type="button" class="dcc-btn dcc-dismiss-aura-btn" data-actor-id="${this.id}" data-item-id="${skillItem.id || skillItem._id}" data-spell-id="${skillItem.id || skillItem._id}" style="padding: 2px 6px; font-size: 11px; background: #e2e8f0; border: 1px solid #cbd5e0; border-radius: 3px; cursor: pointer; color: #2d3748;">
+              <i class="fa-solid fa-power-off"></i> Dismiss
+            </button>
+          </div>
+          ${auraData.totalTempHp > 0 ? `<div><i class="fa-solid fa-shield-heart" style="color: #d4af37;"></i> Granted <strong>${auraData.slots}</strong> Temporary Health Bars (${auraData.hpPerSlot} HP/slot, <strong>${auraData.totalTempHp} Temp HP</strong> total)</div>` : ''}
+          ${auraData.affectedAllies?.length ? `<div><i class="fa-solid fa-user-shield" style="color: #27ae60;"></i> Applied bonus health bars to <strong>${auraData.affectedAllies.length}</strong> allies in radius: ${auraData.affectedAllies.map(a => a.name).join(', ')}</div>` : ''}
+          <div><i class="fa-solid fa-users"></i> Target: <strong>${auraData.target || 'Self'}</strong> (${auraData.targetFilter} within <strong>${auraData.radius}ft</strong>) • Duration: <strong>${auraData.remainingRounds} combat rounds</strong></div>
+        </div>
+      `;
+    }
+
     const rollHtml = typeof roll.render === 'function' ? await roll.render() : '';
-    const content = rollHtml ? `${rollHtml}${dmgBtnHtml}` : (dmgBtnHtml || undefined);
+    const content = `${rollHtml || ''}${dmgBtnHtml || ''}${auraHtml || ''}`.trim() || undefined;
 
     return roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor: this }),

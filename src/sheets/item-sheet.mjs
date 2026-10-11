@@ -757,6 +757,7 @@ export class DCCItemSheet extends BaseItemSheet {
         Boolean(sys.onHitDebuff)
       );
       context.hasDamageModifiersConfigured = Boolean(sys.damageModifiers?.length > 0);
+      context.hasAuraConfigured = Boolean(sys.area?.hasArea);
     }
 
     return context;

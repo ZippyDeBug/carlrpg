@@ -394,3 +394,49 @@ The user requested:
      - Add explicit high-contrast outline (`2px solid #555` in light mode, `2px solid #ffffff !important` in dark mode) so unchecked checkboxes pop out against any background.
      - Add `accent-color: #c0392b` (`#e74c3c` in dark mode) for crisp checkmarks on vivid red.
      - Style the custom tag create checkbox label (`.dcc-custom-tag-apply-label`) with high-contrast text in dark mode.
+
+---
+
+## Task: Unifying Skills with Aura Mechanics & Calling Out Spell vs. Skill Differences
+**Date**: 2026-10-10
+
+### 1. Differences Between Spells and Skills in DCC RPG
+- **Resource Cost (Mana vs. At-Will / Cooldowns)**:
+  - Spells require Mana Points (MP) to cast (unless cast from a scroll or consumable item).
+  - Skills do not consume Mana. High-tier combat techniques or special maneuvers may have cooldowns (e.g. 1/round, 30 hours) or action restrictions, but no MP cost.
+- **Favored Archetypes & Mana Surcharges**:
+  - Spells have `favored` class archetypes (e.g. `Mage`, `Priest`). Non-favored casters incur a +1 MP penalty per spell cast (classless crawlers and pets are exempt).
+  - Skills do not have a favored MP surcharge. Instead, classes and races apply flat skill rank bonuses or penalties (e.g. Boring Ol' Mage -3 to Str/Dex skills, floored at 1).
+- **Stat Association & Check Types**:
+  - Spells typically rely on `Int` (Arcane) or `Cha` (Divine). Rolls are either Spell Attacks vs Evade, Opposed Checks, or automatic effect applications (Auras/Heals/Utility).
+  - Skills span all 5 attributes (`Str`, `Dex`, `Con`, `Int`, `Cha`).
+- **Weapon Attacks & Synthesis**:
+  - Combat skills (`Strike`, `Edge`, `Bashing`, `Reach`, `Ranged`, `Hand to Hand`) govern weapon proficiencies, wielding modes, and synthesize attacks on crawler sheets using the Rank Damage Die table (`+1d2` up to `+2d10`).
+  - Spells have their own explicit base damage formulas and scaling modifiers.
+- **Advancement & Training**:
+  - Skills advance through invested hours, usage checks, and grinding advancement.
+  - Spells are learned from spell books, class grants, or sponsors, advancing by rank.
+
+### 2. Implementation Plan: Further Unifying the Engine with Skill Auras
+- **Schema & Data Models (`template.json`, `src/models/items/skill-model.mjs`)**:
+  - Add `area`, `delivery`, `tempBars`, `durationConfig`, and `active` schemas to `skill` matching `spell` and `gear`.
+  - Add `area.radiusBonus` and `tempBars.hpPerSlot` to each Rank Break milestone card (`rank5`, `rank10`, `rank15`, `rank20`) on skills.
+- **Progressive Disclosure UI (`templates/items/parts/skill.hbs`, `src/sheets/item-sheet.mjs`)**:
+  - Add `hasAuraConfigured` calculation to `DCCItemSheet._prepareContext` for skills.
+  - Add collapsible `<details class="dcc-collapsible-block" {{#if hasAuraConfigured}}open{{/if}}>` for Aura & AoE Configuration in `skill.hbs`.
+  - Add `+ Radius Bonus (ft)` and `Upgraded Temp HP/Bar` inputs inside each Rank Break milestone card on `skill.hbs`.
+- **Actor & Combat Execution (`src/documents/actor.mjs`, `src/apps/effects-panel.mjs`)**:
+  - Update `activateAura(item)` to resolve effective rank via `getSkillRank(item.name)` when `item.type === 'skill'`.
+  - Update `rollSkill(skillItem)` to detect when a skill emits an aura (`sys.area?.hasArea`). Toggling it activates the aura or dismisses it with clean chat cards.
+  - Update `DCCEffectsPanel.collectEffects()` to include active auras emitted by skills (`['spell', 'skill', 'gear', 'buff'].includes(item.type)`).
+- **Automated Tests**:
+  - Create `tests/skill-aura-mechanics.test.mjs` verifying skill aura activation, radius scaling, temp bars, and effects panel presence.
+
+### 3. Verification & Results
+- **Test Suite Execution**: `node --test tests/skill-aura-mechanics.test.mjs` ran with 8 tests passing with 0 failures.
+- **Full Regression Suite**: `node --test tests/*.test.mjs` ran across all 201 test suites with **1,173 tests passing and 0 failures**.
+- **Engine Unification Completed**:
+  - `template.json` and `skill-model.mjs` share identical area, temporary health bars, duration config, and rank break milestone upgrade fields with spells and gear.
+  - `item-sheet.mjs` and `skill.hbs` feature progressive disclosure for skill auras.
+  - `actor.activateAura`, `actor.deactivateAura`, and `actor.rollSkill` handle skill auras identically with spells.
+  - `effects-panel.mjs` seamlessly renders active skill auras and receiver badges.
