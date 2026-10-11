@@ -4,7 +4,11 @@
   <div class="dcc-field-row" style="margin-bottom: 8px;">
     <div class="dcc-field-group small">
       <span class="dcc-field-label">Archetype</span>
-      <input class="dcc-field-input" type="text" name="system.classType" value="{{#if archetype}}{{archetype}}{{else}}{{system.classType}}{{/if}}" placeholder="Fighter" style="font-weight: bold; font-family: 'Oswald', sans-serif;" />
+      <select class="dcc-field-input" name="system.classType" style="font-weight: bold; font-family: 'Oswald', sans-serif;">
+        {{#each classTypeOptions as |opt|}}
+          <option value="{{opt.value}}" {{#if opt.selected}}selected{{/if}}>{{opt.label}}</option>
+        {{/each}}
+      </select>
     </div>
     <div class="dcc-field-group small" style="max-width: 90px;">
       <span class="dcc-field-label">DR Bonus</span>

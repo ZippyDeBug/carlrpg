@@ -71,7 +71,12 @@
       </div>
       <div class="dcc-field-group">
         <span class="dcc-field-label">Weapon Type / Model</span>
-        <input class="dcc-field-input" type="text" name="system.weaponType" value="{{system.weaponType}}" placeholder="e.g. Chainsaw, Longsword, Shotgun" style="font-size: 11px;" />
+        <select name="system.weaponType" class="dcc-field-input" style="font-size: 11px;">
+          <option value="">-- None / Select Weapon Type --</option>
+          {{#each weaponTypeOptions as |opt|}}
+            <option value="{{opt.value}}" {{#if opt.selected}}selected{{/if}}>{{opt.label}}</option>
+          {{/each}}
+        </select>
       </div>
       <div class="dcc-field-group">
         <span class="dcc-field-label">Wielding Requirement</span>
@@ -522,7 +527,11 @@
         <div class="dcc-field-row" style="margin-bottom: 6px;">
           <div class="dcc-field-group">
             <span class="dcc-field-label">Usage Limit / Cooldown</span>
-            <input class="dcc-field-input" type="text" name="system.cooldown" value="{{system.cooldown}}" placeholder="None, Once per scene, 1/Round" />
+            <select class="dcc-field-input" name="system.cooldown">
+              {{#each cooldownOptions as |cOpt|}}
+                <option value="{{cOpt.value}}" {{#if cOpt.selected}}selected{{/if}}>{{cOpt.label}}</option>
+              {{/each}}
+            </select>
           </div>
           <div class="dcc-field-group">
             <span class="dcc-field-label">Execution Mode</span>
@@ -660,8 +669,13 @@
                       </select>
                     {{else}}
                       <div style="display: flex; gap: 4px;">
-                        <input class="dcc-field-input" type="text" name="system.outcomes.{{idx}}.damage" value="{{out.damage}}" placeholder="2d12 + Int" style="width: 65%; font-size: 11px;" />
-                        <input class="dcc-field-input" type="text" name="system.outcomes.{{idx}}.damageType" value="{{out.damageType}}" placeholder="Fire" style="width: 35%; font-size: 11px;" />
+                        <input class="dcc-field-input" type="text" name="system.outcomes.{{idx}}.damage" value="{{out.damage}}" placeholder="2d12 + Int" style="width: 60%; font-size: 11px;" />
+                        <select class="dcc-field-input" name="system.outcomes.{{idx}}.damageType" style="width: 40%; font-size: 11px;">
+                          <option value="">-- Type --</option>
+                          {{#each out.damageTypeOptions as |dtOpt|}}
+                            <option value="{{dtOpt.value}}" {{#if dtOpt.selected}}selected{{/if}}>{{dtOpt.label}}</option>
+                          {{/each}}
+                        </select>
                       </div>
                     {{/if}}
                   </td>

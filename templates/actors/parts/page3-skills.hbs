@@ -118,7 +118,11 @@
               {{#if skill.isGranted}}
                 <span style="font-size: 11px;">{{skill.system.checkType}}</span>
               {{else}}
-                <input class="dcc-field-input item-inline-edit" type="text" data-field="system.checkType" value="{{skill.system.checkType}}" placeholder="Stat Check" />
+                <select class="dcc-field-input item-inline-edit" data-field="system.checkType" style="font-size: 11px;">
+                  {{#each ../checkTypeOptions as |ct|}}
+                    <option value="{{ct}}" {{#if (eq (or ../skill.system.checkType "Stat Check") ct)}}selected{{/if}}>{{ct}}</option>
+                  {{/each}}
+                </select>
               {{/if}}
             </td>
             <td>

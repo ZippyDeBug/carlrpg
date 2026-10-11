@@ -19,7 +19,12 @@
 
     <div class="dcc-field-group flex-1">
       <span class="dcc-field-label" style="font-weight: bold;">Floor Unlocked</span>
-      <input class="dcc-field-input" type="text" name="system.floor" value="{{system.floor}}" placeholder="e.g. 1st Floor" />
+      <select class="dcc-field-input" name="system.floor">
+        <option value="">-- None / Any --</option>
+        {{#each floorOptions as |fOpt|}}
+          <option value="{{fOpt.value}}" {{#if fOpt.selected}}selected{{/if}}>{{fOpt.label}}</option>
+        {{/each}}
+      </select>
     </div>
 
     <div class="dcc-field-group flex-1">

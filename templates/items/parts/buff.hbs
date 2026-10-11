@@ -30,7 +30,11 @@
   </div>
   <div class="dcc-field-group small">
     <span class="dcc-field-label">Duration</span>
-    <input class="dcc-field-input" type="text" name="system.duration" value="{{system.duration}}" placeholder="1 Hour" />
+    <select name="system.duration" class="dcc-field-input">
+      {{#each durationOptions as |dOpt|}}
+        <option value="{{dOpt.value}}" {{#if dOpt.selected}}selected{{/if}}>{{dOpt.label}}</option>
+      {{/each}}
+    </select>
   </div>
 </div>
 
@@ -159,8 +163,15 @@
         </select>
       </div>
       <div class="dcc-field-group" style="flex: 2;">
-        <span class="dcc-field-label">Affected Roll Scopes (comma-separated: all, attacks, spells, skills, str, dex)</span>
-        <input class="dcc-field-input" type="text" name="system.affects" value="{{affectsString}}" placeholder="all, attacks, spells, skills, str, dex, int, con, cha" style="font-size: 11px;" />
+        <span class="dcc-field-label">Affected Roll Scopes</span>
+        <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px;">
+          {{#each scopeOptions as |sc|}}
+            <button type="button" class="dcc-badge-btn dcc-scope-toggle {{#if sc.selected}}active{{/if}}" data-scope="{{sc.id}}" style="font-size: 10px; padding: 2px 6px; cursor: pointer; border-radius: 3px; border: 1px solid {{#if sc.selected}}#27ae60{{else}}#ccc{{/if}}; background: {{#if sc.selected}}#27ae60{{else}}#fff{{/if}}; color: {{#if sc.selected}}#fff{{else}}#333{{/if}};">
+              {{sc.label}}
+            </button>
+          {{/each}}
+        </div>
+        <input type="hidden" name="system.affects" value="{{affectsString}}" />
       </div>
     </div>
     <div style="font-size: 10px; color: #555; font-style: italic;">

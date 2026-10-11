@@ -436,22 +436,154 @@ export class DCCItemSheet extends BaseItemSheet {
       { id: 'two_handed_disadv_1h', label: 'Two-Handed (Disadvantage if 1-Handed)' }
     ];
 
-    // Format array fields as editable comma-separated strings
-    context.associatedSkillsString = Array.isArray(context.system?.associatedSkills)
-      ? context.system.associatedSkills.join(', ')
-      : (context.system?.associatedSkills || '');
+    // Standard Selectors & Tag Options for Sheet Controls (Precomputed per Rule 8)
+    const currentSpellType = String(context.system?.spellType || 'Attack').trim();
+    context.spellTypeOptions = [
+      'Attack', 'Heal', 'Utility', 'Buff', 'Debuff', 'Passive', 'Interrupt', 'Reaction', 'Free Interrupt'
+    ].map(t => ({ value: t, label: t, selected: currentSpellType.toLowerCase() === t.toLowerCase() }));
+    if (currentSpellType && !context.spellTypeOptions.some(o => o.selected)) {
+      context.spellTypeOptions.push({ value: currentSpellType, label: `${currentSpellType} (Custom)`, selected: true });
+    }
 
-    context.appliesToString = Array.isArray(context.system?.appliesTo)
-      ? context.system.appliesTo.join(', ')
-      : (context.system?.appliesTo || '');
+    const currentDuration = String(context.system?.duration || 'Instantaneous').trim();
+    context.durationOptions = [
+      'Instantaneous', '1 Round', 'Combat Rounds', '1 Minute', '10 Minutes', '1 Hour', '2 Hours per Rank', 'Until End of Combat', 'Permanent / Sustained'
+    ].map(d => ({ value: d, label: d, selected: currentDuration.toLowerCase() === d.toLowerCase() }));
+    if (currentDuration && !context.durationOptions.some(o => o.selected)) {
+      context.durationOptions.push({ value: currentDuration, label: `${currentDuration} (Custom)`, selected: true });
+    }
 
-    context.optionalEffectsString = Array.isArray(context.system?.optionalEffects)
-      ? context.system.optionalEffects.join(', ')
-      : (context.system?.optionalEffects || '');
+    const currentCooldown = String(context.system?.cooldown || context.system?.techniqueConfig?.cooldown || 'None').trim();
+    context.cooldownOptions = [
+      'None', '1 / Round', 'Once per Scene / Combat', '2 Hours per Rank', '1 Hour', '24 Hours', 'Until Rest'
+    ].map(c => ({ value: c, label: c, selected: currentCooldown.toLowerCase() === c.toLowerCase() }));
+    if (currentCooldown && !context.cooldownOptions.some(o => o.selected)) {
+      context.cooldownOptions.push({ value: currentCooldown, label: `${currentCooldown} (Custom)`, selected: true });
+    }
 
-    context.affectsString = Array.isArray(context.system?.affects)
-      ? context.system.affects.join(', ')
-      : (context.system?.affects || '');
+    const currentTarget = String(context.system?.target || '1 Target').trim();
+    context.targetOptions = [
+      'Self', '1 Target', '2 Targets', 'Allies', 'Enemies', 'All in Area'
+    ].map(t => ({ value: t, label: t, selected: currentTarget.toLowerCase() === t.toLowerCase() }));
+    if (currentTarget && !context.targetOptions.some(o => o.selected)) {
+      context.targetOptions.push({ value: currentTarget, label: `${currentTarget} (Custom)`, selected: true });
+    }
+
+    context.targetFilterOptions = [
+      { id: 'allies', label: 'Allies Only' },
+      { id: 'enemies', label: 'Enemies Only' },
+      { id: 'self', label: 'Self Only' },
+      { id: 'all', label: 'All / Any Target' }
+    ];
+
+    const currentCheck = String(context.system?.checkType || 'Stat Check').trim();
+    context.checkTypeOptions = [
+      'Stat Check', 'Opposed Contest', 'Attack vs Evade', 'Saving Throw / Reaction', 'Passive', 'Tool / Crafting Check', 'None'
+    ].map(ct => ({ value: ct, label: ct, selected: currentCheck.toLowerCase() === ct.toLowerCase() }));
+    if (currentCheck && !context.checkTypeOptions.some(o => o.selected)) {
+      context.checkTypeOptions.push({ value: currentCheck, label: `${currentCheck} (Custom)`, selected: true });
+    }
+
+    context.archetypeOptions = [
+      'Fighter', 'Mage', 'Cleric', 'Rogue', 'Bard', 'Monk', 'Paladin', 'Ranger', 'Druid', 'Warlock', 'Sorcerer', 'Barbarian'
+    ];
+
+    const currentFavored = String(context.system?.favored || '').trim();
+    context.favoredArchetypeOptions = context.archetypeOptions.map(arc => ({
+      value: arc,
+      label: arc,
+      selected: currentFavored.toLowerCase() === arc.toLowerCase()
+    }));
+    if (currentFavored && !context.favoredArchetypeOptions.some(o => o.selected)) {
+      context.favoredArchetypeOptions.push({ value: currentFavored, label: `${currentFavored} (Custom)`, selected: true });
+    }
+
+    const currentClassType = String(context.system?.classType || context.system?.archetype || 'Fighter').trim();
+    context.classTypeOptions = context.archetypeOptions.map(arc => ({
+      value: arc,
+      label: arc,
+      selected: currentClassType.toLowerCase() === arc.toLowerCase()
+    }));
+    if (currentClassType && !context.classTypeOptions.some(o => o.selected)) {
+      context.classTypeOptions.push({ value: currentClassType, label: `${currentClassType} (Custom)`, selected: true });
+    }
+
+    const currentDmgType = String(context.system?.damageType || '').trim();
+    context.damageTypeOptions = context.damageTypes.map(dt => ({
+      value: dt,
+      label: dt,
+      selected: currentDmgType.toLowerCase() === dt.toLowerCase()
+    }));
+    if (currentDmgType && !context.damageTypeOptions.some(o => o.selected)) {
+      context.damageTypeOptions.push({ value: currentDmgType, label: `${currentDmgType} (Custom)`, selected: true });
+    }
+
+    const currentWpn = String(context.system?.weaponType || '').trim();
+    context.weaponTypes = [
+      'Chainsaw', 'Broadsword', 'Longsword', 'Shortsword', 'Dagger', 'Battleaxe', 'Axe',
+      'Warhammer', 'Mace', 'Club', 'Spear', 'Halberd', 'Polearm', 'Quarterstaff',
+      'Crossbow', 'Heavy Crossbow', 'Light Crossbow', 'Longbow', 'Shortbow',
+      'Pistol', 'Rifle', 'Shotgun', 'Blaster', 'Fist / Unarmed', 'Brass Knuckles', 'Pugilism', 'Exotic'
+    ];
+    context.weaponTypeOptions = context.weaponTypes.map(wt => ({
+      value: wt,
+      label: wt,
+      selected: currentWpn.toLowerCase() === wt.toLowerCase()
+    }));
+    if (currentWpn && !context.weaponTypeOptions.some(o => o.selected)) {
+      context.weaponTypeOptions.push({ value: currentWpn, label: `${currentWpn} (Custom)`, selected: true });
+    }
+
+    const currentSize = String(context.system?.size || 'Medium (4)').trim();
+    context.sizeOptions = [
+      { value: 'Tiny (1)', label: 'Tiny (1)' },
+      { value: 'Small (2)', label: 'Small (2)' },
+      { value: 'Medium (4)', label: 'Medium (4)' },
+      { value: 'Large (8)', label: 'Large (8)' },
+      { value: 'Huge (16)', label: 'Huge (16)' },
+      { value: 'Gargantuan (32)', label: 'Gargantuan (32)' }
+    ].map(s => ({
+      ...s,
+      selected: currentSize.toLowerCase().startsWith(s.value.toLowerCase().split(' ')[0])
+    }));
+    if (currentSize && !context.sizeOptions.some(o => o.selected)) {
+      context.sizeOptions.push({ value: currentSize, label: `${currentSize} (Custom)`, selected: true });
+    }
+
+    const currentFloor = String(context.system?.floor || '').trim();
+    context.floorOptions = [
+      'Floor 1', 'Floor 2', 'Floor 3', 'Floor 4', 'Floor 5', 'Floor 6',
+      'Floor 7', 'Floor 8', 'Floor 9', 'Floor 10', 'Floor 11', 'Floor 12',
+      'Floor 13', 'Floor 14', 'Floor 15', 'Floor 16', 'Floor 17', 'Floor 18',
+      'Overworld', 'Celestial'
+    ].map(f => ({ value: f, label: f, selected: currentFloor.toLowerCase() === f.toLowerCase() }));
+    if (currentFloor && !context.floorOptions.some(o => o.selected)) {
+      context.floorOptions.push({ value: currentFloor, label: `${currentFloor} (Custom)`, selected: true });
+    }
+
+    // Standard Buff / Debuff scopes
+    const standardScopes = [
+      { id: 'all', label: 'All Rolls' },
+      { id: 'attacks', label: 'Attacks' },
+      { id: 'spells', label: 'Spells' },
+      { id: 'skills', label: 'Skills' },
+      { id: 'str', label: 'STR Checks' },
+      { id: 'dex', label: 'DEX Checks' },
+      { id: 'con', label: 'CON Checks' },
+      { id: 'int', label: 'INT Checks' },
+      { id: 'cha', label: 'CHA Checks' }
+    ];
+    let activeAffects = Array.isArray(context.system?.affects)
+      ? context.system.affects.map(s => String(s).toLowerCase().trim())
+      : (typeof context.system?.affects === 'string' && context.system.affects.trim()
+          ? context.system.affects.split(',').map(s => s.toLowerCase().trim()).filter(Boolean)
+          : []);
+    context.affectsList = activeAffects;
+    context.affectsString = activeAffects.join(', ');
+    context.scopeOptions = standardScopes.map(sc => ({
+      ...sc,
+      selected: activeAffects.includes(sc.id)
+    }));
 
     // Data-driven list representations for interactive pill badges
     context.associatedSkillsList = Array.isArray(context.system?.associatedSkills)
@@ -459,12 +591,21 @@ export class DCCItemSheet extends BaseItemSheet {
       : (typeof context.system?.associatedSkills === 'string' && context.system.associatedSkills
           ? context.system.associatedSkills.split(',').map(s => s.trim()).filter(Boolean)
           : []);
+    context.associatedSkillsString = context.associatedSkillsList.join(', ');
+
+    context.appliesToList = Array.isArray(context.system?.appliesTo)
+      ? context.system.appliesTo.filter(Boolean)
+      : (typeof context.system?.appliesTo === 'string' && context.system.appliesTo
+          ? context.system.appliesTo.split(',').map(s => s.trim()).filter(Boolean)
+          : []);
+    context.appliesToString = context.appliesToList.join(', ');
 
     context.optionalEffectsList = Array.isArray(context.system?.optionalEffects)
       ? context.system.optionalEffects.filter(Boolean)
       : (typeof context.system?.optionalEffects === 'string' && context.system.optionalEffects
           ? context.system.optionalEffects.split(',').map(s => s.trim()).filter(Boolean)
           : []);
+    context.optionalEffectsString = context.optionalEffectsList.join(', ');
 
     const allSkills = await this.getCompendiumSkills();
     context.availableSkills = allSkills;
@@ -579,6 +720,11 @@ export class DCCItemSheet extends BaseItemSheet {
             name: sk.name,
             selected: Boolean((out.skillName && out.skillName.toLowerCase() === sk.name.toLowerCase()) || (out.name && out.name.toLowerCase() === sk.name.toLowerCase()))
           }));
+          out.damageTypeOptions = context.damageTypes.map(dt => ({
+            value: dt,
+            label: dt,
+            selected: String(out.damageType || '').toLowerCase() === dt.toLowerCase()
+          }));
         }
         context.system.outcomes = outcomes;
       }
@@ -636,6 +782,11 @@ export class DCCItemSheet extends BaseItemSheet {
           out.skillOptions = (context.availableSkills || []).map(sk => ({
             name: sk.name,
             selected: Boolean((out.skillName && out.skillName.toLowerCase() === sk.name.toLowerCase()) || (out.name && out.name.toLowerCase() === sk.name.toLowerCase()))
+          }));
+          out.damageTypeOptions = context.damageTypes.map(dt => ({
+            value: dt,
+            label: dt,
+            selected: String(out.damageType || '').toLowerCase() === dt.toLowerCase()
           }));
         }
         context.system.outcomes = outcomes;
@@ -729,7 +880,14 @@ export class DCCItemSheet extends BaseItemSheet {
     if (context.item.type === 'spell') {
       context.hasAuraConfigured = Boolean(sys.area?.hasArea);
       context.hasHealingConfigured = Boolean(sys.healing?.hasHealing || sys.healing?.isHoT || (sys.healing?.cleanseDebuffs && sys.healing.cleanseDebuffs.length > 0));
-      context.cleanseDebuffsString = Array.isArray(sys.healing?.cleanseDebuffs) ? sys.healing.cleanseDebuffs.join(', ') : (sys.healing?.cleanseDebuffs || '');
+      let cDebuffs = sys.healing?.cleanseDebuffs;
+      if (!Array.isArray(cDebuffs)) {
+        cDebuffs = typeof cDebuffs === 'string' && cDebuffs.trim()
+          ? cDebuffs.split(',').map(s => s.trim()).filter(Boolean)
+          : [];
+      }
+      context.cleanseDebuffsList = cDebuffs;
+      context.cleanseDebuffsString = cDebuffs.join(', ');
       context.hasArmorPiercingConfigured = Boolean(sys.ignoreDR);
       context.hasDamageModifiersConfigured = Boolean(sys.damageModifiers?.length > 0);
       context.hasConditionTriggersConfigured = Boolean(
@@ -779,7 +937,14 @@ export class DCCItemSheet extends BaseItemSheet {
     // Skill-specific flags
     if (context.item.type === 'skill') {
       context.hasHealingConfigured = Boolean(sys.healing?.hasHealing || sys.healing?.isHoT || (sys.healing?.cleanseDebuffs && sys.healing.cleanseDebuffs.length > 0));
-      context.cleanseDebuffsString = Array.isArray(sys.healing?.cleanseDebuffs) ? sys.healing.cleanseDebuffs.join(', ') : (sys.healing?.cleanseDebuffs || '');
+      let cDebuffs = sys.healing?.cleanseDebuffs;
+      if (!Array.isArray(cDebuffs)) {
+        cDebuffs = typeof cDebuffs === 'string' && cDebuffs.trim()
+          ? cDebuffs.split(',').map(s => s.trim()).filter(Boolean)
+          : [];
+      }
+      context.cleanseDebuffsList = cDebuffs;
+      context.cleanseDebuffsString = cDebuffs.join(', ');
       context.hasArmorPiercingConfigured = Boolean(sys.techniqueConfig?.isArmorPiercing);
       context.hasTechniqueConfigured = Boolean(
         sys.isTechnique ||
@@ -1371,6 +1536,118 @@ export class DCCItemSheet extends BaseItemSheet {
         }
       }
       await this.item.update({ 'system.optionalEffects': current });
+      this.render(false);
+    });
+
+    // Cleanse Debuffs: Add from dropdown
+    html.find('.add-cleanse-debuff-select').change(async ev => {
+      ev.preventDefault();
+      const selected = (ev.currentTarget?.value || '').trim();
+      if (!selected) return;
+      const current = Array.isArray(this.item.system?.healing?.cleanseDebuffs)
+        ? [...this.item.system.healing.cleanseDebuffs]
+        : (typeof this.item.system?.healing?.cleanseDebuffs === 'string' && this.item.system.healing.cleanseDebuffs
+            ? this.item.system.healing.cleanseDebuffs.split(',').map(s => s.trim()).filter(Boolean)
+            : []);
+      if (!current.some(d => d.toLowerCase() === selected.toLowerCase())) {
+        current.push(selected);
+        await this.item.update({ 'system.healing.cleanseDebuffs': current });
+        this.render(false);
+      }
+    });
+
+    // Cleanse Debuffs: Add custom
+    html.find('.btn-add-custom-cleanse-debuff').click(async ev => {
+      ev.preventDefault();
+      const input = html.find('.custom-cleanse-debuff-input');
+      const val = (input.val() || '').trim();
+      if (!val) return;
+      const current = Array.isArray(this.item.system?.healing?.cleanseDebuffs)
+        ? [...this.item.system.healing.cleanseDebuffs]
+        : [];
+      if (!current.some(d => d.toLowerCase() === val.toLowerCase())) {
+        current.push(val);
+        input.val('');
+        await this.item.update({ 'system.healing.cleanseDebuffs': current });
+        this.render(false);
+      }
+    });
+
+    // Cleanse Debuffs: Remove tag
+    html.find('.remove-cleanse-debuff').click(async ev => {
+      ev.preventDefault();
+      const toRemove = String($(ev.currentTarget).data('debuff') || '').trim();
+      const current = Array.isArray(this.item.system?.healing?.cleanseDebuffs)
+        ? [...this.item.system.healing.cleanseDebuffs]
+        : [];
+      const updated = current.filter(d => d.toLowerCase() !== toRemove.toLowerCase());
+      await this.item.update({ 'system.healing.cleanseDebuffs': updated });
+      this.render(false);
+    });
+
+    // Applies To: Add from dropdown
+    html.find('.add-applies-to-select').change(async ev => {
+      ev.preventDefault();
+      const selected = (ev.currentTarget?.value || '').trim();
+      if (!selected) return;
+      const current = Array.isArray(this.item.system?.appliesTo)
+        ? [...this.item.system.appliesTo]
+        : (typeof this.item.system?.appliesTo === 'string' && this.item.system.appliesTo
+            ? this.item.system.appliesTo.split(',').map(s => s.trim()).filter(Boolean)
+            : []);
+      if (!current.some(t => t.toLowerCase() === selected.toLowerCase())) {
+        current.push(selected);
+        await this.item.update({ 'system.appliesTo': current });
+        this.render(false);
+      }
+    });
+
+    // Applies To: Add custom
+    html.find('.btn-add-custom-applies-to').click(async ev => {
+      ev.preventDefault();
+      const input = html.find('.custom-applies-to-input');
+      const val = (input.val() || '').trim();
+      if (!val) return;
+      const current = Array.isArray(this.item.system?.appliesTo)
+        ? [...this.item.system.appliesTo]
+        : [];
+      if (!current.some(t => t.toLowerCase() === val.toLowerCase())) {
+        current.push(val);
+        input.val('');
+        await this.item.update({ 'system.appliesTo': current });
+        this.render(false);
+      }
+    });
+
+    // Applies To: Remove tag
+    html.find('.remove-applies-to').click(async ev => {
+      ev.preventDefault();
+      const toRemove = String($(ev.currentTarget).data('tag') || '').trim();
+      const current = Array.isArray(this.item.system?.appliesTo)
+        ? [...this.item.system.appliesTo]
+        : [];
+      const updated = current.filter(t => t.toLowerCase() !== toRemove.toLowerCase());
+      await this.item.update({ 'system.appliesTo': updated });
+      this.render(false);
+    });
+
+    // Scope Pill Checkbox Toggle (for buff / debuff affects)
+    html.find('.dcc-scope-toggle').click(async ev => {
+      ev.preventDefault();
+      const scope = String($(ev.currentTarget).data('scope') || '').toLowerCase().trim();
+      if (!scope) return;
+      let current = Array.isArray(this.item.system?.affects)
+        ? [...this.item.system.affects]
+        : (typeof this.item.system?.affects === 'string' && this.item.system.affects
+            ? this.item.system.affects.split(',').map(s => s.trim()).filter(Boolean)
+            : []);
+      current = current.map(s => s.toLowerCase().trim());
+      if (current.includes(scope)) {
+        current = current.filter(s => s !== scope);
+      } else {
+        current.push(scope);
+      }
+      await this.item.update({ 'system.affects': current });
       this.render(false);
     });
 

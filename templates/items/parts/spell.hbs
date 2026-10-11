@@ -15,15 +15,27 @@
   </div>
   <div class="dcc-field-group small">
     <span class="dcc-field-label">Target</span>
-    <input class="dcc-field-input" type="text" name="system.target" value="{{system.target}}" placeholder="Self, 1 Target..." />
+    <select class="dcc-field-input" name="system.target">
+      {{#each targetOptions as |tgt|}}
+        <option value="{{tgt.value}}" {{#if tgt.selected}}selected{{/if}}>{{tgt.label}}</option>
+      {{/each}}
+    </select>
   </div>
   <div class="dcc-field-group small">
     <span class="dcc-field-label">Duration</span>
-    <input class="dcc-field-input" type="text" name="system.duration" value="{{system.duration}}" placeholder="Instantaneous" />
+    <select class="dcc-field-input" name="system.duration">
+      {{#each durationOptions as |dur|}}
+        <option value="{{dur.value}}" {{#if dur.selected}}selected{{/if}}>{{dur.label}}</option>
+      {{/each}}
+    </select>
   </div>
   <div class="dcc-field-group small">
     <span class="dcc-field-label">Cooldown</span>
-    <input class="dcc-field-input" type="text" name="system.cooldown" value="{{system.cooldown}}" placeholder="None" />
+    <select class="dcc-field-input" name="system.cooldown">
+      {{#each cooldownOptions as |cd|}}
+        <option value="{{cd.value}}" {{#if cd.selected}}selected{{/if}}>{{cd.label}}</option>
+      {{/each}}
+    </select>
   </div>
   <div class="dcc-field-group small">
     <span class="dcc-field-label">AI Favor</span>
@@ -34,7 +46,11 @@
 <div class="dcc-field-row" style="margin-bottom: 8px; flex-wrap: wrap;">
   <div class="dcc-field-group small">
     <span class="dcc-field-label">Spell Type</span>
-    <input class="dcc-field-input" type="text" name="system.spellType" value="{{system.spellType}}" placeholder="Attack, Passive, Heal" />
+    <select class="dcc-field-input" name="system.spellType">
+      {{#each spellTypeOptions as |st|}}
+        <option value="{{st.value}}" {{#if st.selected}}selected{{/if}}>{{st.label}}</option>
+      {{/each}}
+    </select>
   </div>
   <div class="dcc-field-group small">
     <span class="dcc-field-label">Stat</span>
@@ -48,7 +64,12 @@
   </div>
   <div class="dcc-field-group small">
     <span class="dcc-field-label">Damage Type</span>
-    <input class="dcc-field-input" type="text" name="system.damageType" value="{{system.damageType}}" placeholder="Fire, Ice, Necrotic..." />
+    <select name="system.damageType" class="dcc-field-input">
+      <option value="">-- None / Untyped --</option>
+      {{#each damageTypeOptions as |dt|}}
+        <option value="{{dt.value}}" {{#if dt.selected}}selected{{/if}}>{{dt.label}}</option>
+      {{/each}}
+    </select>
   </div>
   <div class="dcc-field-group" style="flex: 2;">
     <span class="dcc-field-label">Base Damage / Formula</span>
@@ -65,7 +86,12 @@
 <div class="dcc-field-row" style="margin-bottom: 8px; flex-wrap: wrap;">
   <div class="dcc-field-group" style="flex: 1;">
     <span class="dcc-field-label">Favored Class</span>
-    <input class="dcc-field-input" type="text" name="system.favored" value="{{system.favored}}" placeholder="Mage, Cleric, Druid, Bard..." />
+    <select name="system.favored" class="dcc-field-input">
+      <option value="">-- None / Universal --</option>
+      {{#each favoredArchetypeOptions as |fa|}}
+        <option value="{{fa.value}}" {{#if fa.selected}}selected{{/if}}>{{fa.label}}</option>
+      {{/each}}
+    </select>
   </div>
   <div class="dcc-field-group" style="flex: 2;">
     <span class="dcc-field-label">Limitations</span>
@@ -113,8 +139,36 @@
     </div>
     <div class="dcc-field-row" style="margin-bottom: 0;">
       <div class="dcc-field-group" style="flex: 1;">
-        <span class="dcc-field-label"><i class="fa-solid fa-sparkles" style="color: #16a085;"></i> Cleanse Debuffs (Comma-separated debuff names to cure, e.g. Poisoned, Bleeding, Burned)</span>
-        <input class="dcc-field-input" type="text" name="system.healing.cleanseDebuffs" value="{{cleanseDebuffsString}}" placeholder="Poisoned, Bleeding, Burned" style="font-size: 11px;" />
+        <span class="dcc-field-label"><i class="fa-solid fa-sparkles" style="color: #16a085;"></i> Cleanse Debuffs</span>
+        <div class="dcc-cleanse-debuffs-pills" style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; min-height: 24px; padding: 3px; background: #fafafa; border: 1px dashed #ccc; border-radius: 3px;">
+          {{#if cleanseDebuffsList.length}}
+            {{#each cleanseDebuffsList as |deb|}}
+              <span class="dcc-badge" style="background: #16a085; color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 3px; display: inline-flex; align-items: center; gap: 4px;">
+                {{deb}}
+                <a class="remove-cleanse-debuff" data-debuff="{{deb}}" title="Remove debuff" style="color: #f1c40f; cursor: pointer; font-weight: bold; text-decoration: none;">&times;</a>
+              </span>
+            {{/each}}
+          {{else}}
+            <span style="font-size: 10px; color: #888; font-style: italic; align-self: center;">No debuffs selected to cleanse. Select from the dropdown below or enter a custom debuff.</span>
+          {{/if}}
+        </div>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <div style="flex: 2;">
+            <select class="add-cleanse-debuff-select dcc-field-input" style="font-size: 11px; width: 100%;">
+              <option value="">+ Select Debuff to Cleanse...</option>
+              {{#each availableDebuffs as |d|}}
+                <option value="{{d.name}}">{{d.name}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div style="flex: 1;">
+            <input class="dcc-field-input custom-cleanse-debuff-input" type="text" placeholder="Or custom debuff..." style="font-size: 11px; width: 100%;" />
+          </div>
+          <button type="button" class="btn-add-custom-cleanse-debuff dcc-btn" style="font-size: 11px; padding: 3px 6px; background: #16a085; color: #fff; border: 1px solid #0e6655; border-radius: 3px; cursor: pointer;">
+            + Add
+          </button>
+        </div>
+        <input type="hidden" name="system.healing.cleanseDebuffs" value="{{cleanseDebuffsString}}" />
       </div>
     </div>
   </div>
@@ -461,7 +515,12 @@
         </div>
         <div class="dcc-field-group" style="flex: 1.5;">
           <span class="dcc-field-label"><i class="fa-solid fa-sparkles" style="color: #16a085;"></i> Cleanse Debuff</span>
-          <input class="dcc-field-input" type="text" name="system.rankBreaks.rank5.healing.cleanseDebuff" value="{{system.rankBreaks.rank5.healing.cleanseDebuff}}" placeholder="e.g. Poisoned" style="font-size: 11px;" />
+          <select class="dcc-field-input" name="system.rankBreaks.rank5.healing.cleanseDebuff" style="font-size: 11px;">
+            <option value="">-- None --</option>
+            {{#each availableDebuffs as |deb|}}
+              <option value="{{deb.name}}" {{#if (eq ../system.rankBreaks.rank5.healing.cleanseDebuff deb.name)}}selected{{/if}}>{{deb.name}}</option>
+            {{/each}}
+          </select>
         </div>
         <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: bold; cursor: pointer; margin-top: 10px;">
           <input type="checkbox" name="system.rankBreaks.rank5.isArmorPiercing" {{#if system.rankBreaks.rank5.isArmorPiercing}}checked{{/if}} style="width: 14px; height: 14px;" />
@@ -546,7 +605,12 @@
         </div>
         <div class="dcc-field-group" style="flex: 1.5;">
           <span class="dcc-field-label"><i class="fa-solid fa-sparkles" style="color: #16a085;"></i> Cleanse Debuff</span>
-          <input class="dcc-field-input" type="text" name="system.rankBreaks.rank10.healing.cleanseDebuff" value="{{system.rankBreaks.rank10.healing.cleanseDebuff}}" placeholder="e.g. Burned" style="font-size: 11px;" />
+          <select class="dcc-field-input" name="system.rankBreaks.rank10.healing.cleanseDebuff" style="font-size: 11px;">
+            <option value="">-- None --</option>
+            {{#each availableDebuffs as |deb|}}
+              <option value="{{deb.name}}" {{#if (eq ../system.rankBreaks.rank10.healing.cleanseDebuff deb.name)}}selected{{/if}}>{{deb.name}}</option>
+            {{/each}}
+          </select>
         </div>
         <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: bold; cursor: pointer; margin-top: 10px;">
           <input type="checkbox" name="system.rankBreaks.rank10.isArmorPiercing" {{#if system.rankBreaks.rank10.isArmorPiercing}}checked{{/if}} style="width: 14px; height: 14px;" />
@@ -631,7 +695,12 @@
         </div>
         <div class="dcc-field-group" style="flex: 1.5;">
           <span class="dcc-field-label"><i class="fa-solid fa-sparkles" style="color: #16a085;"></i> Cleanse Debuff</span>
-          <input class="dcc-field-input" type="text" name="system.rankBreaks.rank15.healing.cleanseDebuff" value="{{system.rankBreaks.rank15.healing.cleanseDebuff}}" placeholder="e.g. Bleeding" style="font-size: 11px;" />
+          <select class="dcc-field-input" name="system.rankBreaks.rank15.healing.cleanseDebuff" style="font-size: 11px;">
+            <option value="">-- None --</option>
+            {{#each availableDebuffs as |deb|}}
+              <option value="{{deb.name}}" {{#if (eq ../system.rankBreaks.rank15.healing.cleanseDebuff deb.name)}}selected{{/if}}>{{deb.name}}</option>
+            {{/each}}
+          </select>
         </div>
         <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: bold; cursor: pointer; margin-top: 10px;">
           <input type="checkbox" name="system.rankBreaks.rank15.isArmorPiercing" {{#if system.rankBreaks.rank15.isArmorPiercing}}checked{{/if}} style="width: 14px; height: 14px;" />
@@ -716,7 +785,12 @@
         </div>
         <div class="dcc-field-group" style="flex: 1.5;">
           <span class="dcc-field-label"><i class="fa-solid fa-sparkles" style="color: #16a085;"></i> Cleanse Debuff</span>
-          <input class="dcc-field-input" type="text" name="system.rankBreaks.rank20.healing.cleanseDebuff" value="{{system.rankBreaks.rank20.healing.cleanseDebuff}}" placeholder="e.g. Curse" style="font-size: 11px;" />
+          <select class="dcc-field-input" name="system.rankBreaks.rank20.healing.cleanseDebuff" style="font-size: 11px;">
+            <option value="">-- None --</option>
+            {{#each availableDebuffs as |deb|}}
+              <option value="{{deb.name}}" {{#if (eq ../system.rankBreaks.rank20.healing.cleanseDebuff deb.name)}}selected{{/if}}>{{deb.name}}</option>
+            {{/each}}
+          </select>
         </div>
         <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: bold; cursor: pointer; margin-top: 10px;">
           <input type="checkbox" name="system.rankBreaks.rank20.isArmorPiercing" {{#if system.rankBreaks.rank20.isArmorPiercing}}checked{{/if}} style="width: 14px; height: 14px;" />

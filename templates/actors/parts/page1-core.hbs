@@ -19,7 +19,11 @@
         </div>
         <div class="dcc-field-group flex-1">
           <span class="dcc-field-label">Classification</span>
-          <input class="dcc-field-input" name="system.details.classification" type="text" value="{{system.details.classification}}" placeholder="Mob" />
+          <select class="dcc-field-input" name="system.details.classification">
+            {{#each mobClassifications as |opt|}}
+              <option value="{{opt.value}}" {{#if opt.selected}}selected{{/if}}>{{opt.label}}</option>
+            {{/each}}
+          </select>
         </div>
         <div class="dcc-field-group small">
           <span class="dcc-field-label">Level</span>
@@ -27,14 +31,23 @@
         </div>
         <div class="dcc-field-group flex-1">
           <span class="dcc-field-label">Creature Type</span>
-          <input class="dcc-field-input" name="system.details.creatureType" type="text" value="{{system.details.creatureType}}" placeholder="Animal" />
+          <select class="dcc-field-input" name="system.details.creatureType">
+            <option value="">-- None / Unknown --</option>
+            {{#each mobCreatureTypes as |opt|}}
+              <option value="{{opt.value}}" {{#if opt.selected}}selected{{/if}}>{{opt.label}}</option>
+            {{/each}}
+          </select>
         </div>
       </div>
 
       <div class="dcc-field-row">
         <div class="dcc-field-group flex-1">
           <span class="dcc-field-label">Floor</span>
-          <input class="dcc-field-input" name="system.details.floor" type="text" value="{{system.details.floor}}" placeholder="Floor 1" />
+          <select class="dcc-field-input" name="system.details.floor">
+            {{#each floorOptions as |opt|}}
+              <option value="{{opt.value}}" {{#if opt.selected}}selected{{/if}}>{{opt.label}}</option>
+            {{/each}}
+          </select>
         </div>
         <div class="dcc-field-group flex-2">
           <span class="dcc-field-label">Location</span>
@@ -141,7 +154,11 @@
         </div>
         <div class="dcc-field-group">
           <span class="dcc-field-label">Floor</span>
-          <input class="dcc-field-input" name="system.details.floor" type="text" value="{{system.details.floor}}" placeholder="1st Floor" />
+          <select class="dcc-field-input" name="system.details.floor">
+            {{#each floorOptions as |opt|}}
+              <option value="{{opt.value}}" {{#if opt.selected}}selected{{/if}}>{{opt.label}}</option>
+            {{/each}}
+          </select>
         </div>
       </div>
       {{/if}}

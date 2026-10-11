@@ -10,6 +10,13 @@ Questions or concerns contact me @ shinierball via gmail or maybe discord or wha
 
 - Hopefully the AI keeps this in sync reasonably with reality, but code changes so fast these days! Odds that this accurately reflects the rules are probably close to zero, but I'm committed to the process of telling the AI to do better!
 
+- **CarlRPG 3.2.11 Sheet Selectors, Controlled Dropdowns & Tag Widget Normalization**:
+  - **Data-Driven Selectors Across All Items**: Replaced free-form text inputs on Spells, Skills, Attacks, Gear, Loot, Buffs, Debuffs, Classes, and Races with controlled `<select>` elements and interactive pill badge widgets. Precomputes `spellTypeOptions`, `durationOptions`, `cooldownOptions`, `targetOptions`, `damageTypeOptions`, `weaponTypeOptions`, `checkTypeOptions`, `classTypeOptions`, and `sizeOptions`.
+  - **Multi-Select Condition & Tag Badges**: Upgraded cleanse debuffs, associated skills, applies-to, and optional effects to interactive pill widgets with dropdown pickers and auto-suggestion buttons.
+  - **Mob Taxonomy & Floor Selectors**: Standardized mob classifications (Normal, Minion, Elite, Boss, World Boss, Unique), mob creature types (Beast, Undead, Construct, Humanoid, etc.), and floor selectors (Floors 1–18, Overworld, Celestial).
+  - **Form Harvester Array Prevention**: Removed duplicate `name="system.gearSlots.*"` inputs from `page2-hotlist.hbs` to eliminate array serialization bugs on sheet submission while preserving live editing via `.actor-inline-edit`.
+  - *(Note: Mounts and Pets preserved as-is for future dedicated implementation).*
+
 - **CarlRPG 3.2.10 Interactive Chat Card Reaction Prompts: 1-Click Defender Evade & Allied Bodyguards**:
   - **Contextual Reaction Prompts in Chat**: When an attack or harmful spell targets a crawler or mob, chat cards dynamically render high-contrast 1-click reaction prompts (`.dcc-interrupt-prompts-container`).
   - **Target Defender Reactions**: Offers relevant defensive interrupts tailored to the defender (*Evade*, *Shield Block*, *Protective Shell*, *Ice Barrier*) with live action cost indicators (`[1 ACTION]` vs `[FREE INTERRUPT]`).

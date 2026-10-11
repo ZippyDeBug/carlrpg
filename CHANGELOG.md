@@ -1,3 +1,27 @@
+## 3.2.11
+
+### CarlRPG 3.2.11 — Sheet Selectors, Controlled Dropdowns & Tag Widget Normalization
+
+- **Controlled Selectors & Precomputed Dropdown Options Across All Item Sheets (`src/sheets/item-sheet.mjs`, `templates/items/parts/`)**:
+  - **Spell Sheet (`spell.hbs`)**: Converted free-form text inputs for `spellType`, `duration`, `cooldown`, `target`, `damageType`, and `favored` to controlled `<select>` elements powered by precomputed context arrays (`spellTypeOptions`, `durationOptions`, `cooldownOptions`, `targetOptions`, `damageTypeOptions`, `favoredArchetypeOptions`).
+  - **Skill Sheet (`skill.hbs`, `page3-skills.hbs`)**: Converted `checkType` to `<select>` with precomputed `checkTypeOptions` on both the skill item sheet and actor sheet skills tab inline editor; converted `techniqueConfig.cooldown` to controlled `<select>` with `cooldownOptions`.
+  - **Attack Sheet (`attack.hbs`)**: Converted `weaponType` to controlled `<select>` using `weaponTypeOptions`. Upgraded `associatedSkills` and `optionalEffects` from raw comma strings to interactive tag pill badges with dropdown pickers and auto-suggestion buttons matching `gear.hbs`.
+  - **Gear & Loot Sheets (`gear.hbs`, `loot.hbs`)**: Converted `weaponType` on gear to `<select>`; converted `cooldown` on gear and loot to controlled `<select>` (`cooldownOptions`); converted outcome `damageType` to precomputed `<select>` (`out.damageTypeOptions`).
+  - **Buff & Debuff Sheets (`buff.hbs`, `debuff.hbs`)**: Converted `duration` to controlled `<select>` (`durationOptions`); upgraded `affects` to interactive scope toggle chips (`scopeOptions`: `all`, `attacks`, `spells`, `skills`, `str`, `dex`, `con`, `int`, `cha`).
+  - **Class & Race Sheets (`class.hbs`, `race.hbs`)**: Converted `classType` to controlled `<select>` with `classTypeOptions`; converted `size` to controlled `<select>` with standard DCC size category options (`sizeOptions`).
+  - **Cleanse Debuffs Widget**: Replaced raw comma text inputs on Spells and Skills with interactive removable condition chips, a dropdown picker populated with canon debuffs, custom chip inputs, and milestone rank break selectors.
+- **Character Sheet Header & Mob Taxonomy Selectors (`src/sheets/crawler-sheet.mjs`, `templates/actors/parts/page1-core.hbs`)**:
+  - Converted mob `classification` (`mobClassifications`: Normal, Minion, Elite, Boss, World Boss, Unique) and `creatureType` (`mobCreatureTypes`: Beast, Undead, Construct, Humanoid, Aberration, Elemental, Demon, Celestial, Plant, Dragon, Monstrosity, Giant, Ooze) to controlled `<select>` dropdowns.
+  - Converted crawler and mob `floor` to precomputed floor selectors (`floorOptions`: Floors 1–18, Overworld, Celestial).
+  - Converted achievement `floor` in `achievement.hbs` to controlled `<select>` with `floorOptions`.
+- **Form Harvester & Duplicate Input Name Elimination (GEMINI.md Rule 6)**:
+  - Eliminated duplicate `name="system.gearSlots.*"` inputs on `page2-hotlist.hbs` which conflicted with `page4-inventory.hbs` and caused array serialization bugs. Hotlist gear slots now update seamlessly via `.actor-inline-edit` event listeners without duplicate form harvesting.
+- **Scope Boundary**:
+  - Mounts and pets intentionally preserved in their current state per explicit user directives for future dedicated implementation.
+- **Automated Verification (`tests/sheet-selectors-and-tags.test.mjs`)**:
+  - Created test suite verifying precomputed option generation, selected states, pill list normalization, outcome damage types, and form input uniqueness.
+  - Full test suite verified: **1,255 tests passing across 226 suites with 0 failures**.
+
 ## 3.2.10
 
 ### CarlRPG 3.2.10 — Interactive Chat Card Reaction Prompts: 1-Click Defender Evade/Shield Block & Allied Bodyguard Intercepts
