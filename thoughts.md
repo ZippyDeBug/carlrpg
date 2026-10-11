@@ -229,3 +229,45 @@ We isolated all non-description, non-lore, non-narrative free-form text inputs a
 
 
 
+## Task: Fix Aura Expiration & Deactivation Not Removing Effects From All Affected Entities
+**Date**: 2026-10-11
+
+### Problem Analysis
+- **User Issue**: "When Hot Stuff Aura expires, it correctly removes the aura affect from the caster, but did not remove the affect from other allies in the aura. When an aura expires it should remove its affect from all entities in the aura that are affected."
+- **Root Cause 1 (`src/documents/combat.mjs` - `processRoundDurations`)**:
+  - When a round-based spell/aura reaches round 0 in `combat.processRoundDurations`, it only clears `tempBars` on the caster `actor`.
+  - It NEVER invoked `actor.deactivateAura(item)` or cleaned up allies or other entities affected by the aura.
+- **Root Cause 2 (`src/documents/actor.mjs` - `deactivateAura`)**:
+  - `deactivateAura(spellItem, options)` only searched `canvas.tokens.placeables` and `options.allies`.
+  - When an aura was activated via `activateAura({ allies })`, the affected ally IDs were not stored on the item (`system.appliedAllies`).
+  - When deactivated later (e.g. via round duration expiration, `rollSpell` toggle, or EffectsPanel button), `options.allies` is missing.
+  - Furthermore, `deactivateAura` did not check `game.combat?.combatants` or `game.actors`, nor did it clean up any linked condition items (debuffs/buffs with duration `${auraName} Aura` or `auraItemId`).
+- **Root Cause 3 (`src/models/items/spell-model.mjs` & `skill-model.mjs` & `template.json`)**:
+  - `system.appliedAllies` was not part of the schema definitions, preventing persistent tracking of entities affected by the aura across rounds.
+
+### Implementation Plan
+1. **Schema Enhancements**:
+   - Add `appliedAllies: new fields.ArrayField(new fields.StringField(), { initial: [] })` to `spell-model.mjs` and `skill-model.mjs`.
+   - Update `template.json` to include `"appliedAllies": []` under `spell` and `skill`.
+2. **Actor Document (`src/documents/actor.mjs`)**:
+   - In `activateAura`: Record all affected ally IDs into `system.appliedAllies` when updating `spellItem`.
+   - In `deactivateAura`:
+     - Collect all candidate entities from:
+       a) `options.allies`
+       b) `sys.appliedAllies` (resolved via `game.actors`, `canvas.tokens`, or `game.combat`)
+       c) `canvas.tokens.placeables` (all tokens with actors)
+       d) Active combat combatants (`game.combat?.combatants` or `options.combatants`)
+       e) World actors (`game.actors`)
+     - For each entity:
+       - Clear temporary health bars if `tempBars.source` matches `auraName` or if entity ID is in `appliedAllies`.
+       - Clear any embedded debuff/buff items where `system.duration === `${auraName} Aura`` or `system.source === auraName` or flag `auraItemId === spellItem.id`.
+     - Reset `system.appliedAllies: []` on the item.
+3. **Combat Document (`src/documents/combat.mjs`)**:
+   - In `processRoundDurations`: When an aura expires (detected via delivery/tags/method), call `await actor.deactivateAura(item, { combatants: this.combatants })` to ensure complete cleanup across all affected combatants and entities.
+4. **Automated Tests**:
+   - Add tests to `tests/aura-workflow.test.mjs` verifying:
+     - Aura expiration via `combat.processRoundDurations()` removes temp bars and aura effects from caster AND all affected allies/entities.
+     - Manual deactivation via `actor.deactivateAura()` cleans up allies across combatants and world actors even without `canvas.tokens.placeables`.
+     - Persistent `appliedAllies` tracking works across rounds.
+5. **Verification**:
+   - Run full test suite (`node --test tests/*.test.mjs`) to ensure 0 failures.

@@ -258,6 +258,7 @@ export class MockActor {
     }
 
     const rounds = Number(sys.durationConfig?.rounds) || 2;
+    spellItem._appliedAllyActors = affectedAllies.map(a => a.actor || a);
     await spellItem.update({
       'system.active': true,
       'system.durationConfig.remainingRounds': rounds,
@@ -322,7 +323,13 @@ export class MockActor {
             await tok.actor.createEmbeddedDocuments('Item', [{
               name: areaConfig.inflictDebuff,
               type: 'debuff',
-              system: { duration: `${spellItem.name} Aura` }
+              system: { duration: `${spellItem.name} Aura` },
+              flags: {
+                'carl-rpg': {
+                  auraItemId: spellItem.id || spellItem._id,
+                  sourceAura: spellItem.name
+                }
+              }
             }]);
           }
           affectedEnemies.push({ actor: tok.actor, damage: rolledDamage, debuff: areaConfig.inflictDebuff });
@@ -334,30 +341,93 @@ export class MockActor {
   async deactivateAura(spellItem, options = {}) {
     if (!spellItem) return { active: false };
     const sys = spellItem.system || {};
+    const auraName = spellItem.name;
 
-    const appliedAllyIds = Array.isArray(sys.appliedAllies) ? sys.appliedAllies : [];
-    const candidateAllies = Array.isArray(options.allies) ? [...options.allies] : [];
+    const appliedAllyIds = new Set(Array.isArray(sys.appliedAllies) ? sys.appliedAllies : []);
+    const candidateEntities = new Map();
+    const addCandidate = (actor) => {
+      if (actor && actor.id && actor.id !== this.id && !candidateEntities.has(actor.id)) {
+        candidateEntities.set(actor.id, actor);
+      }
+    };
+
+    if (Array.isArray(spellItem._appliedAllyActors)) {
+      for (const a of spellItem._appliedAllyActors) addCandidate(a);
+    }
+    spellItem._appliedAllyActors = [];
+
+    if (Array.isArray(options.allies)) {
+      for (const a of options.allies) addCandidate(a);
+    }
+    const combatants = options.combatants || globalThis.game?.combat?.combatants || [];
+    for (const c of combatants) {
+      const act = c.actor || (globalThis.game?.actors?.get ? globalThis.game.actors.get(c.actorId) : null);
+      if (act) addCandidate(act);
+    }
     if (globalThis.canvas?.tokens?.placeables) {
       for (const tok of globalThis.canvas.tokens.placeables) {
-        if (tok.actor && appliedAllyIds.includes(tok.actor.id)) {
-          candidateAllies.push(tok.actor);
-        }
+        if (tok.actor) addCandidate(tok.actor);
       }
     }
     if (globalThis.game?.actors) {
+      const allActors = typeof globalThis.game.actors.values === 'function'
+        ? Array.from(globalThis.game.actors.values())
+        : (Array.isArray(globalThis.game.actors) ? globalThis.game.actors : []);
+      for (const act of allActors) {
+        if (act) {
+          const src = act.system?.attributes?.hp?.tempBars?.source;
+          if (appliedAllyIds.has(act.id) || (src && (src === auraName || src.toLowerCase() === auraName.toLowerCase()))) {
+            addCandidate(act);
+          }
+        }
+      }
       for (const id of appliedAllyIds) {
-        const act = globalThis.game.actors.get ? globalThis.game.actors.get(id) : null;
-        if (act && !candidateAllies.some(a => a.id === act.id)) {
-          candidateAllies.push(act);
+        if (!candidateEntities.has(id)) {
+          const act = globalThis.game.actors.get ? globalThis.game.actors.get(id) : null;
+          if (act) addCandidate(act);
         }
       }
     }
 
-    for (const ally of candidateAllies) {
-      if (ally && typeof ally.grantTempBars === 'function') {
-        const currentSource = ally.system?.attributes?.hp?.tempBars?.source;
-        if (!currentSource || currentSource === spellItem.name || currentSource.toLowerCase() === spellItem.name.toLowerCase()) {
-          await ally.grantTempBars({ count: 0, hpPerSlot: 0 });
+    for (const entity of candidateEntities.values()) {
+      const src = entity.system?.attributes?.hp?.tempBars?.source;
+      const isAuraSource = src && (src === auraName || src.toLowerCase() === auraName.toLowerCase());
+      if (isAuraSource || appliedAllyIds.has(entity.id)) {
+        if (typeof entity.grantTempBars === 'function') {
+          await entity.grantTempBars({ count: 0, hpPerSlot: 0 });
+        } else if (typeof entity.update === 'function') {
+          await entity.update({
+            'system.attributes.hp.tempBars.count': 0,
+            'system.attributes.hp.tempBars.currentSlotHp': 0,
+            'system.attributes.hp.tempBars.source': '',
+            'system.attributes.hp.temp': 0
+          });
+        }
+      }
+
+      if (entity.items) {
+        const itemsList = Array.isArray(entity.items)
+          ? entity.items
+          : Array.from(entity.items.values?.() || []);
+        const toDelete = [];
+        for (const it of itemsList) {
+          const iSys = it.system || {};
+          const isAuraDuration = typeof iSys.duration === 'string' && (
+            iSys.duration === `${auraName} Aura` ||
+            iSys.duration.toLowerCase() === `${auraName.toLowerCase()} aura`
+          );
+          const isAuraSrc = iSys.source && (iSys.source === auraName || iSys.source.toLowerCase() === auraName.toLowerCase());
+          const isLinkedId = it.flags?.['carl-rpg']?.auraItemId === (spellItem.id || spellItem._id);
+          if (isAuraDuration || isAuraSrc || isLinkedId) {
+            toDelete.push(it.id || it._id);
+          }
+        }
+        if (toDelete.length > 0) {
+          if (typeof entity.deleteEmbeddedDocuments === 'function') {
+            await entity.deleteEmbeddedDocuments('Item', toDelete);
+          } else if (Array.isArray(entity.items)) {
+            entity.items = entity.items.filter(it => !toDelete.includes(it.id || it._id));
+          }
         }
       }
     }

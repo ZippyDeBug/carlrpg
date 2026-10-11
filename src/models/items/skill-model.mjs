@@ -201,7 +201,8 @@ export class SkillDataModel extends BaseItemDataModel {
         hours: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
         remainingRounds: new fields.NumberField({ integer: true, min: 0, initial: 0 })
       }),
-      active: new fields.BooleanField({ initial: false })
+      active: new fields.BooleanField({ initial: false }),
+      appliedAllies: new fields.ArrayField(new fields.StringField(), { initial: [] })
     };
   }
 

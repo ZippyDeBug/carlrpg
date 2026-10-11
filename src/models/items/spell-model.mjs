@@ -198,6 +198,7 @@ export class SpellDataModel extends BaseItemDataModel {
         animation: new fields.StringField({ initial: '' })
       }),
       active: new fields.BooleanField({ initial: false }),
+      appliedAllies: new fields.ArrayField(new fields.StringField(), { initial: [] }),
       outcomes: new fields.ArrayField(new fields.ObjectField(), { initial: [] }),
       grants: new fields.ArrayField(new fields.ObjectField(), { initial: [] })
     };

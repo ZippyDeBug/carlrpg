@@ -5179,7 +5179,29 @@ export class DCCActor extends BaseActor {
           for (const ally of options.allies) {
             if (ally && ally.id !== this.id && typeof ally.grantTempBars === 'function') {
               await ally.grantTempBars({ count: slots, hpPerSlot, source: spellItem.name });
-              affectedAllies.push(ally);
+              if (!affectedAllies.some(a => a.id === ally.id)) {
+                affectedAllies.push(ally);
+              }
+            }
+          }
+        }
+
+        // Combatants if in combat without an active canvas
+        const combatList = options?.combatants ||
+          (globalThis.game?.combat?.combatants
+            ? (Array.isArray(globalThis.game.combat.combatants)
+                ? globalThis.game.combat.combatants
+                : Array.from(globalThis.game.combat.combatants.values?.() || []))
+            : []);
+        if (combatList.length && (typeof canvas === 'undefined' || !canvas?.scene)) {
+          for (const c of combatList) {
+            const ally = c.actor || (globalThis.game?.actors?.get ? globalThis.game.actors.get(c.actorId) : null);
+            if (ally && ally.id !== this.id && !affectedAllies.some(a => a.id === ally.id)) {
+              const isAlly = ally.type === 'crawler' || ally.type === 'pet' || c.disposition === 1;
+              if (isAlly && typeof ally.grantTempBars === 'function') {
+                await ally.grantTempBars({ count: slots, hpPerSlot, source: spellItem.name });
+                affectedAllies.push(ally);
+              }
             }
           }
         }
@@ -5196,7 +5218,8 @@ export class DCCActor extends BaseActor {
           for (const cand of candidateTokens) {
             const candActor = cand.actor;
             const isAlly = candActor.type === 'crawler' || candActor.type === 'pet' ||
-              (cand.document?.disposition === (globalThis.CONST?.TOKEN_DISPOSITIONS?.FRIENDLY ?? 1));
+              (cand.document?.disposition === (globalThis.CONST?.TOKEN_DISPOSITIONS?.FRIENDLY ?? 1)) ||
+              (cand.disposition === 1);
             if (!isAlly) continue;
 
             let dist = 0;
@@ -5225,6 +5248,13 @@ export class DCCActor extends BaseActor {
           }
         }
       }
+    }
+
+    spellItem._appliedAllyActors = [...affectedAllies];
+    if (affectedAllies.length > 0) {
+      await spellItem.update({
+        'system.appliedAllies': affectedAllies.map(a => a.id)
+      });
     }
 
     // 6. Trigger hostile aura effects on enemies in radius if configured
@@ -5339,6 +5369,12 @@ export class DCCActor extends BaseActor {
                 system: {
                   duration: `${spellItem.name} Aura`,
                   description: `Inflicted while in ${spellItem.name} radius.`
+                },
+                flags: {
+                  'carl-rpg': {
+                    auraItemId: spellItem.id || spellItem._id,
+                    sourceAura: spellItem.name
+                  }
                 }
               }]);
             }
@@ -5358,7 +5394,7 @@ export class DCCActor extends BaseActor {
 
   /**
    * Deactivate an aura spell/item and clear any granted temporary health bars.
-   * Also clears temporary health bars on all allies who received them from this aura.
+   * Also clears temporary health bars and aura-inflicted effects from all entities in the aura.
    * @param {DCCItem} spellItem
    * @param {object} [options={}]
    * @returns {Promise<object>}
@@ -5366,41 +5402,139 @@ export class DCCActor extends BaseActor {
   async deactivateAura(spellItem, options = {}) {
     if (!spellItem) return { active: false };
 
+    const auraName = spellItem.name;
+    const sys = spellItem.system || {};
+    const appliedAllyIds = new Set(Array.isArray(sys.appliedAllies) ? sys.appliedAllies : []);
+
     await spellItem.update({
       'system.active': false,
-      'system.durationConfig.remainingRounds': 0
+      'system.durationConfig.remainingRounds': 0,
+      'system.appliedAllies': []
     });
 
-    const auraName = spellItem.name;
     const currentSource = this.system?.attributes?.hp?.tempBars?.source;
     if (currentSource && (currentSource === auraName || currentSource.toLowerCase() === auraName.toLowerCase())) {
-      await this.grantTempBars({ count: 0, hpPerSlot: 0 });
+      if (typeof this.grantTempBars === 'function') {
+        await this.grantTempBars({ count: 0, hpPerSlot: 0 });
+      } else if (typeof this.update === 'function') {
+        await this.update({
+          'system.attributes.hp.tempBars.count': 0,
+          'system.attributes.hp.tempBars.currentSlotHp': 0,
+          'system.attributes.hp.tempBars.source': '',
+          'system.attributes.hp.temp': 0
+        });
+      }
     }
 
-    // Clear temporary health bars from allies who received them from this aura
+    // Discover all candidate entities across options, combatants, scene tokens, and world actors
+    const candidateEntities = new Map();
+    const addCandidate = (actor) => {
+      if (actor && actor.id && actor.id !== this.id && !candidateEntities.has(actor.id)) {
+        candidateEntities.set(actor.id, actor);
+      }
+    };
+
+    // 0. Allies remembered on the item instance
+    if (Array.isArray(spellItem._appliedAllyActors)) {
+      for (const ally of spellItem._appliedAllyActors) addCandidate(ally);
+    }
+    spellItem._appliedAllyActors = [];
+
+    // 1. Direct allies passed in options
+    if (Array.isArray(options?.allies)) {
+      for (const ally of options.allies) addCandidate(ally);
+    }
+
+    // 2. Combat combatants
+    const combatants = options?.combatants ||
+      (Array.isArray(this.combat?.combatants) ? this.combat.combatants : null) ||
+      (globalThis.game?.combat?.combatants
+        ? (Array.isArray(globalThis.game.combat.combatants)
+            ? globalThis.game.combat.combatants
+            : Array.from(globalThis.game.combat.combatants.values?.() || []))
+        : []);
+    if (combatants) {
+      for (const c of combatants) {
+        const act = c.actor || (globalThis.game?.actors?.get ? globalThis.game.actors.get(c.actorId) : null);
+        if (act) addCandidate(act);
+      }
+    }
+
+    // 3. Canvas placeable tokens
     if (typeof canvas !== 'undefined' && canvas?.tokens?.placeables) {
       for (const t of canvas.tokens.placeables) {
-        if (t.actor && t.actor.id !== this.id) {
-          const src = t.actor.system?.attributes?.hp?.tempBars?.source;
-          if (src && (src === auraName || src.toLowerCase() === auraName.toLowerCase())) {
-            if (typeof t.actor.grantTempBars === 'function') {
-              await t.actor.grantTempBars({ count: 0, hpPerSlot: 0 });
-            }
+        if (t.actor) addCandidate(t.actor);
+      }
+    }
+
+    // 4. World actors (game.actors)
+    if (globalThis.game?.actors) {
+      const allActors = typeof globalThis.game.actors.values === 'function'
+        ? Array.from(globalThis.game.actors.values())
+        : (Array.isArray(globalThis.game.actors) ? globalThis.game.actors : []);
+      for (const act of allActors) {
+        if (act) {
+          const src = act.system?.attributes?.hp?.tempBars?.source;
+          const isAuraSource = src && (src === auraName || src.toLowerCase() === auraName.toLowerCase());
+          if (appliedAllyIds.has(act.id) || isAuraSource) {
+            addCandidate(act);
           }
         }
       }
+      for (const id of appliedAllyIds) {
+        if (!candidateEntities.has(id)) {
+          const act = globalThis.game.actors.get ? globalThis.game.actors.get(id) : null;
+          if (act) addCandidate(act);
+        }
+      }
     }
-    if (Array.isArray(options?.allies)) {
-      for (const ally of options.allies) {
-        const src = ally?.system?.attributes?.hp?.tempBars?.source;
-        if (src && (src === auraName || src.toLowerCase() === auraName.toLowerCase())) {
-          if (typeof ally.grantTempBars === 'function') {
-            await ally.grantTempBars({ count: 0, hpPerSlot: 0 });
+
+    // Remove temporary health bars and aura-created conditions from all affected entities
+    for (const entity of candidateEntities.values()) {
+      const src = entity.system?.attributes?.hp?.tempBars?.source;
+      const isAuraSource = src && (src === auraName || src.toLowerCase() === auraName.toLowerCase());
+      if (isAuraSource || appliedAllyIds.has(entity.id)) {
+        if (typeof entity.grantTempBars === 'function') {
+          await entity.grantTempBars({ count: 0, hpPerSlot: 0 });
+        } else if (typeof entity.update === 'function') {
+          await entity.update({
+            'system.attributes.hp.tempBars.count': 0,
+            'system.attributes.hp.tempBars.currentSlotHp': 0,
+            'system.attributes.hp.tempBars.source': '',
+            'system.attributes.hp.temp': 0
+          });
+        }
+      }
+
+      // Remove any debuffs, buffs, or conditions created by this aura
+      if (entity.items) {
+        const itemsList = Array.isArray(entity.items)
+          ? entity.items
+          : Array.from(entity.items.values?.() || []);
+        const toDelete = [];
+        for (const it of itemsList) {
+          const iSys = it.system || {};
+          const isAuraDuration = typeof iSys.duration === 'string' && (
+            iSys.duration === `${auraName} Aura` ||
+            iSys.duration.toLowerCase() === `${auraName.toLowerCase()} aura`
+          );
+          const isAuraSrc = iSys.source && (iSys.source === auraName || iSys.source.toLowerCase() === auraName.toLowerCase());
+          const isLinkedId = it.flags?.['carl-rpg']?.auraItemId === (spellItem.id || spellItem._id);
+          if (isAuraDuration || isAuraSrc || isLinkedId) {
+            toDelete.push(it.id || it._id);
+          }
+        }
+        if (toDelete.length > 0) {
+          if (typeof entity.deleteEmbeddedDocuments === 'function') {
+            await entity.deleteEmbeddedDocuments('Item', toDelete);
+          } else if (Array.isArray(entity.items)) {
+            entity.items = entity.items.filter(it => !toDelete.includes(it.id || it._id));
           }
         }
       }
     }
 
+    // Remove canvas measured template
     if (typeof canvas !== 'undefined' && canvas?.scene?.templates && canvas.scene.deleteEmbeddedDocuments) {
       const auraTemplates = canvas.scene.templates.filter(t => t.flags?.['carl-rpg']?.auraItemId === (spellItem.id || spellItem._id));
       if (auraTemplates.length) {

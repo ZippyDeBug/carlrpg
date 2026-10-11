@@ -1,3 +1,23 @@
+## 3.2.12
+
+### CarlRPG 3.2.12 — Universal Aura Expiration & Comprehensive Multi-Entity Effect Cleanup
+
+- **Universal Multi-Entity Aura Cleanup (`src/documents/actor.mjs`, `src/documents/combat.mjs`)**:
+  - **The Issue**: When protective auras like *Hot Stuff Aura* expired or deactivated, temporary health bars were cleared from the caster, but allies and other entities within the aura retained their temporary health bars and aura-granted effects.
+  - **Root Cause Resolution**:
+    - `combat.processRoundDurations()` now detects expiring aura items and delegates directly to `actor.deactivateAura(item, { combatants: this.combatants })` instead of solely zeroing out the caster's temporary health bars.
+    - `actor.activateAura()` now persists `system.appliedAllies` and caches `_appliedAllyActors`, remembering all entities protected or affected when the aura was activated.
+    - `actor.deactivateAura()` comprehensively discovers all affected entities across options, cached entities, active combatants (`game.combat.combatants`), scene tokens (`canvas.tokens.placeables`), and world actors (`game.actors`).
+    - Clears temporary health bars (`tempBars.source === auraName` or tracked in `appliedAllies`) from the caster AND all affected allies across the scene/combat.
+    - Automatically cleanses and removes any condition items (debuffs or buffs) created or inflicted by the aura on enemies or allies (matching `duration === "${auraName} Aura"` or `auraItemId`).
+- **Schema & Model Updates (`src/models/items/spell-model.mjs`, `src/models/items/skill-model.mjs`, `template.json`)**:
+  - Added `appliedAllies: new fields.ArrayField(new fields.StringField(), { initial: [] })` to both `SpellDataModel` and `SkillDataModel`, and registered `"appliedAllies": []` in `template.json` to ensure persistent tracking across combat rounds.
+- **Automated Verification (`tests/aura-workflow.test.mjs`)**:
+  - Added Test 16: When Hot Stuff Aura expires at round end via `combat.processRoundDurations()`, temporary health bars are cleanly stripped from the caster and all affected allies.
+  - Added Test 17: Manual `deactivateAura()` clears all affected allies across combatants and tracked `appliedAllies` without requiring explicit caller options.
+  - Added Test 18: Deactivating an offensive aura removes inflicted condition items (e.g. *Burning*) from hostile entities.
+  - Full test suite verified: **1,258 tests passing across 226 suites with 0 failures**.
+
 ## 3.2.11
 
 ### CarlRPG 3.2.11 — Sheet Selectors, Controlled Dropdowns & Tag Widget Normalization

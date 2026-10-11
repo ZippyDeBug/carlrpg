@@ -432,6 +432,7 @@
         "remainingRounds": 0
       },
       "active": false,
+      "appliedAllies": [],
       "tags": [],
       "identifier": "",
       "requires": []
@@ -690,6 +691,7 @@
         "animation": ""
       },
       "active": false,
+      "appliedAllies": [],
       "tags": [],
       "identifier": "",
       "outcomes": [],

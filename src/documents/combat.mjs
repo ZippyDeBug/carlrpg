@@ -11,6 +11,8 @@
  * - Health Thresholds: Green (100%-66%), Yellow (66%-33%), Red (33%-0%).
  */
 
+import { getItemAllTags } from '../data/tags.mjs';
+
 const BaseCombat = CONFIG.Combat?.documentClass
   ?? globalThis.foundry?.documents?.BaseCombat
   ?? globalThis.Combat
@@ -1110,18 +1112,29 @@ export class DCCCombat extends BaseCombat {
           if (isExpired) {
             updates['system.active'] = false;
 
-            // If this item was providing temporary health bars, clear them
-            const currentSource = actor.system?.attributes?.hp?.tempBars?.source;
-            if (currentSource && (currentSource === item.name || currentSource.toLowerCase() === item.name.toLowerCase())) {
-              if (typeof actor.grantTempBars === 'function') {
-                await actor.grantTempBars({ count: 0, hpPerSlot: 0 });
-              } else {
-                await actor.update({
-                  'system.attributes.hp.tempBars.count': 0,
-                  'system.attributes.hp.tempBars.currentSlotHp': 0,
-                  'system.attributes.hp.tempBars.source': '',
-                  'system.attributes.hp.temp': 0
-                });
+            const itemTags = item.allTags || (typeof getItemAllTags === 'function' ? getItemAllTags(item) : new Set(item.system?.tags || []));
+            const isAura = sys.delivery === 'aura' ||
+              sys.area?.isAura ||
+              (itemTags && (itemTags.has('delivery.aura') || itemTags.has('shape.aura'))) ||
+              (typeof item.name === 'string' && item.name.toLowerCase().includes('aura'));
+
+            if (isAura && typeof actor.deactivateAura === 'function') {
+              // deactivateAura removes effects from caster AND all entities/allies in the aura
+              await actor.deactivateAura(item, { combatants: this.combatants });
+            } else {
+              // If this non-aura item was providing temporary health bars directly, clear them
+              const currentSource = actor.system?.attributes?.hp?.tempBars?.source;
+              if (currentSource && (currentSource === item.name || currentSource.toLowerCase() === item.name.toLowerCase())) {
+                if (typeof actor.grantTempBars === 'function') {
+                  await actor.grantTempBars({ count: 0, hpPerSlot: 0 });
+                } else {
+                  await actor.update({
+                    'system.attributes.hp.tempBars.count': 0,
+                    'system.attributes.hp.tempBars.currentSlotHp': 0,
+                    'system.attributes.hp.tempBars.source': '',
+                    'system.attributes.hp.temp': 0
+                  });
+                }
               }
             }
 

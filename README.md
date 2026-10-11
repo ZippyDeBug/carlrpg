@@ -10,6 +10,12 @@ Questions or concerns contact me @ shinierball via gmail or maybe discord or wha
 
 - Hopefully the AI keeps this in sync reasonably with reality, but code changes so fast these days! Odds that this accurately reflects the rules are probably close to zero, but I'm committed to the process of telling the AI to do better!
 
+- **CarlRPG 3.2.12 Universal Aura Expiration & Multi-Entity Effect Cleanup**:
+  - **Comprehensive Multi-Entity Cleanup**: When an aura (such as *Hot Stuff Aura*) expires at round end or is deactivated, temporary health bars and aura-conferred benefits are reliably removed from the caster AND all allies within the aura across combatants, canvas tokens, and world actors.
+  - **Aura Expiration Pipeline**: `combat.processRoundDurations()` delegates expiring auras directly to `actor.deactivateAura(item, { combatants: this.combatants })`.
+  - **Persistent Ally Tracking**: `appliedAllies` is now tracked directly in `SpellDataModel`, `SkillDataModel`, and `template.json`, ensuring the system always remembers which allies were granted protective benefits regardless of how rounds advance.
+  - **Offensive Aura Debuff Removal**: Deactivating an aura cleanses any condition items (debuffs or buffs) created or inflicted by that aura on hostile entities.
+
 - **CarlRPG 3.2.11 Sheet Selectors, Controlled Dropdowns & Tag Widget Normalization**:
   - **Data-Driven Selectors Across All Items**: Replaced free-form text inputs on Spells, Skills, Attacks, Gear, Loot, Buffs, Debuffs, Classes, and Races with controlled `<select>` elements and interactive pill badge widgets. Precomputes `spellTypeOptions`, `durationOptions`, `cooldownOptions`, `targetOptions`, `damageTypeOptions`, `weaponTypeOptions`, `checkTypeOptions`, `classTypeOptions`, and `sizeOptions`.
   - **Multi-Select Condition & Tag Badges**: Upgraded cleanse debuffs, associated skills, applies-to, and optional effects to interactive pill widgets with dropdown pickers and auto-suggestion buttons.
