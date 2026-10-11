@@ -59,6 +59,17 @@ export class SkillDataModel extends BaseItemDataModel {
         hotRounds: new fields.NumberField({ integer: true, min: 1, initial: 3 }),
         cleanseDebuffs: new fields.ArrayField(new fields.StringField(), { initial: [] })
       }),
+      contest: new fields.SchemaField({
+        hasContest: new fields.BooleanField({ initial: false }),
+        contestType: new fields.StringField({ initial: 'dc' }),
+        targetStat: new fields.StringField({ initial: 'dex' }),
+        targetSkill: new fields.StringField({ initial: '' }),
+        dcFormula: new fields.StringField({ initial: '10 + rank + stat' }),
+        customDC: new fields.NumberField({ integer: true, min: 0, initial: 0 }),
+        onFailDebuff: new fields.StringField({ initial: '' }),
+        onFailNotes: new fields.StringField({ initial: '' }),
+        onSuccessNotes: new fields.StringField({ initial: '' })
+      }),
       rankBreaks: new fields.SchemaField({
         rank5: new fields.SchemaField({
           rank: new fields.NumberField({ integer: true, min: 1, max: 20, initial: 5 }),
@@ -73,6 +84,10 @@ export class SkillDataModel extends BaseItemDataModel {
           healing: new fields.SchemaField({
             barsBonus: new fields.NumberField({ integer: true, initial: 0 }),
             cleanseDebuff: new fields.StringField({ initial: '' })
+          }),
+          contest: new fields.SchemaField({
+            dcBonus: new fields.NumberField({ integer: true, initial: 0 }),
+            onFailDebuff: new fields.StringField({ initial: '' })
           }),
           area: new fields.SchemaField({
             radiusBonus: new fields.NumberField({ integer: true, initial: 0 })
@@ -95,6 +110,10 @@ export class SkillDataModel extends BaseItemDataModel {
             barsBonus: new fields.NumberField({ integer: true, initial: 0 }),
             cleanseDebuff: new fields.StringField({ initial: '' })
           }),
+          contest: new fields.SchemaField({
+            dcBonus: new fields.NumberField({ integer: true, initial: 0 }),
+            onFailDebuff: new fields.StringField({ initial: '' })
+          }),
           area: new fields.SchemaField({
             radiusBonus: new fields.NumberField({ integer: true, initial: 0 })
           }),
@@ -116,6 +135,10 @@ export class SkillDataModel extends BaseItemDataModel {
             barsBonus: new fields.NumberField({ integer: true, initial: 0 }),
             cleanseDebuff: new fields.StringField({ initial: '' })
           }),
+          contest: new fields.SchemaField({
+            dcBonus: new fields.NumberField({ integer: true, initial: 0 }),
+            onFailDebuff: new fields.StringField({ initial: '' })
+          }),
           area: new fields.SchemaField({
             radiusBonus: new fields.NumberField({ integer: true, initial: 0 })
           }),
@@ -136,6 +159,10 @@ export class SkillDataModel extends BaseItemDataModel {
           healing: new fields.SchemaField({
             barsBonus: new fields.NumberField({ integer: true, initial: 0 }),
             cleanseDebuff: new fields.StringField({ initial: '' })
+          }),
+          contest: new fields.SchemaField({
+            dcBonus: new fields.NumberField({ integer: true, initial: 0 }),
+            onFailDebuff: new fields.StringField({ initial: '' })
           }),
           area: new fields.SchemaField({
             radiusBonus: new fields.NumberField({ integer: true, initial: 0 })

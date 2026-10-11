@@ -1,3 +1,30 @@
+## 3.2.8
+
+### CarlRPG 3.2.8 — Contested / Opposed Spell & Skill Checks, Milestone DC Bonuses & Interactive Chat Resolution
+
+- **Data-Driven Contested & Opposed Check Architecture (`template.json`, `src/models/items/spell-model.mjs`, `src/models/items/skill-model.mjs`)**:
+  - Added structured `system.contest` configuration to Spells and Skills: `hasContest` (boolean), `contestType` (`dc` vs `opposed`), `targetStat` (`str`, `dex`, `con`, `int`, `cha`), `targetSkill` (optional opposing skill name), `dcFormula` (default `10 + rank + stat`), `customDC` (override for explicit fixed DCs), `onFailDebuff`, `onFailNotes`, and `onSuccessNotes`.
+  - Added milestone rank break upgrades (`contest.dcBonus` and `contest.onFailDebuff`) across milestone breaks, allowing spells and skills (e.g. *Rootfoot*, *Web*, *Taunt*, *Grand Illusion*, *Stealth*) to scale DC difficulty and inflict upgraded debuffs as crawlers progress in rank.
+- **Unified Tag System Taxonomy (`src/data/tags.mjs`)**:
+  - Registered `contest` namespace in `TAG_NAMESPACES`.
+  - Added official contest action and resolution tags to `DCC_TAGS`: `action.contested`, `action.opposed`, `contest.dc`, `contest.opposed`, and stat resistance tags `contest.str`, `contest.dex`, `contest.con`, `contest.int`, `contest.cha`.
+  - Automatically derives contest tags in `computeDerivedTags()` based on configured contest types and target defending attributes without brittle string matching.
+- **Actor Mechanics & Opposed Resolution Engine (`src/documents/actor.mjs`)**:
+  - Implemented `DCCActor.prototype.getContestData(item, options)`: evaluates DC formulas (`10 + rank + statMod + dcBonus`), resolves milestone rank break bonuses, and formats contest challenge metadata.
+  - Implemented `DCCActor.prototype.renderContestChallengeBlock(item, contestData, initiatorTotal)`: embeds high-contrast interactive challenge UI inside spell and skill chat cards.
+  - Implemented `DCCActor.prototype.rollContestResponse(params)`: defender rolls opposed check (using `targetSkill` if owned, falling back to DCC stat modifier check), evaluates success or failure against initiator DC or opposed roll total, outputs result chat card, and embeds 1-click debuff button (`.dcc-apply-debuff-btn`) upon failure.
+  - Strict DCC rules adherence: strictly leverages `getDCCStatModifier`, completely avoiding D&D math and negative modifiers.
+- **Progressive Disclosure Sheet UI (`templates/items/parts/spell.hbs`, `templates/items/parts/skill.hbs`, `src/sheets/item-sheet.mjs`)**:
+  - Added collapsible `<details class="dcc-collapsible-block" {{#if hasContestConfigured}}open{{/if}}>` section for *Contested / Opposed Check Configuration* on Spells and Skills.
+  - Integrated `+ Contest DC Bonus` and `Upgraded Fail Debuff` inputs into all milestone break cards.
+  - Automatically displays `[CONFIGURED]` gold status badges when active.
+- **Interactive Chat Resolution Listener (`src/dcc.mjs`, `styles/dcc.css`)**:
+  - Registered chat log event listener for `.dcc-roll-contest-btn` delegating seamlessly to targeted or controlled defender tokens.
+  - Styled `.dcc-contested-challenge`, `.dcc-roll-contest-btn`, and `.dcc-contest-result-card` with DCC red accents, high-contrast badges, and clean visual borders.
+- **Automated Verification (`tests/contested-opposed-checks.test.mjs`)**:
+  - Added dedicated 13-test automated test suite covering schema defaults, tag derivations, DC formulas, milestone upgrades, interactive chat rendering, opposed rolls, and item sheet contexts.
+  - Verified 100% test pass rate across all 1,227 unit tests with 0 failures.
+
 ## 3.2.7
 
 ### CarlRPG 3.2.7 — Rank Break Critical Milestones, Selectable Ranks 1–20 & Unified Trigger Tags

@@ -2147,6 +2147,66 @@ export function onRenderChatMessage(message, html, data) {
     }
   }
 
+  // 7j. Handle click on "Roll Opposed Contest" from chat card
+  const contestButtons = query('.dcc-roll-contest-btn');
+  for (const btn of contestButtons) {
+    if (btn.dataset) {
+      if (btn.dataset.dccBound) continue;
+      btn.dataset.dccBound = 'true';
+    }
+
+    const contestClickHandler = async (ev) => {
+      ev.preventDefault();
+      const $btn = (typeof $ !== 'undefined') ? $(btn) : null;
+      const initiatorId = btn.dataset?.initiatorId || $btn?.data('initiator-id');
+      const initiatorName = btn.dataset?.initiatorName || $btn?.data('initiator-name') || 'Initiator';
+      const itemName = btn.dataset?.itemName || $btn?.data('item-name') || 'Ability';
+      const contestType = btn.dataset?.contestType || $btn?.data('contest-type') || 'dc';
+      const targetStat = btn.dataset?.targetStat || $btn?.data('target-stat') || 'dex';
+      const targetSkill = btn.dataset?.targetSkill || $btn?.data('target-skill') || '';
+      const dc = Number(btn.dataset?.dc ?? $btn?.data('dc')) || 10;
+      const initiatorTotal = Number(btn.dataset?.initiatorTotal ?? $btn?.data('initiator-total')) || 10;
+      const onFailDebuff = btn.dataset?.onFailDebuff || $btn?.data('on-fail-debuff') || '';
+      const onFailNotes = btn.dataset?.onFailNotes || $btn?.data('on-fail-notes') || '';
+      const onSuccessNotes = btn.dataset?.onSuccessNotes || $btn?.data('on-success-notes') || '';
+
+      let targetTokens = Array.from(game.user?.targets || []);
+      if (!targetTokens.length && canvas?.tokens?.controlled) {
+        targetTokens = canvas.tokens.controlled.filter(t => t.actor && t.actor.id !== initiatorId);
+      }
+      let targetActors = targetTokens.map(t => t.actor).filter(Boolean);
+
+      if (!targetActors.length) {
+        ui.notifications?.warn('DCC RPG | Please target or select the defender token to roll the contest.');
+        return;
+      }
+
+      for (const defender of targetActors) {
+        if (typeof defender.rollContestResponse === 'function') {
+          await defender.rollContestResponse({
+            initiatorId,
+            initiatorName,
+            itemName,
+            contestType,
+            targetStat,
+            targetSkill,
+            dc,
+            initiatorTotal,
+            onFailDebuff,
+            onFailNotes,
+            onSuccessNotes
+          });
+        }
+      }
+    };
+
+    if (typeof btn.addEventListener === 'function') {
+      btn.addEventListener('click', contestClickHandler);
+    } else if (typeof $ !== 'undefined') {
+      $(btn).click(contestClickHandler);
+    }
+  }
+
   // 8. Enhance chat card or message sender with Crawler Trophy Badges (Boss Stars & Skulls)
   try {
     const speakerActorId = message?.speaker?.actor || message?.flags?.['carl-rpg']?.actorId;

@@ -9976,5 +9976,43 @@ body.dark-mode .dcc-tag-manager-container .dcc-custom-tag-namespace,
   background: #1abc9c;
 }
 
+/* Contested / Opposed Checks UI */
+.dcc-contested-challenge {
+  margin: 8px 0;
+  padding: 8px 10px;
+  background: #fbf5fb;
+  border: 2px solid #8e44ad;
+  border-radius: 4px;
+  color: #4a235a;
+  font-size: 12px;
+  font-family: var(--font-primary, 'Oswald', sans-serif);
+}
 
+.dcc-roll-contest-btn {
+  background: #8e44ad;
+  color: #ffffff;
+  border: 1px solid #6c3483;
+  border-radius: 3px;
+  padding: 5px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: var(--font-primary, 'Oswald', sans-serif);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.15s ease, filter 0.15s ease;
+}
 
+.dcc-roll-contest-btn:hover {
+  background: #9b59b6;
+  filter: brightness(1.05);
+}
+
+.dcc-contest-result-card {
+  font-family: var(--font-primary, 'Oswald', sans-serif);
+  border-radius: 4px;
+  padding: 8px;
+  background: #ffffff;
+}

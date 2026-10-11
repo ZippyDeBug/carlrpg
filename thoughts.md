@@ -47,6 +47,7 @@
 5. **Summoning / Minion & Companion Spawner (Medium Priority)**:
    - Spells: `Rise, Dead Minion!` (summons Medium skeleton 1d8+Int), `Second Chance` (raises dead mob with 1/2 health bars), `Clockwork Triplicate`, `Minion Army`.
    - Currently: No interactive button to spawn a minion token linked to the caster.
+   - A key game mechanic is the mob generator where mobs are generated every round up to a maximum or for each mob killed n new mobs are generated up to a maximum.  This could be more like a hazard or trap that is placed on the map and generates mobs every round.
 6. **Terrain / Hazard / Barrier Placement (Medium Priority)**:
    - Spells: `Wall of Fire` (blocks line of sight, deals fire damage on pass), `Fireball` (ignites terrain), `Rise, Dead Minion!` (leaves difficult terrain on collapse).
 7. **Crafting, Harvesting & Degraded Item Repair (Medium Priority)**:
@@ -120,3 +121,66 @@
 - **Migration & Verification**:
   - Ran `scripts/migrate-healing-and-armor-piercing.mjs` migrating 54 spells and 121 skills. Rebuilt all compendium packs.
   - Unit tests: 1,198 passing across 213 suites with 0 failures (`tests/healing-cleansing-mechanics.test.mjs` and `tests/armor-piercing-mechanics.test.mjs`).
+
+## Task: Contested / Opposed Spell & Skill Checks (DC vs Stat/Skill) Subsystem
+**Date**: 2026-10-10
+
+### User Request Analysis
+- Implement #3 from Canon Unaccounted Mechanics: **Contested / Opposed Spell & Skill Checks**.
+- Spells: `Rootfoot` (Str check vs Spell DC to break free), `Web`, `Panty Dropper` (Int-opposed check), `Grand Illusion`, `Turn Undead`.
+- Skills: `Stealth` vs `Perception`, `Ambush`, `Deception` vs `Detect Lies`, `Escape Artist` vs `Grapple`, `Taunt` vs `Insight`.
+- Enable data-driven configuration of DC-based and Opposed roll-vs-roll contests for user-created and canon content.
+- Support interactive chat cards with "🎲 Roll Opposed Contest" buttons for defending tokens and automatic/1-click debuff application on failure.
+
+### Architecture Plan
+1. **Schema & Data Models (`template.json`, Data Models)**:
+   - Add `system.contest` to `Item.spell` and `Item.skill`:
+     - `hasContest`: Boolean (default `false`)
+     - `contestType`: String (`dc` or `opposed`)
+     - `targetStat`: String (`str`, `dex`, `con`, `int`, `cha`)
+     - `targetSkill`: String (optional skill name, e.g. `Escape Artist`, `Perception`, `Detect Lies`)
+     - `dcFormula`: String (`10 + rank + stat`, `10 + floor + stat`, `10 + rank`, etc.)
+     - `customDC`: Number (0 for formula, or >0 for explicit fixed DC)
+     - `onFailDebuff`: String (debuff to inflict on failure, e.g. `Held`, `Rooted`, `Charmed`, `Stunned`)
+     - `onFailNotes`: String (failure consequence text)
+     - `onSuccessNotes`: String (success consequence text)
+   - Add `contest` in `rankBreaks`:
+     - `dcBonus`: Number (e.g. +2 DC at Rank 10)
+     - `onFailDebuff`: String (upgraded debuff)
+2. **Unified Tag System (`src/data/tags.mjs`)**:
+   - Register tags: `action.contested`, `action.opposed`, `contest.dc`, `contest.opposed`, `contest.str`, `contest.dex`, `contest.con`, `contest.int`, `contest.cha`.
+   - Update `computeDerivedTags()` to derive contest tags dynamically.
+3. **Progressive Disclosure UI (`spell.hbs`, `skill.hbs`, `item-sheet.mjs`)**:
+   - Add collapsible `<details class="dcc-collapsible-block">` for *Contested / Opposed Check Configuration*.
+   - Sheet context `hasContestConfigured` detects active contest setups.
+   - Rank break cards include `+ DC Bonus` and `Upgraded Fail Debuff`.
+4. **Actor Mechanics & Interactive Chat Workflow (`src/documents/actor.mjs`, `src/dcc.mjs`)**:
+   - `actor.getContestData(item, options)`: Evaluates DC formula (10 + rank + statMod + dcBonus), rank break upgrades, and returns contest definition.
+   - `rollSpell()` & `rollSkill()`: Embeds interactive `.dcc-contested-challenge` card section with `.dcc-roll-contest-btn` button.
+   - `actor.rollContestResponse({ initiatorActor, item, targetStat, targetSkill, dc, initiatorTotal, onFailDebuff, ... })`: Defender rolls opposing check (skill or stat mod) vs DC/total, reports Success/Failure, and provides 1-click debuff button or applies condition.
+   - Event listener in `src/dcc.mjs` handles `.dcc-roll-contest-btn` clicks from targeted or controlled tokens.
+5. **Testing & Verification**:
+   - Create unit tests in `tests/contested-opposed-checks.test.mjs`.
+   - Ensure 100% test pass rate with 0 failures (`node --test tests/*.test.mjs`).
+
+### Implementation Summary & Verification
+- **Schema & Data Models**:
+  - Added `system.contest` (`hasContest`, `contestType`, `targetStat`, `targetSkill`, `dcFormula`, `customDC`, `onFailDebuff`, `onFailNotes`, `onSuccessNotes`) and milestone rank break upgrades (`contest.dcBonus`, `contest.onFailDebuff`) across `template.json`, `SpellDataModel`, `SkillDataModel`, and `hydrateRankBreaks()`.
+- **Unified Tag System**:
+  - Registered `contest` namespace in `TAG_NAMESPACES`.
+  - Added `action.contested`, `action.opposed`, `contest.dc`, `contest.opposed`, and `contest.str/dex/con/int/cha` to `DCC_TAGS`.
+  - Derived dynamically in `computeDerivedTags()` for items with `contest.hasContest`.
+- **Actor Mechanics & Opposed Checks**:
+  - Implemented `DCCActor.prototype.getContestData()` respecting strict `getDCCStatModifier` rules and milestone bonuses.
+  - Implemented `DCCActor.prototype.renderContestChallengeBlock()` rendering `.dcc-contested-challenge` with `.dcc-roll-contest-btn`.
+  - Implemented `DCCActor.prototype.rollContestResponse()` evaluating opposed rolls or DC saves and providing 1-click `.dcc-apply-debuff-btn` on failure.
+  - Hooked into `rollSkill()`, `rollSpell()`, and `rollSpellAttack()`.
+- **Sheet UI**:
+  - Added collapsible `<details class="dcc-collapsible-block">` for Contested / Opposed Check Configuration in `spell.hbs` and `skill.hbs`.
+  - Added `+ Contest DC Bonus` and `Upgraded Fail Debuff` to all milestone cards.
+- **Verification**:
+  - Tested schema, tag derivations, DC formulas, milestone upgrades, interactive chat rendering, and opposed rolls in `tests/contested-opposed-checks.test.mjs`.
+  - Executed `node --test tests/*.test.mjs`: **1,227 tests passing across 226 suites with 0 failures**.
+- **Release**:
+  - Manifest version bumped to `3.2.8` in `system.json`.
+  - Updated `CHANGELOG.md`, `README.md`, and `thoughts.md`.

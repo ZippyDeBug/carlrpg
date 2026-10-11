@@ -699,9 +699,30 @@ export class DCCItemSheet extends BaseItemSheet {
           Number(rb.healing?.barsBonus) > 0 ||
           Boolean(rb.healing?.cleanseDebuff) ||
           Number(rb.area?.radiusBonus) > 0 ||
-          Number(rb.tempBars?.hpPerSlot) > 0
+          Number(rb.tempBars?.hpPerSlot) > 0 ||
+          Number(rb.contest?.dcBonus) > 0 ||
+          Boolean(rb.contest?.onFailDebuff)
         )
       )
+    );
+
+    context.contestStats = [
+      { id: 'str', label: 'Strength (STR)' },
+      { id: 'dex', label: 'Dexterity (DEX)' },
+      { id: 'con', label: 'Constitution (CON)' },
+      { id: 'int', label: 'Intelligence (INT)' },
+      { id: 'cha', label: 'Charisma (CHA)' }
+    ];
+    context.contestTypes = [
+      { id: 'dc', label: 'DC Challenge (Target rolls vs DC)' },
+      { id: 'opposed', label: 'Opposed Contest (Roll vs Roll)' }
+    ];
+    context.hasContestConfigured = Boolean(
+      sys.contest?.hasContest ||
+      sys.contest?.targetSkill ||
+      sys.contest?.onFailDebuff ||
+      sys.contest?.onFailNotes ||
+      Number(sys.contest?.customDC) > 0
     );
 
     // Spell-specific flags

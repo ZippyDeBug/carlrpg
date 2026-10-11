@@ -6012,12 +6012,287 @@ export class DCCActor extends BaseActor {
     }
 
     const rollHtml = typeof roll.render === 'function' ? await roll.render() : '';
-    const content = `${rollHtml || ''}${dmgBtnHtml || ''}${auraHtml || ''}${healHtml || ''}`.trim() || undefined;
+    const contestData = this.getContestData(skillItem, options);
+    const contestHtml = contestData ? this.renderContestChallengeBlock(skillItem, contestData, roll.total) : '';
+    const content = `${rollHtml || ''}${dmgBtnHtml || ''}${auraHtml || ''}${healHtml || ''}${contestHtml || ''}`.trim() || undefined;
 
     return roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor: this }),
       flavor: flavorText,
-      content
+      content,
+      flags: {
+        'carl-rpg': {
+          isSkillRoll: true,
+          skillName: skillItem.name,
+          rollTotal: roll.total,
+          contest: contestData || null
+        }
+      }
+    });
+  }
+
+  /**
+   * Evaluate contested/opposed check parameters and DC for an item (spell or skill)
+   * @param {DCCItem} item
+   * @param {object} [options={}]
+   * @returns {object|null}
+   */
+  getContestData(item, options = {}) {
+    const sys = item?.system || {};
+    const contest = sys.contest || {};
+    if (!contest.hasContest) return null;
+
+    const contestType = (contest.contestType || 'dc').toLowerCase().trim();
+    const targetStat = (contest.targetStat || 'dex').toLowerCase().trim();
+    const targetSkill = (contest.targetSkill || '').trim();
+
+    // Initiator rank & stat
+    const rank = Math.max(
+      Number(item.modifiedRank ?? sys.modifiedRank ?? item.effectiveRank ?? sys.rank) || 0,
+      1
+    );
+    const statKey = (sys.stat || 'int').toLowerCase().trim();
+    let statMod = Number(this.system?.abilities?.[statKey]?.mod);
+    if (Number.isNaN(statMod) || statMod === undefined) {
+      const statVal = Number(this.system?.abilities?.[statKey]?.value ?? 10);
+      statMod = typeof getDCCStatModifier === 'function' ? getDCCStatModifier(statVal) : 4;
+    }
+    statMod = Math.max(0, statMod);
+
+    // Cumulative rank break bonuses
+    let dcBonus = 0;
+    let upgradedFailDebuff = '';
+    const rb = sys.rankBreaks;
+    if (rb) {
+      const checkBreak = (breakData, defaultRank) => {
+        if (!breakData) return;
+        const reqRank = Number(breakData.rank) || defaultRank;
+        if (rank >= reqRank) {
+          if (Number(breakData.contest?.dcBonus) > 0) {
+            dcBonus += Number(breakData.contest.dcBonus);
+          }
+          if (breakData.contest?.onFailDebuff) {
+            upgradedFailDebuff = breakData.contest.onFailDebuff.trim();
+          }
+        }
+      };
+      checkBreak(rb.rank5, 5);
+      checkBreak(rb.rank10, 10);
+      checkBreak(rb.rank15, 15);
+      checkBreak(rb.rank20, 20);
+    }
+
+    const customDC = Number(contest.customDC) || 0;
+    const calculatedDC = customDC > 0 ? customDC : Math.max(10, 10 + rank + statMod + dcBonus);
+
+    const onFailDebuff = upgradedFailDebuff || (contest.onFailDebuff || '').trim();
+    const onFailNotes = (contest.onFailNotes || '').trim();
+    const onSuccessNotes = (contest.onSuccessNotes || '').trim();
+
+    return {
+      hasContest: true,
+      contestType,
+      targetStat,
+      targetSkill,
+      rank,
+      statKey,
+      statMod,
+      dcBonus,
+      dc: calculatedDC,
+      customDC,
+      onFailDebuff,
+      onFailNotes,
+      onSuccessNotes
+    };
+  }
+
+  /**
+   * Render interactive contested challenge HTML block for chat cards
+   * @param {DCCItem} item
+   * @param {object} contestData
+   * @param {number} [initiatorTotal=10]
+   * @returns {string}
+   */
+  renderContestChallengeBlock(item, contestData, initiatorTotal = 10) {
+    if (!contestData || !contestData.hasContest) return '';
+    const isOpposed = contestData.contestType === 'opposed';
+    const targetLabel = contestData.targetSkill
+      ? `${contestData.targetSkill} (${contestData.targetStat.toUpperCase()})`
+      : `${contestData.targetStat.toUpperCase()} Check`;
+    const thresholdLabel = isOpposed
+      ? `Opposed vs Initiator Roll (${initiatorTotal})`
+      : `DC ${contestData.dc}`;
+
+    const failDebuffHtml = contestData.onFailDebuff
+      ? `<div style="font-size: 11px; color: #c0392b; margin-top: 2px;"><i class="fa-solid fa-skull"></i> <strong>On Failure:</strong> Inflicts <strong>[${contestData.onFailDebuff}]</strong></div>`
+      : '';
+    const failNotesHtml = contestData.onFailNotes
+      ? `<div style="font-size: 11px; color: #7f1d1d; margin-top: 2px;"><em>Failure: ${contestData.onFailNotes}</em></div>`
+      : '';
+    const successNotesHtml = contestData.onSuccessNotes
+      ? `<div style="font-size: 11px; color: #1e8449; margin-top: 2px;"><em>Success: ${contestData.onSuccessNotes}</em></div>`
+      : '';
+
+    return `
+      <div class="dcc-contested-challenge" style="margin: 8px 0; padding: 8px 10px; background: #fbf5fb; border: 2px solid #8e44ad; border-radius: 4px; color: #4a235a; font-size: 12px; font-family: var(--font-primary, sans-serif);">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; border-bottom: 1px dashed #d2b4de; padding-bottom: 4px;">
+          <div style="font-weight: bold; font-size: 12px; color: #6c3483; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-scale-balanced"></i> ${isOpposed ? 'OPPOSED CONTEST' : 'CONTESTED CHECK'}
+          </div>
+          <span style="font-weight: bold; font-size: 10px; background: #8e44ad; color: #fff; padding: 2px 6px; border-radius: 3px; text-transform: uppercase;">
+            ${thresholdLabel}
+          </span>
+        </div>
+        <div style="font-size: 11px; color: #333; margin-top: 2px;">
+          Opposing Roll: <strong>${targetLabel}</strong>
+          ${isOpposed ? ` • Initiator Score: <strong>${initiatorTotal}</strong>` : ` • Challenge DC: <strong>${contestData.dc}</strong>`}
+        </div>
+        ${failDebuffHtml}
+        ${failNotesHtml}
+        ${successNotesHtml}
+        <button type="button" class="dcc-btn dcc-roll-contest-btn"
+          data-initiator-id="${this.id}"
+          data-initiator-name="${encodeURIComponent(this.name)}"
+          data-item-name="${encodeURIComponent(item?.name || 'Ability')}"
+          data-item-id="${item?.id || item?._id || ''}"
+          data-contest-type="${contestData.contestType}"
+          data-target-stat="${contestData.targetStat}"
+          data-target-skill="${encodeURIComponent(contestData.targetSkill || '')}"
+          data-dc="${contestData.dc}"
+          data-initiator-total="${initiatorTotal}"
+          data-on-fail-debuff="${encodeURIComponent(contestData.onFailDebuff || '')}"
+          data-on-fail-notes="${encodeURIComponent(contestData.onFailNotes || '')}"
+          data-on-success-notes="${encodeURIComponent(contestData.onSuccessNotes || '')}"
+          style="width: 100%; margin-top: 6px; background: #8e44ad; color: #fff; border: 1px solid #6c3483; border-radius: 3px; padding: 5px; font-size: 11px; cursor: pointer; font-weight: bold; font-family: var(--font-primary, sans-serif); display: flex; align-items: center; justify-content: center; gap: 6px;">
+          <i class="fa-solid fa-dice-d20"></i> Roll Opposed Contest (${targetLabel})
+        </button>
+      </div>
+    `;
+  }
+
+  /**
+   * Roll a defensive response to a contested check or opposed check
+   * @param {object} params
+   * @returns {Promise<ChatMessage>}
+   */
+  async rollContestResponse(params = {}) {
+    const {
+      initiatorId = '',
+      initiatorName = 'Initiator',
+      itemName = 'Ability',
+      contestType = 'dc',
+      targetStat = 'dex',
+      targetSkill = '',
+      dc = 10,
+      initiatorTotal = 10,
+      onFailDebuff = '',
+      onFailNotes = '',
+      onSuccessNotes = '',
+      options = {}
+    } = params;
+
+    const statKey = (targetStat || 'dex').toLowerCase().trim();
+    let statMod = Number(this.system?.abilities?.[statKey]?.mod);
+    if (Number.isNaN(statMod) || statMod === undefined) {
+      const statVal = Number(this.system?.abilities?.[statKey]?.value ?? 10);
+      statMod = typeof getDCCStatModifier === 'function' ? getDCCStatModifier(statVal) : 4;
+    }
+    statMod = Math.max(0, statMod);
+    const statName = statKey.toUpperCase();
+
+    // Check if defender has the requested opposing skill
+    let skillRank = 0;
+    let usingSkill = false;
+    let matchedSkill = null;
+    if (targetSkill && typeof targetSkill === 'string') {
+      const cleanSkill = decodeURIComponent(targetSkill).toLowerCase().trim();
+      if (cleanSkill && this.items) {
+        matchedSkill = this.items.find(i => i.type === 'skill' && i.name.toLowerCase().trim() === cleanSkill);
+        if (matchedSkill) {
+          usingSkill = true;
+          skillRank = Number(matchedSkill.modifiedRank ?? matchedSkill.system?.modifiedRank ?? matchedSkill.system?.rank) || 0;
+          const skillStat = (matchedSkill.system?.stat || statKey).toLowerCase().trim();
+          let skillStatMod = Number(this.system?.abilities?.[skillStat]?.mod);
+          if (!Number.isNaN(skillStatMod) && skillStatMod !== undefined) {
+            statMod = Math.max(0, skillStatMod);
+          }
+        }
+      }
+    }
+
+    const isOpposed = contestType === 'opposed';
+    const targetThreshold = isOpposed ? Number(initiatorTotal) : Number(dc);
+
+    // Roll evaluation: if using skill, 1d20 + rank + statMod; otherwise 1d20 + statMod
+    const totalBonus = usingSkill ? (skillRank + statMod) : statMod;
+    const advState = typeof this.getRollAdvantageState === 'function'
+      ? this.getRollAdvantageState({ rollType: usingSkill ? 'skill' : 'stat', stat: statKey, options })
+      : { mode: 'normal', formula: '1d20' };
+    const formula = `${advState.formula || '1d20'} + ${totalBonus}`;
+    const roll = await new Roll(formula, { rank: skillRank, mod: statMod }).evaluate();
+
+    const isSuccess = roll.total >= targetThreshold;
+    const diff = roll.total - targetThreshold;
+
+    const outcomeBadge = isSuccess
+      ? `<span style="background: #27ae60; color: #fff; padding: 2px 6px; border-radius: 3px; font-weight: bold; font-size: 11px; text-transform: uppercase;">SUCCESS (${roll.total} vs ${targetThreshold})</span>`
+      : `<span style="background: #c0392b; color: #fff; padding: 2px 6px; border-radius: 3px; font-weight: bold; font-size: 11px; text-transform: uppercase;">FAILED (${roll.total} vs ${targetThreshold})</span>`;
+
+    const rollHtml = typeof roll.render === 'function' ? await roll.render() : '';
+
+    const cleanFailNotes = onFailNotes ? decodeURIComponent(onFailNotes) : '';
+    const cleanSuccessNotes = onSuccessNotes ? decodeURIComponent(onSuccessNotes) : '';
+    const cleanDebuff = onFailDebuff ? decodeURIComponent(onFailDebuff) : '';
+    const cleanInitiatorName = decodeURIComponent(initiatorName || 'Initiator');
+    const cleanItemName = decodeURIComponent(itemName || 'Ability');
+
+    let debuffButtonHtml = '';
+    if (!isSuccess && cleanDebuff) {
+      debuffButtonHtml = `
+        <div style="margin-top: 6px;">
+          <button type="button" class="dcc-apply-debuff-btn" data-debuff-name="${cleanDebuff}" data-target-id="${this.id}" style="width: 100%; background: #c0392b; color: #fff; border: 1px solid #7f1d1d; border-radius: 3px; padding: 4px; font-size: 11px; cursor: pointer; font-weight: bold; font-family: var(--font-primary, sans-serif);">
+            <i class="fa-solid fa-skull"></i> Apply [${cleanDebuff}] to ${this.name}
+          </button>
+        </div>
+      `;
+    }
+
+    const cardContent = `
+      <div class="dcc-chat-card dcc-contest-result-card" style="font-family: var(--font-primary, sans-serif); border: 2px solid ${isSuccess ? '#27ae60' : '#c0392b'}; border-radius: 4px; padding: 8px; background: #fff;">
+        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 4px; margin-bottom: 6px;">
+          <div>
+            <strong style="font-size: 13px; color: #333;">${this.name}</strong>
+            <div style="font-size: 11px; color: #666;">
+              Contest Response vs <strong>${cleanInitiatorName}</strong>'s <em>${cleanItemName}</em>
+            </div>
+          </div>
+          <div>${outcomeBadge}</div>
+        </div>
+        <div style="font-size: 11px; margin-bottom: 6px; color: #444;">
+          Rolled: <strong>${usingSkill ? `${matchedSkill.name} (${statName})` : `${statName} Check`}</strong> (${formula} = <strong>${roll.total}</strong>) vs Target <strong>${targetThreshold}</strong> (Diff: <strong>${diff >= 0 ? `+${diff}` : diff}</strong>)
+        </div>
+        ${rollHtml}
+        ${!isSuccess && cleanFailNotes ? `<div style="margin-top: 4px; font-size: 11px; color: #c0392b; background: #fdf2e9; padding: 4px 6px; border-radius: 3px;"><strong>Consequence:</strong> ${cleanFailNotes}</div>` : ''}
+        ${isSuccess && cleanSuccessNotes ? `<div style="margin-top: 4px; font-size: 11px; color: #1e8449; background: #eafaf1; padding: 4px 6px; border-radius: 3px;"><strong>Success:</strong> ${cleanSuccessNotes}</div>` : ''}
+        ${debuffButtonHtml}
+      </div>
+    `;
+
+    return roll.toMessage({
+      speaker: ChatMessage.getSpeaker({ actor: this }),
+      flavor: `<strong>${this.name}</strong>: ${usingSkill ? matchedSkill.name : statName} Contest Roll vs ${cleanInitiatorName}`,
+      content: cardContent,
+      flags: {
+        'carl-rpg': {
+          isContestRoll: true,
+          isContestSuccess: isSuccess,
+          defenderId: this.id,
+          initiatorId,
+          targetThreshold,
+          rollTotal: roll.total,
+          diff
+        }
+      }
     });
   }
 
@@ -6452,7 +6727,9 @@ export class DCCActor extends BaseActor {
     }
 
     const rollHtml = typeof roll.render === 'function' ? await roll.render() : '';
-    const content = [rollHtml, targetResultsHtml, fumbleTag, dmgBtnHtml, evadeBtnHtml].filter(Boolean).join('');
+    const contestData = this.getContestData(spellItem, options);
+    const contestHtml = contestData ? this.renderContestChallengeBlock(spellItem, contestData, roll.total) : '';
+    const content = [rollHtml, targetResultsHtml, fumbleTag, dmgBtnHtml, evadeBtnHtml, contestHtml].filter(Boolean).join('');
 
     return roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor: this }),
@@ -6466,6 +6743,7 @@ export class DCCActor extends BaseActor {
           attackerType: this.type,
           attackTotal: roll.total,
           currentFloor,
+          contest: contestData || null,
           targetResults: targetResults.map(tr => ({
             actorId: tr.actorId,
             actorName: tr.actorName,
@@ -6838,6 +7116,8 @@ export class DCCActor extends BaseActor {
         if (rb.rankDamageDice && Number(rb.rankDamageDice) > 0) parts.push(`+${rb.rankDamageDice} Rank ${Number(rb.rankDamageDice) === 1 ? 'Die' : 'Dice'}`);
         if (rb.buffsResistances) parts.push(`Buff/Resist: ${rb.buffsResistances}`);
         if (rb.debuff) parts.push(`Debuff: [${rb.debuff}]`);
+        if (rb.contest?.dcBonus && Number(rb.contest.dcBonus) > 0) parts.push(`+${rb.contest.dcBonus} Contest DC`);
+        if (rb.contest?.onFailDebuff) parts.push(`Fail Debuff: [${rb.contest.onFailDebuff}]`);
         if (rb.notes) parts.push(rb.notes);
       }
       if (parts.length === 0 && legacy && legacy !== 'None') {
@@ -6900,6 +7180,11 @@ export class DCCActor extends BaseActor {
       `;
     }
 
+    const contestData = this.getContestData(spellItem, opts);
+    if (contestData) {
+      content += this.renderContestChallengeBlock(spellItem, contestData, contestData.dc);
+    }
+
     content += `</div>`;
 
     return ChatMessage.create({
@@ -6920,7 +7205,8 @@ export class DCCActor extends BaseActor {
           isAura: Boolean(isAura),
           auraData: auraData || null,
           originItemName: opts.originItem?.name || null,
-          isItemEffect: Boolean(opts.isItemEffect || opts.isConsumable || opts.originItem)
+          isItemEffect: Boolean(opts.isItemEffect || opts.isConsumable || opts.originItem),
+          contest: contestData || null
         }
       }
     });

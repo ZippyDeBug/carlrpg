@@ -195,7 +195,11 @@ export function hydrateRankBreaks(existingRankBreaks = {}, rawUpgrades = {}, kno
       rankDamageDice: existing.rankDamageDice !== undefined && Number(existing.rankDamageDice) > 0 ? Number(existing.rankDamageDice) : parsed.rankDamageDice,
       buffsResistances: existing.buffsResistances !== undefined && existing.buffsResistances !== '' ? String(existing.buffsResistances).trim() : parsed.buffsResistances,
       debuff: existing.debuff !== undefined && existing.debuff !== '' ? String(existing.debuff).trim() : parsed.debuff,
-      notes: existing.notes !== undefined && existing.notes !== '' ? String(existing.notes).trim() : (parsed.notes || '')
+      notes: existing.notes !== undefined && existing.notes !== '' ? String(existing.notes).trim() : (parsed.notes || ''),
+      contest: {
+        dcBonus: existing.contest?.dcBonus !== undefined ? Number(existing.contest.dcBonus) || 0 : 0,
+        onFailDebuff: existing.contest?.onFailDebuff !== undefined ? String(existing.contest.onFailDebuff).trim() : ''
+      }
     };
   }
 

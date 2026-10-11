@@ -22,6 +22,7 @@ export const TAG_NAMESPACES = {
   weaponProp:   { label: 'Weapon Property', description: 'Weapon handling properties (two-handed, reach, etc.)' },
   skillGroup:   { label: 'Skill Discipline', description: 'Discipline grouping for skills' },
   technique:    { label: 'Combat Technique Target', description: 'Skill targeted by combat techniques' },
+  contest:      { label: 'Contest / Opposed Check', description: 'Contested check against target stat or skill' },
   rule:         { label: 'Special Rule Flag', description: 'Engine mechanics and overrides' },
   resource:     { label: 'Resource Type', description: 'Character resource pools (mana, health bars, temporary bars)' },
   trigger:      { label: 'Condition Trigger', description: 'Triggers on critical hit, fumble, or combat condition' },
@@ -54,6 +55,17 @@ export const DCC_TAGS = [
   { id: 'action.cleanse', label: 'Cleanse Debuff', namespace: 'action' },
   { id: 'action.armor_piercing', label: 'Armor Piercing', namespace: 'action' },
   { id: 'action.ignore_dr', label: 'Ignore Damage Resistance', namespace: 'action' },
+  { id: 'action.contested', label: 'Contested Check', namespace: 'action' },
+  { id: 'action.opposed', label: 'Opposed Contest', namespace: 'action' },
+
+  // --- Contests ---
+  { id: 'contest.dc', label: 'DC Challenge', namespace: 'contest' },
+  { id: 'contest.opposed', label: 'Opposed Roll', namespace: 'contest' },
+  { id: 'contest.str', label: 'vs Strength', namespace: 'contest' },
+  { id: 'contest.dex', label: 'vs Dexterity', namespace: 'contest' },
+  { id: 'contest.con', label: 'vs Constitution', namespace: 'contest' },
+  { id: 'contest.int', label: 'vs Intelligence', namespace: 'contest' },
+  { id: 'contest.cha', label: 'vs Charisma', namespace: 'contest' },
 
   // --- Resources ---
   { id: 'resource.mana', label: 'Mana Points', namespace: 'resource' },
@@ -542,6 +554,22 @@ export function computeDerivedTags(item) {
   // Light emission rule
   if (sys.light && (sys.light.emits || sys.light.dim > 0 || sys.light.bright > 0)) {
     derived.add('rule.emits-light');
+  }
+
+  // Contested / Opposed Check rule
+  if (sys.contest?.hasContest) {
+    derived.add('action.contested');
+    const cType = (sys.contest.contestType || 'dc').toLowerCase().trim();
+    if (cType === 'opposed') {
+      derived.add('action.opposed');
+      derived.add('contest.opposed');
+    } else {
+      derived.add('contest.dc');
+    }
+    const tStat = (sys.contest.targetStat || '').toLowerCase().trim();
+    if (['str', 'dex', 'con', 'int', 'cha'].includes(tStat)) {
+      derived.add(`contest.${tStat}`);
+    }
   }
 
   // Consumable outcomes / effects derived tags
