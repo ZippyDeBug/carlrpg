@@ -11,7 +11,11 @@
     </div>
     <div class="dcc-field-group small">
       <span class="dcc-field-label">Size</span>
-      <input class="dcc-field-input" type="text" name="system.size" value="{{system.size}}" placeholder="Medium (4)" />
+      <select class="dcc-field-input" name="system.size">
+        {{#each sizeOptions as |sOpt|}}
+          <option value="{{sOpt.value}}" {{#if sOpt.selected}}selected{{/if}}>{{sOpt.label}}</option>
+        {{/each}}
+      </select>
     </div>
     <div class="dcc-field-group small" style="max-width: 90px;">
       <span class="dcc-field-label">DR Bonus</span>

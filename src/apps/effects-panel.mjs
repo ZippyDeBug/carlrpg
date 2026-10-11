@@ -65,12 +65,12 @@ export class DCCEffectsPanel {
     // 1. Active Auras Emitted by this Actor
     for (const item of itemsList) {
       const sys = item.system || {};
-      const isSpellOrBuff = item.type === 'spell' || item.type === 'buff';
-      if (!isSpellOrBuff || !sys.active) continue;
+      const isEmitterType = item.type === 'spell' || item.type === 'buff' || item.type === 'skill';
+      if (!isEmitterType || !sys.active) continue;
 
       const isAura = sys.isAura === true ||
                      sys.area?.hasArea === true ||
-                     (Array.isArray(sys.tags) && sys.tags.includes('spell.aura')) ||
+                     (Array.isArray(sys.tags) && (sys.tags.includes('spell.aura') || sys.tags.includes('skill.aura'))) ||
                      (typeof item.name === 'string' && item.name.toLowerCase().includes('aura'));
 
       if (isAura) {

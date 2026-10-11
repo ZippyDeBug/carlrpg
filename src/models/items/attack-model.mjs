@@ -36,6 +36,7 @@ export class AttackDataModel extends BaseItemDataModel {
       critMultiplier: new fields.NumberField({ integer: true, min: 1, initial: 1 }),
       optionalEffects: new fields.ArrayField(new fields.StringField(), { initial: [] }),
       selectedEffect: new fields.StringField({ initial: '' }),
+      ignoreDR: new fields.BooleanField({ initial: false }),
       rankBreaks: new fields.ObjectField({ initial: {} })
     };
   }

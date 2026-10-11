@@ -11,6 +11,8 @@
  * - Health Thresholds: Green (100%-66%), Yellow (66%-33%), Red (33%-0%).
  */
 
+import { getItemAllTags } from '../data/tags.mjs';
+
 const BaseCombat = CONFIG.Combat?.documentClass
   ?? globalThis.foundry?.documents?.BaseCombat
   ?? globalThis.Combat
@@ -362,9 +364,9 @@ export class DCCCombat extends BaseCombat {
       type,
       category,
       label: actionData.label || typeDef.label,
-      icon: typeDef.icon,
+      icon: actionData.icon || typeDef.icon,
       isAttack,
-      isInterrupt: Boolean(typeDef.isInterrupt),
+      isInterrupt: Boolean(typeDef.isInterrupt || actionData.isInterrupt),
       timestamp: Date.now(),
       note: actionData.note || ''
     };
@@ -534,6 +536,156 @@ export class DCCCombat extends BaseCombat {
         slots: []
       });
     }
+  }
+
+  /**
+   * Execute an Interrupt / Reaction for a combatant.
+   * Handles:
+   * - Discovery of the interrupt (built-in or item-based or custom data object)
+   * - Deducting an action slot from the combatant's budget (unless free interrupt)
+   * - Creating an authentic DCC Interrupt Chat Card
+   * - Applying any relevant effects (e.g. Evade stance flag)
+   * 
+   * @param {Combatant|string} combatantOrId
+   * @param {string|object} interruptOrId - Interrupt ID ('evade', 'taunt', 'item:xxx', or item ID) or interrupt data object
+   * @param {object} [options={}]
+   * @param {string} [options.targetName='']
+   * @param {Actor} [options.targetActor=null]
+   * @param {number|null} [options.round=null]
+   * @returns {Promise<object>}
+   */
+  async triggerInterrupt(combatantOrId, interruptOrId, options = {}) {
+    const id = typeof combatantOrId === 'string' ? combatantOrId : combatantOrId?.id;
+    const c = (this.combatants || []).find(con => con.id === id);
+    if (!c) throw new Error(`Combatant ${id} not found in this combat.`);
+
+    const actor = c.actor || (globalThis.game?.actors?.get ? globalThis.game.actors.get(c.actorId) : null);
+    if (!actor) throw new Error(`Actor for combatant ${c.name} not found.`);
+
+    const targetRound = Number(options.round) || (this.round || 1);
+    const actions = this.getCombatantActions(c, targetRound);
+
+    // Resolve interrupt definition
+    let interrupt = null;
+    if (typeof interruptOrId === 'object' && interruptOrId !== null) {
+      interrupt = interruptOrId;
+    } else {
+      const intId = String(interruptOrId).trim();
+      const available = typeof actor.getAvailableInterrupts === 'function' ? actor.getAvailableInterrupts({ actionsSpent: actions.spent, actionsMax: actions.max }) : [];
+      interrupt = available.find(i => i.id === intId || i.itemId === intId || (i.item && (i.item.id === intId || i.item._id === intId))) || null;
+
+      if (!interrupt) {
+        const actDef = DCC_ACTION_TYPES[intId];
+        if (actDef) {
+          interrupt = {
+            id: intId,
+            name: actDef.label,
+            type: 'action',
+            category: actDef.category || 'defensive',
+            icon: actDef.icon || 'fa-solid fa-bolt',
+            isFree: false,
+            actionCost: 1,
+            costDesc: '1 Action',
+            trigger: 'any',
+            triggerLabel: 'Anytime',
+            description: actDef.desc || ''
+          };
+        } else {
+          interrupt = {
+            id: intId,
+            name: intId,
+            type: 'action',
+            category: 'defensive',
+            icon: 'fa-solid fa-bolt',
+            isFree: false,
+            actionCost: 1,
+            costDesc: '1 Action',
+            trigger: 'any',
+            triggerLabel: 'Anytime',
+            description: ''
+          };
+        }
+      }
+    }
+
+    const isFree = Boolean(interrupt.isFree || interrupt.actionCost === 0);
+
+    // If not free, record action slot
+    let updatedActions = actions;
+    if (!isFree) {
+      const recordRes = await this.recordCombatantAction(c, {
+        type: interrupt.type === 'action' ? interrupt.id : (interrupt.type || 'other'),
+        label: interrupt.name,
+        category: interrupt.category || 'defensive',
+        isAttack: Boolean(interrupt.item?.system?.isAttack),
+        isInterrupt: true,
+        note: `Interrupt (${interrupt.triggerLabel || 'Out-of-turn'})`
+      }, { round: targetRound });
+
+      if (recordRes && recordRes.success) {
+        updatedActions = recordRes.actions;
+      }
+    }
+
+    // If Evade, set active stance flag
+    if (interrupt.id === 'evade') {
+      if (typeof actor.setFlag === 'function') {
+        await actor.setFlag('carl-rpg', 'isEvading', true);
+      }
+    }
+
+    // Post DCC Interrupt Chat Message
+    if (globalThis.ChatMessage?.create) {
+      const targetText = options.targetName ? ` vs <strong>${options.targetName}</strong>` : '';
+      const costBadge = isFree
+        ? `<span style="background: #27ae60; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: bold;">FREE INTERRUPT (0 ACTIONS)</span>`
+        : `<span style="background: #e67e22; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: bold;">SPENT 1 ACTION (${updatedActions.spent}/${updatedActions.max})</span>`;
+
+      const content = `
+        <div class="dcc-chat-card dcc-interrupt-card" style="font-family: var(--font-primary, sans-serif); border: 2px solid #f39c12; border-radius: 4px; padding: 8px 10px; background: #fffcf5;">
+          <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1.5px solid #f5b041; padding-bottom: 4px; margin-bottom: 6px;">
+            <div style="font-weight: bold; font-size: 13px; color: #b7791f; display: flex; align-items: center; gap: 6px;">
+              <i class="fa-solid fa-bolt" style="color: #f39c12;"></i> INTERRUPT: ${interrupt.name.toUpperCase()}
+            </div>
+            ${costBadge}
+          </div>
+          <div style="font-size: 11px; color: #333; margin-bottom: 4px;">
+            <strong>${c.name}</strong> triggered an out-of-turn Reaction${targetText}!
+          </div>
+          <div style="font-size: 11px; color: #555; background: #fff; border: 1px solid #fae5d3; border-radius: 3px; padding: 5px 7px; margin-top: 4px;">
+            <div style="font-size: 10px; color: #888; text-transform: uppercase; margin-bottom: 2px;">
+              <i class="fa-solid fa-crosshairs"></i> Trigger: <strong>${interrupt.triggerLabel || 'Reactive Trigger'}</strong>
+            </div>
+            ${interrupt.description || ''}
+          </div>
+        </div>
+      `;
+
+      await globalThis.ChatMessage.create({
+        speaker: globalThis.ChatMessage.getSpeaker?.({ actor }) || { alias: c.name },
+        content,
+        flags: {
+          'carl-rpg': {
+            isInterrupt: true,
+            interruptId: interrupt.id,
+            isFree,
+            combatantId: c.id,
+            actorId: actor.id,
+            round: targetRound
+          }
+        }
+      });
+    }
+
+    return {
+      success: true,
+      combatant: c,
+      actor,
+      interrupt,
+      isFree,
+      actions: updatedActions,
+      round: targetRound
+    };
   }
 
   /**
@@ -960,18 +1112,29 @@ export class DCCCombat extends BaseCombat {
           if (isExpired) {
             updates['system.active'] = false;
 
-            // If this item was providing temporary health bars, clear them
-            const currentSource = actor.system?.attributes?.hp?.tempBars?.source;
-            if (currentSource && (currentSource === item.name || currentSource.toLowerCase() === item.name.toLowerCase())) {
-              if (typeof actor.grantTempBars === 'function') {
-                await actor.grantTempBars({ count: 0, hpPerSlot: 0 });
-              } else {
-                await actor.update({
-                  'system.attributes.hp.tempBars.count': 0,
-                  'system.attributes.hp.tempBars.currentSlotHp': 0,
-                  'system.attributes.hp.tempBars.source': '',
-                  'system.attributes.hp.temp': 0
-                });
+            const itemTags = item.allTags || (typeof getItemAllTags === 'function' ? getItemAllTags(item) : new Set(item.system?.tags || []));
+            const isAura = sys.delivery === 'aura' ||
+              sys.area?.isAura ||
+              (itemTags && (itemTags.has('delivery.aura') || itemTags.has('shape.aura'))) ||
+              (typeof item.name === 'string' && item.name.toLowerCase().includes('aura'));
+
+            if (isAura && typeof actor.deactivateAura === 'function') {
+              // deactivateAura removes effects from caster AND all entities/allies in the aura
+              await actor.deactivateAura(item, { combatants: this.combatants });
+            } else {
+              // If this non-aura item was providing temporary health bars directly, clear them
+              const currentSource = actor.system?.attributes?.hp?.tempBars?.source;
+              if (currentSource && (currentSource === item.name || currentSource.toLowerCase() === item.name.toLowerCase())) {
+                if (typeof actor.grantTempBars === 'function') {
+                  await actor.grantTempBars({ count: 0, hpPerSlot: 0 });
+                } else {
+                  await actor.update({
+                    'system.attributes.hp.tempBars.count': 0,
+                    'system.attributes.hp.tempBars.currentSlotHp': 0,
+                    'system.attributes.hp.tempBars.source': '',
+                    'system.attributes.hp.temp': 0
+                  });
+                }
               }
             }
 

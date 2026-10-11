@@ -402,6 +402,39 @@ export class DCCCrawlerSheet extends BaseActorSheet {
       selected: s.size === currentSizeInfo.size
     }));
 
+    // Standard Floor, Mob, and Check Type options for Sheet Selectors (Precomputed per Rule 8)
+    const currentFloor = String(context.system?.details?.floor || '').trim();
+    context.floorOptions = [
+      'Floor 1', 'Floor 2', 'Floor 3', 'Floor 4', 'Floor 5', 'Floor 6',
+      'Floor 7', 'Floor 8', 'Floor 9', 'Floor 10', 'Floor 11', 'Floor 12',
+      'Floor 13', 'Floor 14', 'Floor 15', 'Floor 16', 'Floor 17', 'Floor 18',
+      'Overworld', 'Celestial'
+    ].map(f => ({ value: f, label: f, selected: currentFloor.toLowerCase() === f.toLowerCase() }));
+    if (currentFloor && !context.floorOptions.some(o => o.selected)) {
+      context.floorOptions.push({ value: currentFloor, label: `${currentFloor} (Custom)`, selected: true });
+    }
+
+    const currentClassification = String(context.system?.details?.classification || 'Normal').trim();
+    context.mobClassifications = [
+      'Normal', 'Minion', 'Elite', 'Boss', 'World Boss', 'Unique'
+    ].map(mc => ({ value: mc, label: mc, selected: currentClassification.toLowerCase() === mc.toLowerCase() }));
+    if (currentClassification && !context.mobClassifications.some(o => o.selected)) {
+      context.mobClassifications.push({ value: currentClassification, label: `${currentClassification} (Custom)`, selected: true });
+    }
+
+    const currentCreatureType = String(context.system?.details?.creatureType || '').trim();
+    context.mobCreatureTypes = [
+      'Beast', 'Undead', 'Construct', 'Humanoid', 'Aberration', 'Elemental',
+      'Demon', 'Celestial', 'Plant', 'Dragon', 'Monstrosity', 'Giant', 'Ooze'
+    ].map(ct => ({ value: ct, label: ct, selected: currentCreatureType.toLowerCase() === ct.toLowerCase() }));
+    if (currentCreatureType && !context.mobCreatureTypes.some(o => o.selected)) {
+      context.mobCreatureTypes.push({ value: currentCreatureType, label: `${currentCreatureType} (Custom)`, selected: true });
+    }
+
+    context.checkTypeOptions = [
+      'Stat Check', 'Opposed Contest', 'Attack vs Evade', 'Saving Throw / Reaction', 'Passive', 'Tool / Crafting Check', 'None'
+    ];
+
     // Prepare Race & Class options for Page 1 Core dropdowns
     const rcContext = DCCRaceClassApplier.getRaceClassContext(actor);
     context.raceOptions = rcContext.raceOptions;
@@ -2424,6 +2457,24 @@ export class DCCCrawlerSheet extends BaseActorSheet {
           val = input.val();
         }
         await item.update({ [field]: val });
+      }
+    });
+
+    // Inline Actor Edit on Auxiliary Tabs (e.g. Hotlist gear slots without duplicate names)
+    html.find('.actor-inline-edit').change(async ev => {
+      ev.preventDefault();
+      const input = $(ev.currentTarget);
+      const field = input.data('field');
+      if (this.actor && field) {
+        let val;
+        if (input.attr('type') === 'checkbox') {
+          val = input.is(':checked');
+        } else if (input.attr('type') === 'number') {
+          val = Number(input.val());
+        } else {
+          val = input.val();
+        }
+        await this.actor.update({ [field]: val });
       }
     });
 

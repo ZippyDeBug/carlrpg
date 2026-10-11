@@ -1,3 +1,200 @@
+## 3.2.12
+
+### CarlRPG 3.2.12 — Universal Aura Expiration & Comprehensive Multi-Entity Effect Cleanup
+
+- **Universal Multi-Entity Aura Cleanup (`src/documents/actor.mjs`, `src/documents/combat.mjs`)**:
+  - **The Issue**: When protective auras like *Hot Stuff Aura* expired or deactivated, temporary health bars were cleared from the caster, but allies and other entities within the aura retained their temporary health bars and aura-granted effects.
+  - **Root Cause Resolution**:
+    - `combat.processRoundDurations()` now detects expiring aura items and delegates directly to `actor.deactivateAura(item, { combatants: this.combatants })` instead of solely zeroing out the caster's temporary health bars.
+    - `actor.activateAura()` now persists `system.appliedAllies` and caches `_appliedAllyActors`, remembering all entities protected or affected when the aura was activated.
+    - `actor.deactivateAura()` comprehensively discovers all affected entities across options, cached entities, active combatants (`game.combat.combatants`), scene tokens (`canvas.tokens.placeables`), and world actors (`game.actors`).
+    - Clears temporary health bars (`tempBars.source === auraName` or tracked in `appliedAllies`) from the caster AND all affected allies across the scene/combat.
+    - Automatically cleanses and removes any condition items (debuffs or buffs) created or inflicted by the aura on enemies or allies (matching `duration === "${auraName} Aura"` or `auraItemId`).
+- **Schema & Model Updates (`src/models/items/spell-model.mjs`, `src/models/items/skill-model.mjs`, `template.json`)**:
+  - Added `appliedAllies: new fields.ArrayField(new fields.StringField(), { initial: [] })` to both `SpellDataModel` and `SkillDataModel`, and registered `"appliedAllies": []` in `template.json` to ensure persistent tracking across combat rounds.
+- **Automated Verification (`tests/aura-workflow.test.mjs`)**:
+  - Added Test 16: When Hot Stuff Aura expires at round end via `combat.processRoundDurations()`, temporary health bars are cleanly stripped from the caster and all affected allies.
+  - Added Test 17: Manual `deactivateAura()` clears all affected allies across combatants and tracked `appliedAllies` without requiring explicit caller options.
+  - Added Test 18: Deactivating an offensive aura removes inflicted condition items (e.g. *Burning*) from hostile entities.
+  - Full test suite verified: **1,258 tests passing across 226 suites with 0 failures**.
+
+## 3.2.11
+
+### CarlRPG 3.2.11 — Sheet Selectors, Controlled Dropdowns & Tag Widget Normalization
+
+- **Controlled Selectors & Precomputed Dropdown Options Across All Item Sheets (`src/sheets/item-sheet.mjs`, `templates/items/parts/`)**:
+  - **Spell Sheet (`spell.hbs`)**: Converted free-form text inputs for `spellType`, `duration`, `cooldown`, `target`, `damageType`, and `favored` to controlled `<select>` elements powered by precomputed context arrays (`spellTypeOptions`, `durationOptions`, `cooldownOptions`, `targetOptions`, `damageTypeOptions`, `favoredArchetypeOptions`).
+  - **Skill Sheet (`skill.hbs`, `page3-skills.hbs`)**: Converted `checkType` to `<select>` with precomputed `checkTypeOptions` on both the skill item sheet and actor sheet skills tab inline editor; converted `techniqueConfig.cooldown` to controlled `<select>` with `cooldownOptions`.
+  - **Attack Sheet (`attack.hbs`)**: Converted `weaponType` to controlled `<select>` using `weaponTypeOptions`. Upgraded `associatedSkills` and `optionalEffects` from raw comma strings to interactive tag pill badges with dropdown pickers and auto-suggestion buttons matching `gear.hbs`.
+  - **Gear & Loot Sheets (`gear.hbs`, `loot.hbs`)**: Converted `weaponType` on gear to `<select>`; converted `cooldown` on gear and loot to controlled `<select>` (`cooldownOptions`); converted outcome `damageType` to precomputed `<select>` (`out.damageTypeOptions`).
+  - **Buff & Debuff Sheets (`buff.hbs`, `debuff.hbs`)**: Converted `duration` to controlled `<select>` (`durationOptions`); upgraded `affects` to interactive scope toggle chips (`scopeOptions`: `all`, `attacks`, `spells`, `skills`, `str`, `dex`, `con`, `int`, `cha`).
+  - **Class & Race Sheets (`class.hbs`, `race.hbs`)**: Converted `classType` to controlled `<select>` with `classTypeOptions`; converted `size` to controlled `<select>` with standard DCC size category options (`sizeOptions`).
+  - **Cleanse Debuffs Widget**: Replaced raw comma text inputs on Spells and Skills with interactive removable condition chips, a dropdown picker populated with canon debuffs, custom chip inputs, and milestone rank break selectors.
+- **Character Sheet Header & Mob Taxonomy Selectors (`src/sheets/crawler-sheet.mjs`, `templates/actors/parts/page1-core.hbs`)**:
+  - Converted mob `classification` (`mobClassifications`: Normal, Minion, Elite, Boss, World Boss, Unique) and `creatureType` (`mobCreatureTypes`: Beast, Undead, Construct, Humanoid, Aberration, Elemental, Demon, Celestial, Plant, Dragon, Monstrosity, Giant, Ooze) to controlled `<select>` dropdowns.
+  - Converted crawler and mob `floor` to precomputed floor selectors (`floorOptions`: Floors 1–18, Overworld, Celestial).
+  - Converted achievement `floor` in `achievement.hbs` to controlled `<select>` with `floorOptions`.
+- **Form Harvester & Duplicate Input Name Elimination (GEMINI.md Rule 6)**:
+  - Eliminated duplicate `name="system.gearSlots.*"` inputs on `page2-hotlist.hbs` which conflicted with `page4-inventory.hbs` and caused array serialization bugs. Hotlist gear slots now update seamlessly via `.actor-inline-edit` event listeners without duplicate form harvesting.
+- **Scope Boundary**:
+  - Mounts and pets intentionally preserved in their current state per explicit user directives for future dedicated implementation.
+- **Automated Verification (`tests/sheet-selectors-and-tags.test.mjs`)**:
+  - Created test suite verifying precomputed option generation, selected states, pill list normalization, outcome damage types, and form input uniqueness.
+  - Full test suite verified: **1,255 tests passing across 226 suites with 0 failures**.
+
+## 3.2.10
+
+### CarlRPG 3.2.10 — Interactive Chat Card Reaction Prompts: 1-Click Defender Evade/Shield Block & Allied Bodyguard Intercepts
+
+- **Interactive Reaction Prompts in Chat Cards (`src/documents/actor.mjs`, `src/dcc.mjs`, `styles/dcc.css`)**:
+  - Implemented `DCCActor.prototype._getReactionPromptsHtml(targetResults, options)`: evaluates evaluated attack/spell targets and allied combatants, rendering high-contrast 1-click reactive prompts (`.dcc-interrupt-prompts-container` and `.dcc-trigger-interrupt-btn`).
+  - **Target Defender Prompts**: Offers defensive interrupts tailored to the defender (e.g. *Evade*, *Shield Block*, *Protective Shell*) with live action cost indicators.
+  - **Allied Bodyguard & Tactical Prompts**: Automatically discovers nearby allies with reaction capabilities when an ally is targeted or hit, offering *Catcher* (bodyguard intercept taking the hit/damage for an ally) and *Taunt* (redirecting the strike).
+  - Integrated into `_resolveAttackTargets()`, embedding reaction prompt blocks inside `rollAttack()` and `rollSpellAttack()` output chat cards.
+- **Actor Direct Interrupt Execution (`src/documents/actor.mjs`)**:
+  - Implemented `DCCActor.prototype.triggerInterrupt(interruptOrId, options)`: delegates to `combat.triggerInterrupt` when in active combat, or executes standalone out-of-combat, setting active defensive stances (`isEvading`), deducting budgets, and creating authentic DCC Interrupt Chat Cards.
+- **Chat Message Listener & Action Binding (`src/dcc.mjs`)**:
+  - Added click handler for `.dcc-trigger-interrupt-btn`: extracts actor/combatant IDs, executes the chosen reaction via `combat.triggerInterrupt` / `actor.triggerInterrupt`, and provides instant visual feedback while preventing duplicate clicks.
+- **Automated Verification (`tests/reaction-chat-prompts.test.mjs`)**:
+  - Added unit test suite verifying defender prompt generation, allied bodyguard discovery (Catcher & Taunt), standalone actor execution, and `rollAttack` card integration.
+  - Full suite verified: **1,249 tests passing across 226 suites with 0 failures**.
+
+## 3.2.9
+
+### CarlRPG 3.2.9 — Reaction & Interrupt Subsystem: Combat Tracker Reaction Status, Quick Interrupt Drawer & Out-of-Turn Action Economy
+
+- **Combat Tracker Live Reaction Tracking & Quick Interrupt Drawer (`src/apps/combat-tracker.mjs`, `templates/apps/combat-tracker.hbs`, `styles/dcc.css`)**:
+  - Added live Reaction status indicator button (`.dcc-reaction-badge-btn`): reflects `⚡ REACTION READY` (gold glow) or `⚡ REACTION SPENT` (muted gray) directly in the combatant health and action row.
+  - Added 1-click **⚡ INTERRUPT** button (`.dcc-open-interrupt-drawer-btn`) in the action row to toggle the slide-out **Quick Interrupt Drawer** (`.dcc-interrupt-drawer`).
+  - Slide-out Quick Interrupt Drawer dynamically populates all available Interrupts for that combatant, displaying ability name, trigger tag (`[WHEN ATTACKED]`, `[WHEN HIT]`, `[FOE MOVES]`, `[ALLY HIT]`, `[ANYTIME]`), action cost (`[1 ACTION]` vs `[FREE INTERRUPT]`), descriptions, affordability validation, and a 1-click **TRIGGER INTERRUPT** execution button.
+  - Action slot pips spent on interrupts render with a distinguished pulsing lightning badge (`.pip-interrupt`).
+- **Actor Reaction & Interrupt Discovery Engine (`src/documents/actor.mjs`)**:
+  - Implemented `DCCActor.prototype.getAvailableInterrupts(options)`:
+    - Auto-discovers built-in CarlRPG core interrupts: **Evade**, **Taunt**, **Catcher**, and **Intervene**.
+    - Auto-discovers owned Spells configured or tagged as Interrupts (e.g. *Protective Shell*, *Hole*).
+    - Auto-discovers owned Skills with Interrupt checkType, techniqueConfig, or tags (e.g. *Shield Block*, *Opportunity Attack*, *Zone of Control*).
+    - Detects milestone **Free Interrupt** perks (e.g. *Parkour* Rank 10, *Hole* Rank 15), allowing free reactions (0 actions) even when standard action budgets are exhausted.
+    - Evaluates live affordability against remaining action slots and Mana Points.
+- **Combat Interrupt Execution Engine (`src/documents/combat.mjs`)**:
+  - Implemented `DCCCombat.prototype.triggerInterrupt(combatantId, interruptId, options)`:
+    - Executes out-of-turn reactions seamlessly during enemy or ally phases.
+    - Accurately deducts 1 action from the round budget for standard interrupts (marking the slot with `isInterrupt: true`), while allowing Free Interrupts to execute with 0 action cost.
+    - Automatically toggles Evade defensive stance flags when Evade is triggered.
+    - Generates an authentic high-contrast DCC Interrupt Chat Card with trigger descriptions, cost badges, and actor details.
+- **Unified Tag System Triggers & Taxonomy (`src/data/tags.mjs`)**:
+  - Registered `action.reaction` and `action.free_interrupt` tags in `DCC_TAGS`.
+  - Registered reactive trigger tags: `trigger.on_attack`, `trigger.on_damage`, `trigger.on_move`, and `trigger.on_ally_hit`.
+  - Dynamically derives `action.interrupt`, `action.free_interrupt`, and reactive trigger tags in `computeDerivedTags()` for spells, skills, and milestone breaks.
+- **Automated Verification (`tests/reaction-interrupt-mechanics.test.mjs`)**:
+  - Added comprehensive 17-test unit suite validating tag derivations, interrupt discovery, free interrupt perks, action budget enforcement, out-of-turn execution, and Combat Tracker data preparation.
+  - Full suite verified: **1,244 tests passing across 226 suites with 0 failures**.
+
+## 3.2.8
+
+### CarlRPG 3.2.8 — Contested / Opposed Spell & Skill Checks, Milestone DC Bonuses & Interactive Chat Resolution
+
+- **Data-Driven Contested & Opposed Check Architecture (`template.json`, `src/models/items/spell-model.mjs`, `src/models/items/skill-model.mjs`)**:
+  - Added structured `system.contest` configuration to Spells and Skills: `hasContest` (boolean), `contestType` (`dc` vs `opposed`), `targetStat` (`str`, `dex`, `con`, `int`, `cha`), `targetSkill` (optional opposing skill name), `dcFormula` (default `10 + rank + stat`), `customDC` (override for explicit fixed DCs), `onFailDebuff`, `onFailNotes`, and `onSuccessNotes`.
+  - Added milestone rank break upgrades (`contest.dcBonus` and `contest.onFailDebuff`) across milestone breaks, allowing spells and skills (e.g. *Rootfoot*, *Web*, *Taunt*, *Grand Illusion*, *Stealth*) to scale DC difficulty and inflict upgraded debuffs as crawlers progress in rank.
+- **Unified Tag System Taxonomy (`src/data/tags.mjs`)**:
+  - Registered `contest` namespace in `TAG_NAMESPACES`.
+  - Added official contest action and resolution tags to `DCC_TAGS`: `action.contested`, `action.opposed`, `contest.dc`, `contest.opposed`, and stat resistance tags `contest.str`, `contest.dex`, `contest.con`, `contest.int`, `contest.cha`.
+  - Automatically derives contest tags in `computeDerivedTags()` based on configured contest types and target defending attributes without brittle string matching.
+- **Actor Mechanics & Opposed Resolution Engine (`src/documents/actor.mjs`)**:
+  - Implemented `DCCActor.prototype.getContestData(item, options)`: evaluates DC formulas (`10 + rank + statMod + dcBonus`), resolves milestone rank break bonuses, and formats contest challenge metadata.
+  - Implemented `DCCActor.prototype.renderContestChallengeBlock(item, contestData, initiatorTotal)`: embeds high-contrast interactive challenge UI inside spell and skill chat cards.
+  - Implemented `DCCActor.prototype.rollContestResponse(params)`: defender rolls opposed check (using `targetSkill` if owned, falling back to DCC stat modifier check), evaluates success or failure against initiator DC or opposed roll total, outputs result chat card, and embeds 1-click debuff button (`.dcc-apply-debuff-btn`) upon failure.
+  - Strict DCC rules adherence: strictly leverages `getDCCStatModifier`, completely avoiding D&D math and negative modifiers.
+- **Progressive Disclosure Sheet UI (`templates/items/parts/spell.hbs`, `templates/items/parts/skill.hbs`, `src/sheets/item-sheet.mjs`)**:
+  - Added collapsible `<details class="dcc-collapsible-block" {{#if hasContestConfigured}}open{{/if}}>` section for *Contested / Opposed Check Configuration* on Spells and Skills.
+  - Integrated `+ Contest DC Bonus` and `Upgraded Fail Debuff` inputs into all milestone break cards.
+  - Automatically displays `[CONFIGURED]` gold status badges when active.
+- **Interactive Chat Resolution Listener (`src/dcc.mjs`, `styles/dcc.css`)**:
+  - Registered chat log event listener for `.dcc-roll-contest-btn` delegating seamlessly to targeted or controlled defender tokens.
+  - Styled `.dcc-contested-challenge`, `.dcc-roll-contest-btn`, and `.dcc-contest-result-card` with DCC red accents, high-contrast badges, and clean visual borders.
+- **Automated Verification (`tests/contested-opposed-checks.test.mjs`)**:
+  - Added dedicated 13-test automated test suite covering schema defaults, tag derivations, DC formulas, milestone upgrades, interactive chat rendering, opposed rolls, and item sheet contexts.
+  - Verified 100% test pass rate across all 1,227 unit tests with 0 failures.
+
+## 3.2.7
+
+### CarlRPG 3.2.7 — Rank Break Critical Milestones, Selectable Ranks 1–20 & Unified Trigger Tags
+
+- **Consolidated Critical Multipliers into Rank Break Milestones (`template.json`, `src/models/items/spell-model.mjs`, `src/models/items/skill-model.mjs`)**:
+  - Removed redundant `critMultiplierR5` and `critMultiplierR15` separate inputs, consolidating critical multipliers directly into milestone breaks (`critMultiplier`, defaulting to 1).
+  - Liberated the milestone system from the hardcoded Ranks 5, 10, 15, 20 convention: each milestone break now features a selectable `rank` dropdown (1–20 inclusive, defaulting to 5, 10, 15, and 20).
+  - Any milestone break (e.g. Rank 10, Rank 17, or custom milestone) can now specify critical multipliers (e.g. 4x, 6x, 8x), allowing flexible homebrew and emerging canon progression.
+  - Fully backward compatible with existing items still utilizing legacy `critMultiplierR5` and `critMultiplierR15` properties.
+- **Unified Tag System Triggers (`src/data/tags.mjs`)**:
+  - Registered `trigger` namespace in `TAG_NAMESPACES`.
+  - Added official condition trigger tags: `trigger.crit`, `trigger.fumble`, and `trigger.on_hit` to `DCC_TAGS`.
+  - Dynamically derives `trigger.crit` from rank break critical multipliers (`critMultiplier > 1`) or legacy properties, `trigger.fumble` from fumble debuffs, and `trigger.on_hit` from on-hit debuff configurations.
+- **Actor Mechanics & Combat Routing (`src/documents/actor.mjs`)**:
+  - Dynamic rank threshold evaluation: actor rolls (`rollSpellDamage`, `rollAttack`, `getSpellDamageData`) now sort milestone breaks dynamically by `Number(rb.rank)` ascending rather than assuming hardcoded ranks.
+  - Custom critical multipliers and debuffs apply as soon as the actor's effective item rank reaches the configured milestone rank.
+  - Evaluates matching skill rank milestones when rolling weapon attack damage, routing critical multipliers and on-hit debuffs into chat card action buttons and message flags.
+- **Progressive Disclosure UI Updates (`templates/items/parts/spell.hbs`, `templates/items/parts/skill.hbs`, `src/sheets/item-sheet.mjs`)**:
+  - Updated Condition Triggers section to point directly to milestone break cards.
+  - Added milestone `Rank` dropdown selector (1–20) and `Crit Multiplier` input inside all milestone cards on both Spell and Skill item sheets.
+  - Provided `availableRanks: [1, ..., 20]` in sheet context.
+- **Automated Verification (`tests/rank-break-critical-milestones.test.mjs`)**:
+  - Added unit test suite covering schema defaults, trigger tag derivation, selectable ranks 1–20 evaluation, multiple multiplier hierarchies, weapon attack skill integration, and legacy fallback.
+  - Verified all 1,214 tests passing across 219 suites with 0 failures.
+
+## 3.2.6
+
+### CarlRPG 3.2.6 — Data-Driven Healing, Health Bar Restoration, HoT, Cleansing & Armor-Piercing (DR Bypass) Subsystems
+
+- **Data-Driven Healing, HoT & Cleansing Subsystem (`template.json`, `src/models/items/spell-model.mjs`, `src/models/items/skill-model.mjs`)**:
+  - Added structured `healing` configuration to Spells and Skills: `hasHealing`, `barsFormula` (supports static integers or stat-scaled formulas like `1 + con`, `int`), `targetFilter` (`self`, `allies`, `area`), `isHoT` (Heal over Time toggle), `hotRounds`, and `cleanseDebuffs` (array of debuff names to cure).
+  - Added milestone rank break healing upgrades (`healing.barsBonus` and `healing.cleanseDebuff`) across Ranks 5, 10, 15, and 20.
+  - Implemented `DCCActor.prototype.applyHealingBars(bars)` (capped at max HP using strict DCC CON-modifier bar values), `applyHoT({ name, healBars, rounds })`, and `cleanseDebuff(name)` (removes matching debuff item documents or all debuffs).
+  - Automated interactive chat cards with `.dcc-heal-effect`, `.dcc-apply-healing-btn`, `.dcc-apply-hot-btn`, and `.dcc-cleanse-debuff-btn` for target token interactions.
+- **Armor-Piercing / Ignore Damage Resistance (DR) Mechanics (`template.json`, `src/models/items/attack-model.mjs`, `src/models/items/gear-model.mjs`, `src/models/items/spell-model.mjs`, `src/models/items/skill-model.mjs`)**:
+  - Added `ignoreDR: false` toggle to Attacks, Gear (weapons/accessories), and Spells; added `isArmorPiercing: false` to `techniqueConfig` and milestone `rankBreaks` (Ranks 5, 10, 15, 20).
+  - Evaluates armor-piercing across weapon gear, active technique skills, weapon skill milestone perks, and spell tags (`action.armor_piercing`, `action.ignore_dr`).
+  - Displays prominent `[ARMOR-PIERCING]` badge on chat damage cards and automatically assigns `data-ignore-dr="true"` on the primary `dcc-apply-damage-btn`.
+  - Fully integrated with `DCCCombatMetrics.applyDamageToTarget({ ignoreDR: true })` to bypass target's DR while strictly respecting DCC full damage bar absorption rules.
+- **Progressive Disclosure Sheet UI (`templates/items/parts/spell.hbs`, `skill.hbs`, `attack.hbs`, `gear.hbs`)**:
+  - Collapsible `<details class="dcc-collapsible-block">` for *Healing, Regeneration & Cleansing Configuration* on Spell and Skill sheets.
+  - Quick toggle checkbox for *Armor-Piercing (Ignores Target DR)* on Attack, Gear, Spell, and Skill sheets.
+- **Data Migrations & Automated Verification (`scripts/migrate-healing-and-armor-piercing.mjs`, `tests/healing-cleansing-mechanics.test.mjs`, `tests/armor-piercing-mechanics.test.mjs`)**:
+  - Migrated all 54 canonical spells and 121 canonical skills with structured healing and milestone armor-piercing attributes.
+  - Added 25 comprehensive unit tests across two new suites verifying end-to-end healing, cleansing, armor-piercing attack rolls, milestone rank break activations, and DR bypass in combat metrics.
+  - 1,198 tests in 213 suites passing with 0 failures.
+
+## 3.2.5
+
+### CarlRPG 3.2.5 — Skill Aura Mechanics & Build Engine Unification
+
+- **Build Engine Unification with Skill Auras (`template.json`, `src/models/items/skill-model.mjs`)**:
+  - Unified skill items with the single aura engine, adding identical schemas for `area` (burst/cone/line, radius, mobile/placed origin, target filters, periodic damage, debuffs, element absorption), `tempBars` (temporary health bar grants, formulas, and HP per bar), `durationConfig`, and `active`.
+  - Added Rank Break aura milestones (`area.radiusBonus` and `tempBars.hpPerSlot`) across Ranks 5, 10, 15, and 20 milestone cards on skills.
+- **Progressive Disclosure Skill Sheet UI (`templates/items/parts/skill.hbs`, `src/sheets/item-sheet.mjs`)**:
+  - Added collapsible `<details class="dcc-collapsible-block">` for *Aura & Area of Effect Configuration* with automatic progressive disclosure expansion (`hasAuraConfigured`).
+  - Added `+ Radius Bonus (ft)` and `Upgraded Temp HP/Bar` inputs inside Rank 5, 10, 15, and 20 milestone break cards on the skill sheet.
+- **Actor Aura Activation, Deactivation & Toggle Pipeline (`src/documents/actor.mjs`, `src/apps/effects-panel.mjs`)**:
+  - Updated `activateAura(item)` to resolve modified ranks via `getSkillRank(item.name)` for skills, check `DCC_SKILLS` canonical definitions, and apply rank break bonuses starting from Rank 5.
+  - Updated `rollSkill(skillItem)` to detect aura skills (`area.hasArea` or `delivery: 'aura'`), toggling them between active and deactivated states with specialized chat cards and dismiss controls.
+  - Updated `DCCEffectsPanel.collectEffects()` to collect active skill auras alongside spells, displaying `[AURA EMITTER]` badges, live durations, burst radiuses, and temp health bar details.
+- **Automated Verification (`tests/skill-aura-mechanics.test.mjs`)**:
+  - Added comprehensive automated test suite verifying skill data model schema initialization, sheet context preparation, rank scaling, temporary health bar absorption, roll toggle dismissal, and effects panel integration.
+  - Verified 1,173 unit tests passing with 0 failures across 201 test suites.
+
+## 3.2.4
+
+### CarlRPG 3.2.4 — Tag Manager High-Contrast Checkbox Styling & Dark Mode Contrast Fixes
+
+- **Tag Manager High-Contrast Checkboxes & Inversion Prevention (`templates/apps/tag-manager.hbs`, `styles/dcc.css`)**:
+  - Removed inline `background: #f4fbf7` row style when tags are assigned (`isAssigned`), completely preventing row background turning white and causing white-on-white text illegibility in dark mode.
+  - Sized checkboxes to an explicit `18px x 18px` with clear pointer interaction.
+  - Added high-contrast checkbox outlines (`outline: 2px solid #333` in light mode, `outline: 2px solid #ffffff !important` in dark mode) and prominent DCC Red accent colors (`accent-color: #c0392b` / `#e74c3c`).
+  - Added full dark mode color contrast overrides for tag IDs (`#5dade2`), descriptions (`#9ca3af`), target banners (`#1a2733`), search inputs, and namespace pills.
+- **Verification (`tests/tag-manager-ui.test.mjs`)**:
+  - Verified absence of row background inversion when tags are assigned.
+  - Verified high-contrast checkbox CSS and dark mode outline definitions.
+  - All 1,165 unit tests passing with 0 failures across 201 test suites.
+
 ## 3.2.3
 
 ### CarlRPG 3.2.3 — Universal Progressive Disclosure Item Architecture & Single-Engine Gear Auras

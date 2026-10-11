@@ -180,15 +180,26 @@ export function hydrateRankBreaks(existingRankBreaks = {}, rawUpgrades = {}, kno
   for (const rKey of ['rank5', 'rank10', 'rank15', 'rank20']) {
     const existing = existingRankBreaks?.[rKey] || {};
     const parsed = parseUpgradeTextToRankBreak(upgrades[rKey] || '', knownDebuffs);
+    const defaultRank = rKey === 'rank5' ? 5 : (rKey === 'rank10' ? 10 : (rKey === 'rank15' ? 15 : 20));
 
     breaks[rKey] = {
       ...existing,
+      rank: existing.rank !== undefined && Number(existing.rank) > 0 ? Number(existing.rank) : defaultRank,
+      critMultiplier: existing.critMultiplier !== undefined && Number(existing.critMultiplier) >= 1
+        ? Number(existing.critMultiplier)
+        : (rKey === 'rank15' && rawUpgrades.critMultiplierR15
+          ? Number(rawUpgrades.critMultiplierR15)
+          : (rKey === 'rank5' && rawUpgrades.critMultiplierR5 ? Number(rawUpgrades.critMultiplierR5) : 1)),
       damageDice: existing.damageDice !== undefined && existing.damageDice !== '' ? String(existing.damageDice).trim() : parsed.damageDice,
       baseDiceCountMod: existing.baseDiceCountMod !== undefined && existing.baseDiceCountMod !== '' ? String(existing.baseDiceCountMod).trim() : parsed.baseDiceCountMod,
       rankDamageDice: existing.rankDamageDice !== undefined && Number(existing.rankDamageDice) > 0 ? Number(existing.rankDamageDice) : parsed.rankDamageDice,
       buffsResistances: existing.buffsResistances !== undefined && existing.buffsResistances !== '' ? String(existing.buffsResistances).trim() : parsed.buffsResistances,
       debuff: existing.debuff !== undefined && existing.debuff !== '' ? String(existing.debuff).trim() : parsed.debuff,
-      notes: existing.notes !== undefined && existing.notes !== '' ? String(existing.notes).trim() : (parsed.notes || '')
+      notes: existing.notes !== undefined && existing.notes !== '' ? String(existing.notes).trim() : (parsed.notes || ''),
+      contest: {
+        dcBonus: existing.contest?.dcBonus !== undefined ? Number(existing.contest.dcBonus) || 0 : 0,
+        onFailDebuff: existing.contest?.onFailDebuff !== undefined ? String(existing.contest.onFailDebuff).trim() : ''
+      }
     };
   }
 

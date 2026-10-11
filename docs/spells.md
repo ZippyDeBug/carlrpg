@@ -111,3 +111,25 @@ The Spell Item Sheet (`templates/items/parts/spell.hbs`) provides dedicated, int
    - Completely optional: no effect is required to be tied to any rank break.
    - Evaluated dynamically in `actor.getSpellDamageData()`, `actor.rollSpellDamage()`, `actor.rollSpell()`, and `DCCItem.rollSpellCard()`.
 
+---
+
+## Data-Driven Healing, HoT & Cleansing Subsystem
+
+Spells and skills support structured healing configurations:
+- **`system.healing.hasHealing`**: Toggle marking this spell as a healing ability.
+- **`system.healing.barsFormula`**: Healing formula defining health bars restored (e.g. `2`, `1 + con`, `int`, `cha`).
+- **`system.healing.targetFilter`**: Target filter (`self`, `allies`, `area`). Self-targeted spells heal the caster directly; ally spells generate chat cards with 1-click target application buttons.
+- **`system.healing.isHoT` & `hotRounds`**: Heal Over Time toggle that generates temporary regeneration buffs.
+- **`system.healing.cleanseDebuffs`**: Array of debuff names (e.g. `['Poison', 'Bleed', 'Minor Injury']`) cleansed upon cast.
+- **Milestone Rank Breaks**: `rankBreaks[rank].healing.barsBonus` and `cleanseDebuff` provide cumulative bonuses at Ranks 5, 10, 15, and 20.
+
+---
+
+## Armor-Piercing & Ignore DR Subsystem
+
+Spells and attacks support armor-piercing mechanics:
+- **`system.ignoreDR`**: Quick checkbox on the item sheet to mark the damage as Armor-Piercing.
+- **Tags**: Assigning `action.armor_piercing` or `action.ignore_dr` automatically triggers the mechanic.
+- **Milestone Rank Breaks**: `rankBreaks[rank].isArmorPiercing` enables rank-gated armor-piercing (e.g. *Icicles* and *Paladin's Smite* at Rank 15).
+- **Execution**: Renders vivid `[ARMOR-PIERCING]` badges on chat cards and routes through `DCCCombatMetrics.applyDamageToTarget({ ignoreDR: true })` to bypass target DR while strictly obeying CarlRPG full damage bar rules.
+

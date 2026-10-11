@@ -8,6 +8,7 @@ import { onRenderChatMessage } from '../src/dcc.mjs';
 
 import { DCCCombatTracker } from '../src/apps/combat-tracker.mjs';
 import { DCCCrawlerSheet } from '../src/sheets/crawler-sheet.mjs';
+import { DCCCombat } from '../src/documents/combat.mjs';
 
 test('Aura Activation and Deactivation Workflow', async (t) => {
   await t.test('1. activateAura grants temporary health bars scaling by rank and activates spell', async () => {
@@ -616,5 +617,222 @@ test('Aura Activation and Deactivation Workflow', async (t) => {
     assert.ok(Array.isArray(context.tempBarSlots), 'tempBarSlots must be an array');
     assert.equal(context.tempBarSlots.length, 4, 'tempBarSlots length must match maxCount 4');
     assert.equal(context.tempBarSlots[0].slotHp, 2);
+  });
+
+  await t.test('16. When Hot Stuff Aura expires at round end, it removes the aura effect from caster AND all allies in the aura', async () => {
+    const caster = new DCCActor({
+      id: 'caster-carl-round',
+      name: 'Carl Caster',
+      type: 'crawler',
+      system: {
+        abilities: { cha: { value: 10, mod: 4 }, con: { value: 10, mod: 4 } },
+        attributes: { hp: { value: 40, max: 40, temp: 0 }, mana: { value: 20, max: 20 } }
+      }
+    });
+
+    const ally1 = new DCCActor({
+      id: 'ally-donut-round',
+      name: 'Princess Donut',
+      type: 'crawler',
+      system: {
+        abilities: { con: { value: 10, mod: 4 } },
+        attributes: { hp: { value: 30, max: 30, temp: 0 } }
+      }
+    });
+
+    const ally2 = new DCCActor({
+      id: 'ally-katia-round',
+      name: 'Katia',
+      type: 'crawler',
+      system: {
+        abilities: { con: { value: 10, mod: 4 } },
+        attributes: { hp: { value: 35, max: 35, temp: 0 } }
+      }
+    });
+
+    const hotStuffDef = structuredClone(DCC_SPELLS.find(s => s.name === 'Hot Stuff Aura'));
+    const spellItem = new MockItem(hotStuffDef, caster);
+    caster.items.push(spellItem);
+
+    // Set up canvas tokens within 5ft burst radius
+    globalThis.canvas = {
+      scene: {
+        grid: { distance: 5 },
+        createEmbeddedDocuments: async () => [],
+        deleteEmbeddedDocuments: async () => []
+      },
+      tokens: {
+        placeables: [
+          { actor: caster, center: { x: 100, y: 100 }, disposition: 1 },
+          { actor: ally1, center: { x: 100, y: 120 }, disposition: 1 },
+          { actor: ally2, center: { x: 110, y: 100 }, disposition: 1 }
+        ]
+      },
+      grid: { size: 50 }
+    };
+
+    // Activate aura (protecting caster and allies)
+    const auraResult = await caster.activateAura(spellItem);
+    assert.equal(auraResult.active, true);
+    assert.equal(caster.system.attributes.hp.tempBars.count, 4, 'Caster has 4 slots');
+    assert.equal(ally1.system.attributes.hp.tempBars.count, 4, 'Ally 1 has 4 slots');
+    assert.equal(ally2.system.attributes.hp.tempBars.count, 4, 'Ally 2 has 4 slots');
+    assert.equal(ally1.system.attributes.hp.tempBars.source, 'Hot Stuff Aura');
+    assert.equal(ally2.system.attributes.hp.tempBars.source, 'Hot Stuff Aura');
+
+    // Create combat tracking these combatants
+    const combat = new DCCCombat({
+      id: 'combat-aura-expiration',
+      round: 1,
+      turn: 0
+    });
+    combat.combatants = [
+      { id: 'c-caster', name: caster.name, actorId: caster.id, actor: caster },
+      { id: 'c-ally1', name: ally1.name, actorId: ally1.id, actor: ally1 },
+      { id: 'c-ally2', name: ally2.name, actorId: ally2.id, actor: ally2 }
+    ];
+
+    // Round 1 countdown
+    const expiredR1 = await combat.processRoundDurations(1);
+    assert.equal(expiredR1.length, 0, 'Aura has 2 rounds, should not expire on round 1');
+    assert.equal(spellItem.system.durationConfig.remainingRounds, 1);
+    assert.equal(caster.system.attributes.hp.tempBars.count, 4);
+    assert.equal(ally1.system.attributes.hp.tempBars.count, 4);
+    assert.equal(ally2.system.attributes.hp.tempBars.count, 4);
+
+    // Round 2 countdown (Aura expires!)
+    const expiredR2 = await combat.processRoundDurations(2);
+    assert.equal(expiredR2.length, 1, 'Hot Stuff Aura expires on round 2');
+    assert.equal(expiredR2[0].itemName, 'Hot Stuff Aura');
+    assert.equal(spellItem.system.active, false, 'Spell active is now false');
+    assert.equal(spellItem.system.durationConfig.remainingRounds, 0);
+
+    // Verify aura effect is removed from caster AND all allies
+    assert.equal(caster.system.attributes.hp.tempBars.count, 0, 'Caster temp bars must be cleared');
+    assert.equal(caster.system.attributes.hp.tempBars.source, '', 'Caster source must be cleared');
+    assert.equal(caster.system.attributes.hp.temp, 0, 'Caster temp HP must be 0');
+
+    assert.equal(ally1.system.attributes.hp.tempBars.count, 0, 'Ally 1 temp bars must be cleared on expiration');
+    assert.equal(ally1.system.attributes.hp.tempBars.source, '', 'Ally 1 source must be cleared');
+    assert.equal(ally1.system.attributes.hp.temp, 0, 'Ally 1 temp HP must be 0');
+
+    assert.equal(ally2.system.attributes.hp.tempBars.count, 0, 'Ally 2 temp bars must be cleared on expiration');
+    assert.equal(ally2.system.attributes.hp.tempBars.source, '', 'Ally 2 source must be cleared');
+    assert.equal(ally2.system.attributes.hp.temp, 0, 'Ally 2 temp HP must be 0');
+
+    delete globalThis.canvas;
+  });
+
+  await t.test('17. Manual deactivateAura clears all affected allies across combatants and appliedAllies without requiring options', async () => {
+    const caster = new DCCActor({
+      id: 'caster-manual-deact',
+      name: 'Carl Caster',
+      type: 'crawler',
+      system: {
+        abilities: { cha: { value: 10, mod: 4 }, con: { value: 10, mod: 4 } },
+        attributes: { hp: { value: 40, max: 40, temp: 0 } }
+      }
+    });
+
+    const ally = new DCCActor({
+      id: 'ally-manual-deact',
+      name: 'Princess Donut',
+      type: 'crawler',
+      system: {
+        abilities: { con: { value: 10, mod: 4 } },
+        attributes: { hp: { value: 30, max: 30, temp: 0 } }
+      }
+    });
+
+    const hotStuffDef = structuredClone(DCC_SPELLS.find(s => s.name === 'Hot Stuff Aura'));
+    const spellItem = new MockItem(hotStuffDef, caster);
+    caster.items.push(spellItem);
+
+    // Activate with ally passed in options
+    await caster.activateAura(spellItem, { allies: [ally] });
+    assert.equal(caster.system.attributes.hp.tempBars.count, 4);
+    assert.equal(ally.system.attributes.hp.tempBars.count, 4);
+    assert.equal(ally.system.attributes.hp.tempBars.source, 'Hot Stuff Aura');
+
+    // Deactivate with NO arguments / no options passed
+    const deactRes = await caster.deactivateAura(spellItem);
+    assert.equal(deactRes.active, false);
+
+    assert.equal(caster.system.attributes.hp.tempBars.count, 0, 'Caster temp bars cleared');
+    assert.equal(ally.system.attributes.hp.tempBars.count, 0, 'Ally temp bars cleared via tracked appliedAllies');
+    assert.equal(ally.system.attributes.hp.tempBars.source, '');
+    assert.equal(ally.system.attributes.hp.temp, 0);
+  });
+
+  await t.test('18. Deactivating offensive aura clears inflicted aura debuffs on hostile entities', async () => {
+    const caster = new DCCActor({
+      id: 'caster-offensive-aura',
+      name: 'Fire Caster',
+      type: 'crawler',
+      system: {
+        abilities: { int: { value: 10, mod: 4 } },
+        attributes: { hp: { value: 40, max: 40, temp: 0 } }
+      }
+    });
+
+    const mob = new DCCActor({
+      id: 'mob-burning-goblin',
+      name: 'Goblin',
+      type: 'mob',
+      system: {
+        attributes: { hp: { value: 20, max: 20 } }
+      }
+    });
+
+    const auraItem = new MockItem({
+      name: 'Blazing Corona Aura',
+      type: 'spell',
+      system: {
+        active: true,
+        delivery: 'aura',
+        area: {
+          hasArea: true,
+          radius: 10,
+          targetFilter: 'enemies',
+          inflictDebuff: 'Burning'
+        },
+        durationConfig: {
+          type: 'rounds',
+          rounds: 2,
+          remainingRounds: 2
+        }
+      }
+    }, caster);
+    caster.items.push(auraItem);
+
+    // Simulate mob having gained the debuff from the aura
+    const debuff = new MockItem({
+      name: 'Burning',
+      type: 'debuff',
+      system: {
+        duration: 'Blazing Corona Aura Aura'
+      },
+      flags: {
+        'carl-rpg': {
+          auraItemId: auraItem.id,
+          sourceAura: 'Blazing Corona Aura'
+        }
+      }
+    }, mob);
+    mob.items.push(debuff);
+
+    assert.equal(mob.items.length, 1, 'Mob starts with Burning debuff');
+
+    // Setup combat with caster and mob
+    const combat = new DCCCombat({ id: 'combat-debuff-test', round: 1 });
+    combat.combatants = [
+      { id: 'c1', actor: caster },
+      { id: 'c2', actor: mob }
+    ];
+
+    // Deactivate aura
+    await caster.deactivateAura(auraItem, { combatants: combat.combatants });
+
+    assert.equal(mob.items.length, 0, 'Debuff created by aura must be removed when aura is deactivated');
   });
 });

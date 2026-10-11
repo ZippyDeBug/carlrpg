@@ -22,8 +22,10 @@ export const TAG_NAMESPACES = {
   weaponProp:   { label: 'Weapon Property', description: 'Weapon handling properties (two-handed, reach, etc.)' },
   skillGroup:   { label: 'Skill Discipline', description: 'Discipline grouping for skills' },
   technique:    { label: 'Combat Technique Target', description: 'Skill targeted by combat techniques' },
+  contest:      { label: 'Contest / Opposed Check', description: 'Contested check against target stat or skill' },
   rule:         { label: 'Special Rule Flag', description: 'Engine mechanics and overrides' },
   resource:     { label: 'Resource Type', description: 'Character resource pools (mana, health bars, temporary bars)' },
+  trigger:      { label: 'Condition Trigger', description: 'Triggers on critical hit, fumble, or combat condition' },
   id:           { label: 'Identity Tag', description: 'Stable unique item identity: id.<type>.<slug>' },
   custom:       { label: 'Custom User Tag', description: 'User-created tags' }
 };
@@ -49,6 +51,23 @@ export const DCC_TAGS = [
   { id: 'action.restore', label: 'Restore / Refill', namespace: 'action' },
   { id: 'action.passive', label: 'Passive', namespace: 'action' },
   { id: 'action.interrupt', label: 'Interrupt', namespace: 'action' },
+  { id: 'action.reaction', label: 'Reaction', namespace: 'action' },
+  { id: 'action.free_interrupt', label: 'Free Interrupt (0 Actions)', namespace: 'action' },
+  { id: 'action.hot', label: 'Heal Over Time (HoT)', namespace: 'action' },
+  { id: 'action.cleanse', label: 'Cleanse Debuff', namespace: 'action' },
+  { id: 'action.armor_piercing', label: 'Armor Piercing', namespace: 'action' },
+  { id: 'action.ignore_dr', label: 'Ignore Damage Resistance', namespace: 'action' },
+  { id: 'action.contested', label: 'Contested Check', namespace: 'action' },
+  { id: 'action.opposed', label: 'Opposed Contest', namespace: 'action' },
+
+  // --- Contests ---
+  { id: 'contest.dc', label: 'DC Challenge', namespace: 'contest' },
+  { id: 'contest.opposed', label: 'Opposed Roll', namespace: 'contest' },
+  { id: 'contest.str', label: 'vs Strength', namespace: 'contest' },
+  { id: 'contest.dex', label: 'vs Dexterity', namespace: 'contest' },
+  { id: 'contest.con', label: 'vs Constitution', namespace: 'contest' },
+  { id: 'contest.int', label: 'vs Intelligence', namespace: 'contest' },
+  { id: 'contest.cha', label: 'vs Charisma', namespace: 'contest' },
 
   // --- Resources ---
   { id: 'resource.mana', label: 'Mana Points', namespace: 'resource' },
@@ -181,7 +200,16 @@ export const DCC_TAGS = [
   { id: 'rule.emits-light', label: 'Emits Light', namespace: 'rule' },
   { id: 'rule.causes-darkness', label: 'Causes Darkness', namespace: 'rule' },
   { id: 'rule.depletes-on-empty', label: 'Depletes When Empty', namespace: 'rule' },
-  { id: 'rule.cooldown-hours', label: 'Cooldown (2h per Rank)', namespace: 'rule' }
+  { id: 'rule.cooldown-hours', label: 'Cooldown (2h per Rank)', namespace: 'rule' },
+
+  // --- Condition Triggers ---
+  { id: 'trigger.crit', label: 'Critical Hit Trigger', namespace: 'trigger' },
+  { id: 'trigger.fumble', label: 'Fumble Trigger', namespace: 'trigger' },
+  { id: 'trigger.on_hit', label: 'On-Hit Debuff Trigger', namespace: 'trigger' },
+  { id: 'trigger.on_attack', label: 'When Attacked', namespace: 'trigger' },
+  { id: 'trigger.on_damage', label: 'When Hit / Damaged', namespace: 'trigger' },
+  { id: 'trigger.on_move', label: 'When Foe Moves', namespace: 'trigger' },
+  { id: 'trigger.on_ally_hit', label: 'When Ally Hit', namespace: 'trigger' }
 ];
 
 /** Fast lookup map of registered tags */
@@ -405,11 +433,83 @@ export function computeDerivedTags(item) {
     else if (actKey === 'interrupt') derived.add('action.interrupt');
   }
 
-  // Skill attack vs utility
+  // Skill attack vs utility vs interrupt
   if (type === 'skill') {
     if (sys.isAttack) {
       derived.add('action.attack');
     }
+    const checkType = (sys.checkType || '').toLowerCase();
+    if (checkType.includes('interrupt') || sys.isInterrupt || sys.techniqueConfig?.isInterrupt) {
+      derived.add('action.interrupt');
+    }
+  }
+
+  // Reactive Triggers
+  if (sys.trigger) {
+    const tr = String(sys.trigger).toLowerCase().trim();
+    if (tr === 'on_attack' || tr === 'attack') derived.add('trigger.on_attack');
+    else if (tr === 'on_damage' || tr === 'damage') derived.add('trigger.on_damage');
+    else if (tr === 'on_move' || tr === 'move') derived.add('trigger.on_move');
+    else if (tr === 'on_ally_hit' || tr === 'ally_hit') derived.add('trigger.on_ally_hit');
+  }
+
+  // Free Interrupt tag derivation
+  if (sys.isFreeInterrupt) {
+    derived.add('action.free_interrupt');
+  }
+  if (sys.rankBreaks && typeof sys.rankBreaks === 'object') {
+    for (const rb of Object.values(sys.rankBreaks)) {
+      if (rb?.isFreeInterrupt) {
+        derived.add('action.free_interrupt');
+        break;
+      }
+    }
+  }
+
+  // Healing, HoT, and Cleansing derived tags
+  if (sys.healing?.hasHealing) {
+    derived.add('action.heal');
+    derived.add('resource.hp-bars');
+    if (sys.healing.isHoT) {
+      derived.add('action.hot');
+      derived.add('duration.rounds');
+    }
+    if (Array.isArray(sys.healing.cleanseDebuffs) && sys.healing.cleanseDebuffs.length > 0) {
+      derived.add('action.cleanse');
+    }
+  }
+
+  // Armor Piercing / Ignore DR derived tags
+  if (sys.ignoreDR || sys.isArmorPiercing || sys.techniqueConfig?.isArmorPiercing) {
+    derived.add('action.armor_piercing');
+    derived.add('action.ignore_dr');
+  }
+
+  // Condition Triggers & Rank Break Triggers
+  let hasCritTrigger = Boolean(
+    (sys.critMultiplier && Number(sys.critMultiplier) > 1) ||
+    (sys.critMultiplierR5 && Number(sys.critMultiplierR5) > 1) ||
+    (sys.critMultiplierR15 && Number(sys.critMultiplierR15) > 1)
+  );
+  let hasOnHitTrigger = Boolean(sys.onHitDebuff);
+
+  if (sys.rankBreaks && typeof sys.rankBreaks === 'object') {
+    for (const rb of Object.values(sys.rankBreaks)) {
+      if (rb && typeof rb === 'object') {
+        if (Number(rb.critMultiplier) > 1) hasCritTrigger = true;
+        if (rb.debuff) hasOnHitTrigger = true;
+      }
+    }
+  }
+
+  if (hasCritTrigger) {
+    derived.add('trigger.crit');
+  }
+  if (sys.fumbleDebuff) {
+    derived.add('trigger.fumble');
+  }
+  if (hasOnHitTrigger) {
+    derived.add('trigger.on_hit');
   }
 
   // Weapon gear
@@ -486,6 +586,22 @@ export function computeDerivedTags(item) {
   // Light emission rule
   if (sys.light && (sys.light.emits || sys.light.dim > 0 || sys.light.bright > 0)) {
     derived.add('rule.emits-light');
+  }
+
+  // Contested / Opposed Check rule
+  if (sys.contest?.hasContest) {
+    derived.add('action.contested');
+    const cType = (sys.contest.contestType || 'dc').toLowerCase().trim();
+    if (cType === 'opposed') {
+      derived.add('action.opposed');
+      derived.add('contest.opposed');
+    } else {
+      derived.add('contest.dc');
+    }
+    const tStat = (sys.contest.targetStat || '').toLowerCase().trim();
+    if (['str', 'dex', 'con', 'int', 'cha'].includes(tStat)) {
+      derived.add(`contest.${tStat}`);
+    }
   }
 
   // Consumable outcomes / effects derived tags

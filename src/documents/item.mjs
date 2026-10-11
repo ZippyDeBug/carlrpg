@@ -1265,6 +1265,8 @@ export class DCCItem extends BaseItem {
               if (rb.rankDamageDice && Number(rb.rankDamageDice) > 0) parts.push(`+${rb.rankDamageDice} Rank ${Number(rb.rankDamageDice) === 1 ? 'Die' : 'Dice'}`);
               if (rb.buffsResistances) parts.push(`Buff/Resist: ${rb.buffsResistances}`);
               if (rb.debuff) parts.push(`Debuff: [${rb.debuff}]`);
+              if (rb.contest?.dcBonus && Number(rb.contest.dcBonus) > 0) parts.push(`+${rb.contest.dcBonus} Contest DC`);
+              if (rb.contest?.onFailDebuff) parts.push(`Fail Debuff: [${rb.contest.onFailDebuff}]`);
               if (rb.notes) parts.push(rb.notes);
             }
             if (parts.length === 0 && legacy && legacy !== 'None') {

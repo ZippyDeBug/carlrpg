@@ -49,7 +49,11 @@
   </div>
   <div class="dcc-field-group">
     <span class="dcc-field-label">Check Type</span>
-    <input class="dcc-field-input" type="text" name="system.checkType" value="{{system.checkType}}" placeholder="Stat Check" />
+    <select name="system.checkType" class="dcc-field-input">
+      {{#each checkTypeOptions as |ct|}}
+        <option value="{{ct.value}}" {{#if ct.selected}}selected{{/if}}>{{ct.label}}</option>
+      {{/each}}
+    </select>
   </div>
 </div>
 
@@ -105,7 +109,47 @@
       <div class="dcc-field-row" style="margin-bottom: 6px;">
         <div class="dcc-field-group" style="flex: 2;">
           <span class="dcc-field-label">Applies To (Weapons / Skills / Tags)</span>
-          <input class="dcc-field-input" type="text" name="system.appliesTo" value="{{appliesToString}}" placeholder="e.g. Chainsaw, Power Weapons, Pugilism, unarmed" style="font-size: 11px;" />
+          <div class="dcc-applies-to-pills" style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 4px; min-height: 24px; padding: 3px; background: #fafafa; border: 1px dashed #ccc; border-radius: 3px;">
+            {{#if appliesToList.length}}
+              {{#each appliesToList as |tag|}}
+                <span class="dcc-badge" style="background: #2c3e50; color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 3px; display: inline-flex; align-items: center; gap: 4px;">
+                  {{tag}}
+                  <a class="remove-applies-to" data-tag="{{tag}}" title="Remove tag" style="color: #f1c40f; cursor: pointer; font-weight: bold; text-decoration: none;">&times;</a>
+                </span>
+              {{/each}}
+            {{else}}
+              <span style="font-size: 10px; color: #888; font-style: italic; align-self: center;">Universal / all weapons. Or select specific weapons/tags below.</span>
+            {{/if}}
+          </div>
+          <div style="display: flex; gap: 4px; align-items: center;">
+            <div style="flex: 2;">
+              <select class="add-applies-to-select dcc-field-input" style="font-size: 11px; width: 100%;">
+                <option value="">+ Select Weapon / Skill Tag...</option>
+                <optgroup label="Weapon Categories">
+                  {{#each weaponCategories as |wc|}}
+                    <option value="{{wc}}">{{wc}}</option>
+                  {{/each}}
+                </optgroup>
+                <optgroup label="Weapon Types">
+                  {{#each weaponTypes as |wt|}}
+                    <option value="{{wt}}">{{wt}}</option>
+                  {{/each}}
+                </optgroup>
+                <optgroup label="Skills">
+                  {{#each availableSkills as |s|}}
+                    <option value="{{s.name}}">{{s.name}}</option>
+                  {{/each}}
+                </optgroup>
+              </select>
+            </div>
+            <div style="flex: 1;">
+              <input class="dcc-field-input custom-applies-to-input" type="text" placeholder="Or custom..." style="font-size: 11px; width: 100%;" />
+            </div>
+            <button type="button" class="btn-add-custom-applies-to dcc-btn" style="font-size: 11px; padding: 2px 6px; background: #2c3e50; color: #fff; border: 1px solid #111; border-radius: 3px; cursor: pointer;">
+              + Add
+            </button>
+          </div>
+          <input type="hidden" name="system.appliesTo" value="{{appliesToString}}" />
         </div>
         <div class="dcc-field-group" style="flex: 1;">
           <span class="dcc-field-label">Base Dice Count Mod</span>
@@ -141,21 +185,23 @@
         </div>
         <div class="dcc-field-group" style="flex: 1;">
           <span class="dcc-field-label">Cooldown</span>
-          <input class="dcc-field-input" type="text" name="system.techniqueConfig.cooldown" value="{{system.techniqueConfig.cooldown}}" placeholder="e.g. 30 hours, 1/round" style="font-size: 11px;" />
+          <select class="dcc-field-input" name="system.techniqueConfig.cooldown" style="font-size: 11px;">
+            {{#each cooldownOptions as |cd|}}
+              <option value="{{cd.value}}" {{#if cd.selected}}selected{{/if}}>{{cd.label}}</option>
+            {{/each}}
+          </select>
+        </div>
+        <div class="dcc-field-group small" style="text-align: center; max-width: 90px;">
+          <span class="dcc-field-label">Armor Pierce</span>
+          <label style="display: flex; align-items: center; justify-content: center; height: 28px; cursor: pointer;" title="Check if this technique penetrates armor and ignores Damage Resistance (DR)">
+            <input type="checkbox" name="system.techniqueConfig.isArmorPiercing" {{#if system.techniqueConfig.isArmorPiercing}}checked{{/if}} style="width: 18px; height: 18px; cursor: pointer;" />
+          </label>
         </div>
       </div>
     {{/if}}
 
     <div class="dcc-field-row" style="margin-bottom: 6px;">
-      <div class="dcc-field-group">
-        <span class="dcc-field-label"><i class="fa-solid fa-burst" style="color: #c0392b;"></i> Rank 5 Crit Multiplier</span>
-        <input class="dcc-field-input" type="number" name="system.critMultiplierR5" value="{{#if system.critMultiplierR5}}{{system.critMultiplierR5}}{{else}}1{{/if}}" placeholder="1" style="font-size: 11px;" />
-      </div>
-      <div class="dcc-field-group">
-        <span class="dcc-field-label"><i class="fa-solid fa-skull" style="color: #c0392b;"></i> Rank 15 Crit Multiplier</span>
-        <input class="dcc-field-input" type="number" name="system.critMultiplierR15" value="{{#if system.critMultiplierR15}}{{system.critMultiplierR15}}{{else}}1{{/if}}" placeholder="1" style="font-size: 11px;" />
-      </div>
-      <div class="dcc-field-group">
+      <div class="dcc-field-group" style="flex: 1;">
         <span class="dcc-field-label"><i class="fa-solid fa-triangle-exclamation" style="color: #873600;"></i> Fumble Consequence (Self Debuff)</span>
         <select class="dcc-field-input" name="system.fumbleDebuff" style="font-size: 11px;">
           <option value="">-- None --</option>
@@ -163,6 +209,14 @@
             <option value="{{deb.name}}" {{#if (eq ../system.fumbleDebuff deb.name)}}selected{{/if}}>{{deb.name}}</option>
           {{/each}}
         </select>
+      </div>
+      <div class="dcc-field-group" style="flex: 2;">
+        <span class="dcc-field-label" style="color: #555; font-style: italic;">
+          <i class="fa-solid fa-info-circle"></i> Critical Hit Multipliers
+        </span>
+        <div style="font-size: 11px; color: #666; padding-top: 4px;">
+          Configured directly per milestone break below (selectable Ranks 1–20).
+        </div>
       </div>
     </div>
 
@@ -184,17 +238,277 @@
   </div>
 </details>
 
-{{!-- RANK MILESTONES & BREAK CONFIGURATIONS (RANKS 5, 10, 15, 20) (COLLAPSIBLE WITH PROGRESSIVE DISCLOSURE) --}}
-<details class="dcc-collapsible-block" {{#if hasRankBreaksConfigured}}open{{/if}}>
-  <summary class="dcc-collapsible-summary">
-    <span class="dcc-collapsible-title"><i class="fa-solid fa-chevron-right dcc-chevron"></i> <i class="fa-solid fa-layer-group"></i> RANK BREAK CONFIGURATIONS (RANKS 5, 10, 15, 20)</span>
-    <span class="dcc-toggle-indicator {{#if hasRankBreaksConfigured}}active{{/if}}">{{#if hasRankBreaksConfigured}}[RANK BREAKS CONFIGURED]{{else}}[CLICK TO CONFIGURE RANK BREAKS]{{/if}}</span>
+{{!-- HEALING, HEALTH BARS & CLEANSING CONFIGURATION (COLLAPSIBLE WITH PROGRESSIVE DISCLOSURE) --}}
+<details class="dcc-collapsible-block" {{#if hasHealingConfigured}}open{{/if}}>
+  <summary class="dcc-collapsible-summary" style="background: #1e8449;">
+    <span class="dcc-collapsible-title"><i class="fa-solid fa-chevron-right dcc-chevron"></i> <i class="fa-solid fa-heart-pulse"></i> HEALING, HEALTH BARS & CLEANSING CONFIGURATION</span>
+    <span class="dcc-toggle-indicator {{#if hasHealingConfigured}}active{{/if}}">{{#if hasHealingConfigured}}[HEALING CONFIGURED]{{else}}[CLICK TO CONFIGURE HEALING / CLEANSING]{{/if}}</span>
   </summary>
   <div class="dcc-collapsible-content">
-    {{!-- Rank 5 --}}
+    <div class="dcc-field-row" style="margin-bottom: 6px; align-items: center; gap: 8px; flex-wrap: wrap;">
+      <label style="display: flex; align-items: center; gap: 4px; font-weight: bold; font-size: 11px; cursor: pointer; color: #1e8449;">
+        <input type="checkbox" name="system.healing.hasHealing" {{#if system.healing.hasHealing}}checked{{/if}} style="width: 16px; height: 16px;" />
+        <span>Restores Health Bars</span>
+      </label>
+      <div class="dcc-field-group small" style="flex: 1;">
+        <span class="dcc-field-label">Bars Formula</span>
+        <input class="dcc-field-input" type="text" name="system.healing.barsFormula" value="{{#if system.healing.barsFormula}}{{system.healing.barsFormula}}{{else}}1{{/if}}" placeholder="1 or 1 + con" style="font-size: 11px; font-weight: bold;" />
+      </div>
+      <div class="dcc-field-group small" style="flex: 1;">
+        <span class="dcc-field-label">Target Filter</span>
+        <select class="dcc-field-input" name="system.healing.targetFilter" style="font-size: 11px;">
+          <option value="allies" {{#if (eq system.healing.targetFilter "allies")}}selected{{/if}}>Allies</option>
+          <option value="self" {{#if (eq system.healing.targetFilter "self")}}selected{{/if}}>Self Only</option>
+          <option value="all" {{#if (eq system.healing.targetFilter "all")}}selected{{/if}}>Any Target</option>
+        </select>
+      </div>
+      <label style="display: flex; align-items: center; gap: 4px; font-weight: bold; font-size: 11px; cursor: pointer; color: #2980b9;">
+        <input type="checkbox" name="system.healing.isHoT" {{#if system.healing.isHoT}}checked{{/if}} style="width: 16px; height: 16px;" />
+        <span>Heal Over Time (HoT)</span>
+      </label>
+      <div class="dcc-field-group small" style="width: 80px;">
+        <span class="dcc-field-label">HoT Rounds</span>
+        <input class="dcc-field-input" type="number" name="system.healing.hotRounds" value="{{#if system.healing.hotRounds}}{{system.healing.hotRounds}}{{else}}3{{/if}}" min="1" style="font-size: 11px;" />
+      </div>
+    </div>
+    <div class="dcc-field-row" style="margin-bottom: 0;">
+      <div class="dcc-field-group" style="flex: 1;">
+        <span class="dcc-field-label"><i class="fa-solid fa-sparkles" style="color: #16a085;"></i> Cleanse Debuffs</span>
+        <div class="dcc-cleanse-debuffs-pills" style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; min-height: 24px; padding: 3px; background: #fafafa; border: 1px dashed #ccc; border-radius: 3px;">
+          {{#if cleanseDebuffsList.length}}
+            {{#each cleanseDebuffsList as |deb|}}
+              <span class="dcc-badge" style="background: #16a085; color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 3px; display: inline-flex; align-items: center; gap: 4px;">
+                {{deb}}
+                <a class="remove-cleanse-debuff" data-debuff="{{deb}}" title="Remove debuff" style="color: #f1c40f; cursor: pointer; font-weight: bold; text-decoration: none;">&times;</a>
+              </span>
+            {{/each}}
+          {{else}}
+            <span style="font-size: 10px; color: #888; font-style: italic; align-self: center;">No debuffs selected to cleanse. Select from the dropdown below or enter a custom debuff.</span>
+          {{/if}}
+        </div>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <div style="flex: 2;">
+            <select class="add-cleanse-debuff-select dcc-field-input" style="font-size: 11px; width: 100%;">
+              <option value="">+ Select Debuff to Cleanse...</option>
+              {{#each availableDebuffs as |d|}}
+                <option value="{{d.name}}">{{d.name}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div style="flex: 1;">
+            <input class="dcc-field-input custom-cleanse-debuff-input" type="text" placeholder="Or custom debuff..." style="font-size: 11px; width: 100%;" />
+          </div>
+          <button type="button" class="btn-add-custom-cleanse-debuff dcc-btn" style="font-size: 11px; padding: 3px 6px; background: #16a085; color: #fff; border: 1px solid #0e6655; border-radius: 3px; cursor: pointer;">
+            + Add
+          </button>
+        </div>
+        <input type="hidden" name="system.healing.cleanseDebuffs" value="{{cleanseDebuffsString}}" />
+      </div>
+    </div>
+  </div>
+</details>
+
+{{!-- AURA & AREA OF EFFECT CONFIGURATION (COLLAPSIBLE WITH PROGRESSIVE DISCLOSURE) --}}
+<details class="dcc-collapsible-block" {{#if hasAuraConfigured}}open{{/if}}>
+  <summary class="dcc-collapsible-summary">
+    <span class="dcc-collapsible-title"><i class="fa-solid fa-chevron-right dcc-chevron"></i> <i class="fa-solid fa-circle-notch"></i> AURA & AREA OF EFFECT CONFIGURATION</span>
+    <span class="dcc-toggle-indicator {{#if hasAuraConfigured}}active{{/if}}">{{#if hasAuraConfigured}}[AURA / AOE CONFIGURED]{{else}}[CLICK TO CONFIGURE AURA / AOE]{{/if}}</span>
+  </summary>
+  <div class="dcc-collapsible-content">
+
+    {{!-- Enable Aura Toggle & Scope --}}
+    <div class="dcc-field-row" style="margin-bottom: 6px; align-items: center; gap: 8px; flex-wrap: wrap;">
+      <label style="display: flex; align-items: center; gap: 4px; font-weight: bold; font-size: 11px; cursor: pointer; color: #2c3e50;">
+        <input type="checkbox" name="system.area.hasArea" {{#if system.area.hasArea}}checked{{/if}} />
+        <span>Emits Aura / Area Effect</span>
+      </label>
+      <div class="dcc-field-group small" style="flex: 1;">
+        <span class="dcc-field-label">Shape</span>
+        <select class="dcc-field-input" name="system.area.shape" style="font-size: 11px;">
+          <option value="burst" {{#if (eq system.area.shape "burst")}}selected{{/if}}>Burst / Circle</option>
+          <option value="cone" {{#if (eq system.area.shape "cone")}}selected{{/if}}>Cone</option>
+          <option value="line" {{#if (eq system.area.shape "line")}}selected{{/if}}>Line</option>
+        </select>
+      </div>
+      <div class="dcc-field-group small" style="flex: 1;">
+        <span class="dcc-field-label">Base Radius (ft)</span>
+        <input class="dcc-field-input" type="number" name="system.area.radius" value="{{system.area.radius}}" placeholder="5" min="0" style="font-size: 11px; font-weight: bold;" />
+      </div>
+      <div class="dcc-field-group small" style="flex: 1.2;">
+        <span class="dcc-field-label">Origin / Delivery</span>
+        <select class="dcc-field-input" name="system.area.origin" style="font-size: 11px;">
+          <option value="caster" {{#if (eq system.area.origin "caster")}}selected{{/if}}>Self / User (Mobile Aura)</option>
+          <option value="placed" {{#if (eq system.area.origin "placed")}}selected{{/if}}>Placed (Stationary Zone)</option>
+        </select>
+      </div>
+      <div class="dcc-field-group small" style="flex: 1.2;">
+        <span class="dcc-field-label">Target Filter</span>
+        <select class="dcc-field-input" name="system.area.targetFilter" style="font-size: 11px;">
+          <option value="allies" {{#if (eq system.area.targetFilter "allies")}}selected{{/if}}>Allies Only</option>
+          <option value="enemies" {{#if (eq system.area.targetFilter "enemies")}}selected{{/if}}>Enemies Only</option>
+          <option value="both" {{#if (eq system.area.targetFilter "both")}}selected{{/if}}>Both (Allies & Enemies)</option>
+        </select>
+      </div>
+    </div>
+
+    {{!-- Allied Protection / Temp Health Bars Sub-Block --}}
+    <div class="dcc-rank-break-card" style="margin-bottom: 6px; border: 1px solid #ddd; border-left: 4px solid #196f3d; background: #fff; padding: 6px; border-radius: 3px;">
+      <div style="font-weight: bold; font-size: 11px; color: #196f3d; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between;">
+        <span><i class="fa-solid fa-shield-halved"></i> Allied Protection & Temporary Health Bars</span>
+        <label style="font-size: 10px; font-weight: normal; color: #333; display: flex; align-items: center; gap: 4px; cursor: pointer;">
+          <input type="checkbox" name="system.tempBars.hasTempBars" {{#if system.tempBars.hasTempBars}}checked{{/if}} />
+          <span>Enable Bonus Health Bars</span>
+        </label>
+      </div>
+      <div class="dcc-field-row" style="gap: 6px;">
+        <div class="dcc-field-group" style="flex: 1.5;">
+          <span class="dcc-field-label">Bar Slots Formula / Stat</span>
+          <select class="dcc-field-input" name="system.tempBars.slotsFormula" style="font-size: 11px;">
+            <option value="con" {{#if (eq system.tempBars.slotsFormula "con")}}selected{{/if}}>CON Mod</option>
+            <option value="str" {{#if (eq system.tempBars.slotsFormula "str")}}selected{{/if}}>STR Mod</option>
+            <option value="dex" {{#if (eq system.tempBars.slotsFormula "dex")}}selected{{/if}}>DEX Mod</option>
+            <option value="cha" {{#if (eq system.tempBars.slotsFormula "cha")}}selected{{/if}}>CHA Mod</option>
+            <option value="int" {{#if (eq system.tempBars.slotsFormula "int")}}selected{{/if}}>INT Mod</option>
+            <option value="1" {{#if (eq system.tempBars.slotsFormula "1")}}selected{{/if}}>Fixed 1 Bar</option>
+            <option value="2" {{#if (eq system.tempBars.slotsFormula "2")}}selected{{/if}}>Fixed 2 Bars</option>
+          </select>
+        </div>
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label">Base HP Per Bar</span>
+          <input class="dcc-field-input" type="number" name="system.tempBars.hpPerSlot" value="{{system.tempBars.hpPerSlot}}" placeholder="2" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1.5;">
+          <span class="dcc-field-label">Elemental Damage Absorption</span>
+          <select class="dcc-field-input" name="system.area.absorbElement" style="font-size: 11px;">
+            <option value="">-- None / General Absorption --</option>
+            {{#each damageTypes as |dt|}}
+              <option value="{{dt}}" {{#if (eq ../system.area.absorbElement dt)}}selected{{/if}}>{{dt}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+    </div>
+
+    {{!-- Enemy Hazard / Periodic Aura Damage Sub-Block --}}
+    <div class="dcc-rank-break-card" style="border: 1px solid #ddd; border-left: 4px solid #c0392b; background: #fff; padding: 6px; border-radius: 3px;">
+      <div style="font-weight: bold; font-size: 11px; color: #c0392b; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between;">
+        <span><i class="fa-solid fa-burst"></i> Enemy Hazard (Periodic Damage & Debuffs in Radius)</span>
+        <label style="font-size: 10px; font-weight: normal; color: #333; display: flex; align-items: center; gap: 4px; cursor: pointer;">
+          <input type="checkbox" name="system.area.hasPeriodicDamage" {{#if system.area.hasPeriodicDamage}}checked{{/if}} />
+          <span>Enable Periodic Aura Damage</span>
+        </label>
+      </div>
+      <div class="dcc-field-row" style="gap: 6px;">
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label">Tick Damage Formula</span>
+          <input class="dcc-field-input" type="text" name="system.area.periodicDamageFormula" value="{{system.area.periodicDamageFormula}}" placeholder="e.g. 1d6" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label">Damage Element</span>
+          <select class="dcc-field-input" name="system.area.periodicDamageType" style="font-size: 11px;">
+            <option value="">-- Damage Type --</option>
+            {{#each damageTypes as |dt|}}
+              <option value="{{dt}}" {{#if (eq ../system.area.periodicDamageType dt)}}selected{{/if}}>{{dt}}</option>
+            {{/each}}
+          </select>
+        </div>
+        <div class="dcc-field-group" style="flex: 1.5;">
+          <span class="dcc-field-label">Inflict Debuff in Radius</span>
+          <select class="dcc-field-input" name="system.area.inflictDebuff" style="font-size: 11px;">
+            <option value="">-- None --</option>
+            {{#each availableDebuffs as |deb|}}
+              <option value="{{deb.name}}" {{#if (eq ../system.area.inflictDebuff deb.name)}}selected{{/if}}>{{deb.name}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</details>
+
+{{!-- CONTESTED / OPPOSED CHECK CONFIGURATION (COLLAPSIBLE WITH PROGRESSIVE DISCLOSURE) --}}
+<details class="dcc-collapsible-block" {{#if hasContestConfigured}}open{{/if}}>
+  <summary class="dcc-collapsible-summary" style="background: #6c3483;">
+    <span class="dcc-collapsible-title"><i class="fa-solid fa-chevron-right dcc-chevron"></i> <i class="fa-solid fa-scale-balanced"></i> CONTESTED / OPPOSED CHECK CONFIGURATION</span>
+    <span class="dcc-toggle-indicator {{#if hasContestConfigured}}active{{/if}}">{{#if hasContestConfigured}}[CONTEST CONFIGURED]{{else}}[CLICK TO CONFIGURE CONTEST / OPPOSED CHECK]{{/if}}</span>
+  </summary>
+  <div class="dcc-collapsible-content">
+    <div class="dcc-field-row" style="margin-bottom: 6px; align-items: center; gap: 8px; flex-wrap: wrap;">
+      <label style="display: flex; align-items: center; gap: 4px; font-weight: bold; font-size: 11px; cursor: pointer; color: #6c3483;">
+        <input type="checkbox" name="system.contest.hasContest" {{#if system.contest.hasContest}}checked{{/if}} style="width: 16px; height: 16px;" />
+        <span>Enable Contested / Opposed Check</span>
+      </label>
+      <div class="dcc-field-group small" style="flex: 1.2;">
+        <span class="dcc-field-label">Contest Type</span>
+        <select class="dcc-field-input" name="system.contest.contestType" style="font-size: 11px; font-weight: bold;">
+          {{#each contestTypes as |ct|}}
+            <option value="{{ct.id}}" {{#if (eq (or ../system.contest.contestType "dc") ct.id)}}selected{{/if}}>{{ct.label}}</option>
+          {{/each}}
+        </select>
+      </div>
+      <div class="dcc-field-group small" style="flex: 1;">
+        <span class="dcc-field-label">Target Opposing Stat</span>
+        <select class="dcc-field-input" name="system.contest.targetStat" style="font-size: 11px; font-weight: bold;">
+          {{#each contestStats as |cs|}}
+            <option value="{{cs.id}}" {{#if (eq (or ../system.contest.targetStat "dex") cs.id)}}selected{{/if}}>{{cs.label}}</option>
+          {{/each}}
+        </select>
+      </div>
+      <div class="dcc-field-group small" style="flex: 1.2;">
+        <span class="dcc-field-label">Target Opposing Skill (Optional)</span>
+        <input class="dcc-field-input" type="text" name="system.contest.targetSkill" value="{{system.contest.targetSkill}}" placeholder="e.g. Escape Artist, Perception" list="dcc-all-skills-list" style="font-size: 11px;" />
+      </div>
+    </div>
+    <div class="dcc-field-row" style="margin-bottom: 6px; gap: 8px; flex-wrap: wrap;">
+      <div class="dcc-field-group small" style="flex: 1;">
+        <span class="dcc-field-label">Custom Override DC (0 = 10 + Rank + Stat Mod)</span>
+        <input class="dcc-field-input" type="number" name="system.contest.customDC" value="{{system.contest.customDC}}" placeholder="0" min="0" style="font-size: 11px;" />
+      </div>
+      <div class="dcc-field-group small" style="flex: 1.5;">
+        <span class="dcc-field-label">On-Fail Target Debuff</span>
+        <select class="dcc-field-input" name="system.contest.onFailDebuff" style="font-size: 11px;">
+          <option value="">-- None --</option>
+          {{#each availableDebuffs as |deb|}}
+            <option value="{{deb.name}}" {{#if (eq ../system.contest.onFailDebuff deb.name)}}selected{{/if}}>{{deb.name}}</option>
+          {{/each}}
+        </select>
+      </div>
+    </div>
+    <div class="dcc-field-row" style="margin-bottom: 4px; gap: 8px;">
+      <div class="dcc-field-group" style="flex: 1; margin-bottom: 0;">
+        <span class="dcc-field-label">Target Failure Consequences / Notes</span>
+        <input class="dcc-field-input" type="text" name="system.contest.onFailNotes" value="{{system.contest.onFailNotes}}" placeholder="e.g. Target is restrained and takes 1 bar per round until broken" style="font-size: 11px;" />
+      </div>
+      <div class="dcc-field-group" style="flex: 1; margin-bottom: 0;">
+        <span class="dcc-field-label">Target Success Consequences / Notes</span>
+        <input class="dcc-field-input" type="text" name="system.contest.onSuccessNotes" value="{{system.contest.onSuccessNotes}}" placeholder="e.g. Target resists effect or takes half damage" style="font-size: 11px;" />
+      </div>
+    </div>
+  </div>
+</details>
+
+{{!-- RANK MILESTONES & BREAK CONFIGURATIONS (RANKS 1–20) (COLLAPSIBLE WITH PROGRESSIVE DISCLOSURE) --}}
+<details class="dcc-collapsible-block" {{#if hasRankBreaksConfigured}}open{{/if}}>
+  <summary class="dcc-collapsible-summary">
+    <span class="dcc-collapsible-title"><i class="fa-solid fa-chevron-right dcc-chevron"></i> <i class="fa-solid fa-layer-group"></i> RANK BREAK CONFIGURATIONS (MILESTONES 1–20)</span>
+    <span class="dcc-toggle-indicator {{#if hasRankBreaksConfigured}}active{{/if}}">{{#if hasRankBreaksConfigured}}[RANK BREAKS CONFIGURED]{{else}}[CLICK TO CONFIGURE MILESTONE BREAKS]{{/if}}</span>
+  </summary>
+  <div class="dcc-collapsible-content">
+    {{!-- Break 1 --}}
     <div class="dcc-rank-break-card" style="margin-bottom: 8px; border: 1px solid #ddd; border-left: 4px solid #196f3d; background: #fff; padding: 6px; border-radius: 3px;">
-      <div style="font-weight: bold; font-size: 11px; color: #196f3d; margin-bottom: 4px;">
-        <i class="fa-solid fa-medal"></i> Rank 5 Break
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+        <div style="font-weight: bold; font-size: 11px; color: #196f3d; display: flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-medal"></i> Milestone Break
+          <label style="display: inline-flex; align-items: center; gap: 4px; font-weight: normal; color: #333;">
+            <span style="font-size: 11px;">Rank:</span>
+            <select name="system.rankBreaks.rank5.rank" style="font-size: 11px; font-weight: bold; padding: 1px 4px; border: 1px solid #196f3d; border-radius: 3px; color: #196f3d;">
+              {{#each availableRanks as |r|}}
+                <option value="{{r}}" {{#if (eq (or ../system.rankBreaks.rank5.rank 5) r)}}selected{{/if}}>Rank {{r}}</option>
+              {{/each}}
+            </select>
+          </label>
+        </div>
       </div>
       <div class="dcc-field-row" style="margin-bottom: 4px; gap: 6px;">
         <div class="dcc-field-group" style="flex: 1;">
@@ -208,6 +522,10 @@
         <div class="dcc-field-group" style="flex: 1;">
           <span class="dcc-field-label">Add'l Rank Damage Dies</span>
           <input class="dcc-field-input" type="number" name="system.rankBreaks.rank5.rankDamageDice" value="{{system.rankBreaks.rank5.rankDamageDice}}" placeholder="0" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-burst" style="color: #c0392b;"></i> Crit Multiplier</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank5.critMultiplier" value="{{#if system.rankBreaks.rank5.critMultiplier}}{{system.rankBreaks.rank5.critMultiplier}}{{else}}1{{/if}}" placeholder="1" min="1" style="font-size: 11px;" title="Critical Hit Multiplier (e.g. 2x, 4x, 8x)" />
         </div>
         <div class="dcc-field-group" style="flex: 1.5;">
           <span class="dcc-field-label">Buffs / Resistances</span>
@@ -223,16 +541,68 @@
           </select>
         </div>
       </div>
+      <div class="dcc-field-row" style="margin-bottom: 4px; gap: 6px; align-items: center; flex-wrap: wrap;">
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-circle-notch"></i> + Radius Bonus (ft)</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank5.area.radiusBonus" value="{{system.rankBreaks.rank5.area.radiusBonus}}" placeholder="0" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-shield-halved"></i> Upgraded Temp HP/Bar</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank5.tempBars.hpPerSlot" value="{{system.rankBreaks.rank5.tempBars.hpPerSlot}}" placeholder="0" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-heart-pulse" style="color: #27ae60;"></i> + Healing Bars</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank5.healing.barsBonus" value="{{system.rankBreaks.rank5.healing.barsBonus}}" placeholder="0" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1.5;">
+          <span class="dcc-field-label"><i class="fa-solid fa-sparkles" style="color: #16a085;"></i> Cleanse Debuff</span>
+          <select class="dcc-field-input" name="system.rankBreaks.rank5.healing.cleanseDebuff" style="font-size: 11px;">
+            <option value="">-- None --</option>
+            {{#each availableDebuffs as |deb|}}
+              <option value="{{deb.name}}" {{#if (eq ../system.rankBreaks.rank5.healing.cleanseDebuff deb.name)}}selected{{/if}}>{{deb.name}}</option>
+            {{/each}}
+          </select>
+        </div>
+        <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: bold; cursor: pointer; margin-top: 10px;">
+          <input type="checkbox" name="system.rankBreaks.rank5.isArmorPiercing" {{#if system.rankBreaks.rank5.isArmorPiercing}}checked{{/if}} style="width: 14px; height: 14px;" />
+          <span>Armor Piercing</span>
+        </label>
+      </div>
+      <div class="dcc-field-row" style="margin-bottom: 4px; gap: 6px; align-items: center; flex-wrap: wrap;">
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-scale-balanced" style="color: #6c3483;"></i> + Contest DC Bonus</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank5.contest.dcBonus" value="{{system.rankBreaks.rank5.contest.dcBonus}}" placeholder="0" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1.5;">
+          <span class="dcc-field-label"><i class="fa-solid fa-skull" style="color: #6c3483;"></i> Upgraded Fail Debuff</span>
+          <select class="dcc-field-input" name="system.rankBreaks.rank5.contest.onFailDebuff" style="font-size: 11px;">
+            <option value="">-- Keep Base --</option>
+            {{#each availableDebuffs as |deb|}}
+              <option value="{{deb.name}}" {{#if (eq ../system.rankBreaks.rank5.contest.onFailDebuff deb.name)}}selected{{/if}}>{{deb.name}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
       <div class="dcc-field-group" style="margin-bottom: 0;">
         <span class="dcc-field-label">Non-Defined Abilities / Milestone Notes</span>
         <input class="dcc-field-input" type="text" name="system.rankBreaks.rank5.notes" value="{{system.rankBreaks.rank5.notes}}" placeholder="e.g. Critical hits deal 4x damage, throw range doubled..." style="font-size: 11px;" />
       </div>
     </div>
 
-    {{!-- Rank 10 --}}
+    {{!-- Break 2 --}}
     <div class="dcc-rank-break-card" style="margin-bottom: 8px; border: 1px solid #ddd; border-left: 4px solid #1a5276; background: #fff; padding: 6px; border-radius: 3px;">
-      <div style="font-weight: bold; font-size: 11px; color: #1a5276; margin-bottom: 4px;">
-        <i class="fa-solid fa-medal"></i> Rank 10 Break
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+        <div style="font-weight: bold; font-size: 11px; color: #1a5276; display: flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-medal"></i> Milestone Break
+          <label style="display: inline-flex; align-items: center; gap: 4px; font-weight: normal; color: #333;">
+            <span style="font-size: 11px;">Rank:</span>
+            <select name="system.rankBreaks.rank10.rank" style="font-size: 11px; font-weight: bold; padding: 1px 4px; border: 1px solid #1a5276; border-radius: 3px; color: #1a5276;">
+              {{#each availableRanks as |r|}}
+                <option value="{{r}}" {{#if (eq (or ../system.rankBreaks.rank10.rank 10) r)}}selected{{/if}}>Rank {{r}}</option>
+              {{/each}}
+            </select>
+          </label>
+        </div>
       </div>
       <div class="dcc-field-row" style="margin-bottom: 4px; gap: 6px;">
         <div class="dcc-field-group" style="flex: 1;">
@@ -246,6 +616,10 @@
         <div class="dcc-field-group" style="flex: 1;">
           <span class="dcc-field-label">Add'l Rank Damage Dies</span>
           <input class="dcc-field-input" type="number" name="system.rankBreaks.rank10.rankDamageDice" value="{{system.rankBreaks.rank10.rankDamageDice}}" placeholder="0" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-burst" style="color: #c0392b;"></i> Crit Multiplier</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank10.critMultiplier" value="{{#if system.rankBreaks.rank10.critMultiplier}}{{system.rankBreaks.rank10.critMultiplier}}{{else}}1{{/if}}" placeholder="1" min="1" style="font-size: 11px;" title="Critical Hit Multiplier (e.g. 2x, 4x, 8x)" />
         </div>
         <div class="dcc-field-group" style="flex: 1.5;">
           <span class="dcc-field-label">Buffs / Resistances</span>
@@ -261,16 +635,68 @@
           </select>
         </div>
       </div>
+      <div class="dcc-field-row" style="margin-bottom: 4px; gap: 6px; align-items: center; flex-wrap: wrap;">
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-circle-notch"></i> + Radius Bonus (ft)</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank10.area.radiusBonus" value="{{system.rankBreaks.rank10.area.radiusBonus}}" placeholder="5" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-shield-halved"></i> Upgraded Temp HP/Bar</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank10.tempBars.hpPerSlot" value="{{system.rankBreaks.rank10.tempBars.hpPerSlot}}" placeholder="6" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-heart-pulse" style="color: #27ae60;"></i> + Healing Bars</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank10.healing.barsBonus" value="{{system.rankBreaks.rank10.healing.barsBonus}}" placeholder="0" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1.5;">
+          <span class="dcc-field-label"><i class="fa-solid fa-sparkles" style="color: #16a085;"></i> Cleanse Debuff</span>
+          <select class="dcc-field-input" name="system.rankBreaks.rank10.healing.cleanseDebuff" style="font-size: 11px;">
+            <option value="">-- None --</option>
+            {{#each availableDebuffs as |deb|}}
+              <option value="{{deb.name}}" {{#if (eq ../system.rankBreaks.rank10.healing.cleanseDebuff deb.name)}}selected{{/if}}>{{deb.name}}</option>
+            {{/each}}
+          </select>
+        </div>
+        <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: bold; cursor: pointer; margin-top: 10px;">
+          <input type="checkbox" name="system.rankBreaks.rank10.isArmorPiercing" {{#if system.rankBreaks.rank10.isArmorPiercing}}checked{{/if}} style="width: 14px; height: 14px;" />
+          <span>Armor Piercing</span>
+        </label>
+      </div>
+      <div class="dcc-field-row" style="margin-bottom: 4px; gap: 6px; align-items: center; flex-wrap: wrap;">
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-scale-balanced" style="color: #6c3483;"></i> + Contest DC Bonus</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank10.contest.dcBonus" value="{{system.rankBreaks.rank10.contest.dcBonus}}" placeholder="0" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1.5;">
+          <span class="dcc-field-label"><i class="fa-solid fa-skull" style="color: #6c3483;"></i> Upgraded Fail Debuff</span>
+          <select class="dcc-field-input" name="system.rankBreaks.rank10.contest.onFailDebuff" style="font-size: 11px;">
+            <option value="">-- Keep Base --</option>
+            {{#each availableDebuffs as |deb|}}
+              <option value="{{deb.name}}" {{#if (eq ../system.rankBreaks.rank10.contest.onFailDebuff deb.name)}}selected{{/if}}>{{deb.name}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
       <div class="dcc-field-group" style="margin-bottom: 0;">
         <span class="dcc-field-label">Non-Defined Abilities / Milestone Notes</span>
         <input class="dcc-field-input" type="text" name="system.rankBreaks.rank10.notes" value="{{system.rankBreaks.rank10.notes}}" placeholder="e.g. Inflicts bleeding debuff, party members roll untrained normally..." style="font-size: 11px;" />
       </div>
     </div>
 
-    {{!-- Rank 15 --}}
+    {{!-- Break 3 --}}
     <div class="dcc-rank-break-card" style="margin-bottom: 8px; border: 1px solid #ddd; border-left: 4px solid #6c3483; background: #fff; padding: 6px; border-radius: 3px;">
-      <div style="font-weight: bold; font-size: 11px; color: #6c3483; margin-bottom: 4px;">
-        <i class="fa-solid fa-medal"></i> Rank 15 Break
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+        <div style="font-weight: bold; font-size: 11px; color: #6c3483; display: flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-medal"></i> Milestone Break
+          <label style="display: inline-flex; align-items: center; gap: 4px; font-weight: normal; color: #333;">
+            <span style="font-size: 11px;">Rank:</span>
+            <select name="system.rankBreaks.rank15.rank" style="font-size: 11px; font-weight: bold; padding: 1px 4px; border: 1px solid #6c3483; border-radius: 3px; color: #6c3483;">
+              {{#each availableRanks as |r|}}
+                <option value="{{r}}" {{#if (eq (or ../system.rankBreaks.rank15.rank 15) r)}}selected{{/if}}>Rank {{r}}</option>
+              {{/each}}
+            </select>
+          </label>
+        </div>
       </div>
       <div class="dcc-field-row" style="margin-bottom: 4px; gap: 6px;">
         <div class="dcc-field-group" style="flex: 1;">
@@ -284,6 +710,10 @@
         <div class="dcc-field-group" style="flex: 1;">
           <span class="dcc-field-label">Add'l Rank Damage Dies</span>
           <input class="dcc-field-input" type="number" name="system.rankBreaks.rank15.rankDamageDice" value="{{system.rankBreaks.rank15.rankDamageDice}}" placeholder="0" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-burst" style="color: #c0392b;"></i> Crit Multiplier</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank15.critMultiplier" value="{{#if system.rankBreaks.rank15.critMultiplier}}{{system.rankBreaks.rank15.critMultiplier}}{{else}}1{{/if}}" placeholder="1" min="1" style="font-size: 11px;" title="Critical Hit Multiplier (e.g. 2x, 4x, 8x)" />
         </div>
         <div class="dcc-field-group" style="flex: 1.5;">
           <span class="dcc-field-label">Buffs / Resistances</span>
@@ -299,16 +729,68 @@
           </select>
         </div>
       </div>
+      <div class="dcc-field-row" style="margin-bottom: 4px; gap: 6px; align-items: center; flex-wrap: wrap;">
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-circle-notch"></i> + Radius Bonus (ft)</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank15.area.radiusBonus" value="{{system.rankBreaks.rank15.area.radiusBonus}}" placeholder="10" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-shield-halved"></i> Upgraded Temp HP/Bar</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank15.tempBars.hpPerSlot" value="{{system.rankBreaks.rank15.tempBars.hpPerSlot}}" placeholder="8" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-heart-pulse" style="color: #27ae60;"></i> + Healing Bars</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank15.healing.barsBonus" value="{{system.rankBreaks.rank15.healing.barsBonus}}" placeholder="0" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1.5;">
+          <span class="dcc-field-label"><i class="fa-solid fa-sparkles" style="color: #16a085;"></i> Cleanse Debuff</span>
+          <select class="dcc-field-input" name="system.rankBreaks.rank15.healing.cleanseDebuff" style="font-size: 11px;">
+            <option value="">-- None --</option>
+            {{#each availableDebuffs as |deb|}}
+              <option value="{{deb.name}}" {{#if (eq ../system.rankBreaks.rank15.healing.cleanseDebuff deb.name)}}selected{{/if}}>{{deb.name}}</option>
+            {{/each}}
+          </select>
+        </div>
+        <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: bold; cursor: pointer; margin-top: 10px;">
+          <input type="checkbox" name="system.rankBreaks.rank15.isArmorPiercing" {{#if system.rankBreaks.rank15.isArmorPiercing}}checked{{/if}} style="width: 14px; height: 14px;" />
+          <span>Armor Piercing</span>
+        </label>
+      </div>
+      <div class="dcc-field-row" style="margin-bottom: 4px; gap: 6px; align-items: center; flex-wrap: wrap;">
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-scale-balanced" style="color: #6c3483;"></i> + Contest DC Bonus</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank15.contest.dcBonus" value="{{system.rankBreaks.rank15.contest.dcBonus}}" placeholder="0" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1.5;">
+          <span class="dcc-field-label"><i class="fa-solid fa-skull" style="color: #6c3483;"></i> Upgraded Fail Debuff</span>
+          <select class="dcc-field-input" name="system.rankBreaks.rank15.contest.onFailDebuff" style="font-size: 11px;">
+            <option value="">-- Keep Base --</option>
+            {{#each availableDebuffs as |deb|}}
+              <option value="{{deb.name}}" {{#if (eq ../system.rankBreaks.rank15.contest.onFailDebuff deb.name)}}selected{{/if}}>{{deb.name}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
       <div class="dcc-field-group" style="margin-bottom: 0;">
         <span class="dcc-field-label">Non-Defined Abilities / Milestone Notes</span>
         <input class="dcc-field-input" type="text" name="system.rankBreaks.rank15.notes" value="{{system.rankBreaks.rank15.notes}}" placeholder="e.g. Critical hits deal 8x damage, grants second bonus surprise action..." style="font-size: 11px;" />
       </div>
     </div>
 
-    {{!-- Rank 20 --}}
+    {{!-- Break 4 --}}
     <div class="dcc-rank-break-card" style="margin-bottom: 0; border: 1px solid #ddd; border-left: 4px solid #873600; background: #fff; padding: 6px; border-radius: 3px;">
-      <div style="font-weight: bold; font-size: 11px; color: #873600; margin-bottom: 4px;">
-        <i class="fa-solid fa-trophy"></i> Rank 20 Break
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+        <div style="font-weight: bold; font-size: 11px; color: #873600; display: flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-trophy"></i> Milestone Break
+          <label style="display: inline-flex; align-items: center; gap: 4px; font-weight: normal; color: #333;">
+            <span style="font-size: 11px;">Rank:</span>
+            <select name="system.rankBreaks.rank20.rank" style="font-size: 11px; font-weight: bold; padding: 1px 4px; border: 1px solid #873600; border-radius: 3px; color: #873600;">
+              {{#each availableRanks as |r|}}
+                <option value="{{r}}" {{#if (eq (or ../system.rankBreaks.rank20.rank 20) r)}}selected{{/if}}>Rank {{r}}</option>
+              {{/each}}
+            </select>
+          </label>
+        </div>
       </div>
       <div class="dcc-field-row" style="margin-bottom: 4px; gap: 6px;">
         <div class="dcc-field-group" style="flex: 1;">
@@ -323,6 +805,10 @@
           <span class="dcc-field-label">Add'l Rank Damage Dies</span>
           <input class="dcc-field-input" type="number" name="system.rankBreaks.rank20.rankDamageDice" value="{{system.rankBreaks.rank20.rankDamageDice}}" placeholder="0" min="0" style="font-size: 11px;" />
         </div>
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-burst" style="color: #c0392b;"></i> Crit Multiplier</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank20.critMultiplier" value="{{#if system.rankBreaks.rank20.critMultiplier}}{{system.rankBreaks.rank20.critMultiplier}}{{else}}1{{/if}}" placeholder="1" min="1" style="font-size: 11px;" title="Critical Hit Multiplier (e.g. 2x, 4x, 8x)" />
+        </div>
         <div class="dcc-field-group" style="flex: 1.5;">
           <span class="dcc-field-label">Buffs / Resistances</span>
           <input class="dcc-field-input" type="text" name="system.rankBreaks.rank20.buffsResistances" value="{{system.rankBreaks.rank20.buffsResistances}}" placeholder="e.g. Universal Damage Resistance" style="font-size: 11px;" />
@@ -333,6 +819,48 @@
             <option value="">-- None --</option>
             {{#each availableDebuffs as |deb|}}
               <option value="{{deb.name}}" {{#if (eq ../system.rankBreaks.rank20.debuff deb.name)}}selected{{/if}}>{{deb.name}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+      <div class="dcc-field-row" style="margin-bottom: 4px; gap: 6px; align-items: center; flex-wrap: wrap;">
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-circle-notch"></i> + Radius Bonus (ft)</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank20.area.radiusBonus" value="{{system.rankBreaks.rank20.area.radiusBonus}}" placeholder="15" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-shield-halved"></i> Upgraded Temp HP/Bar</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank20.tempBars.hpPerSlot" value="{{system.rankBreaks.rank20.tempBars.hpPerSlot}}" placeholder="10" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-heart-pulse" style="color: #27ae60;"></i> + Healing Bars</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank20.healing.barsBonus" value="{{system.rankBreaks.rank20.healing.barsBonus}}" placeholder="0" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1.5;">
+          <span class="dcc-field-label"><i class="fa-solid fa-sparkles" style="color: #16a085;"></i> Cleanse Debuff</span>
+          <select class="dcc-field-input" name="system.rankBreaks.rank20.healing.cleanseDebuff" style="font-size: 11px;">
+            <option value="">-- None --</option>
+            {{#each availableDebuffs as |deb|}}
+              <option value="{{deb.name}}" {{#if (eq ../system.rankBreaks.rank20.healing.cleanseDebuff deb.name)}}selected{{/if}}>{{deb.name}}</option>
+            {{/each}}
+          </select>
+        </div>
+        <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: bold; cursor: pointer; margin-top: 10px;">
+          <input type="checkbox" name="system.rankBreaks.rank20.isArmorPiercing" {{#if system.rankBreaks.rank20.isArmorPiercing}}checked{{/if}} style="width: 14px; height: 14px;" />
+          <span>Armor Piercing</span>
+        </label>
+      </div>
+      <div class="dcc-field-row" style="margin-bottom: 4px; gap: 6px; align-items: center; flex-wrap: wrap;">
+        <div class="dcc-field-group" style="flex: 1;">
+          <span class="dcc-field-label"><i class="fa-solid fa-scale-balanced" style="color: #6c3483;"></i> + Contest DC Bonus</span>
+          <input class="dcc-field-input" type="number" name="system.rankBreaks.rank20.contest.dcBonus" value="{{system.rankBreaks.rank20.contest.dcBonus}}" placeholder="0" min="0" style="font-size: 11px;" />
+        </div>
+        <div class="dcc-field-group" style="flex: 1.5;">
+          <span class="dcc-field-label"><i class="fa-solid fa-skull" style="color: #6c3483;"></i> Upgraded Fail Debuff</span>
+          <select class="dcc-field-input" name="system.rankBreaks.rank20.contest.onFailDebuff" style="font-size: 11px;">
+            <option value="">-- Keep Base --</option>
+            {{#each availableDebuffs as |deb|}}
+              <option value="{{deb.name}}" {{#if (eq ../system.rankBreaks.rank20.contest.onFailDebuff deb.name)}}selected{{/if}}>{{deb.name}}</option>
             {{/each}}
           </select>
         </div>

@@ -71,23 +71,23 @@
         </thead>
         <tbody>
           {{#each tagsList as |tag|}}
-            <tr style="border-bottom: 1px solid #eee; {{#if tag.isAssigned}}background: #f4fbf7;{{/if}}">
+            <tr style="border-bottom: 1px solid #eee;">
               {{#if ../targetItem}}
                 <td style="padding: 6px 4px; text-align: center;">
-                  <input type="checkbox" class="dcc-tag-assign-toggle" data-tag-id="{{tag.id}}" {{#if tag.isAssigned}}checked{{/if}} title="Assign {{tag.id}} to {{../targetItem.name}}" style="cursor: pointer; width: 14px; height: 14px;" />
+                  <input type="checkbox" class="dcc-tag-assign-toggle" data-tag-id="{{tag.id}}" {{#if tag.isAssigned}}checked{{/if}} title="Assign {{tag.id}} to {{../targetItem.name}}" />
                 </td>
               {{/if}}
-              <td style="padding: 6px 8px; font-family: monospace; font-weight: bold; color: #1b4f72;">
+              <td class="dcc-tm-tag-id-cell" style="padding: 6px 8px; font-family: monospace; font-weight: bold; color: #1b4f72;">
                 {{tag.id}}
               </td>
               <td style="padding: 6px 8px;">
                 {{tag.label}}
                 {{#if tag.description}}
-                  <div style="font-size: 10px; color: #777;">{{tag.description}}</div>
+                  <div class="dcc-tm-tag-desc" style="font-size: 10px; color: #777;">{{tag.description}}</div>
                 {{/if}}
               </td>
               <td style="padding: 6px 8px;">
-                <span style="display: inline-block; padding: 1px 6px; font-size: 10px; text-transform: uppercase; background: #eaf2f8; border: 1px solid #aed6f1; border-radius: 8px; color: #2980b9;">
+                <span class="dcc-tm-namespace-pill" style="display: inline-block; padding: 1px 6px; font-size: 10px; text-transform: uppercase; background: #eaf2f8; border: 1px solid #aed6f1; border-radius: 8px; color: #2980b9;">
                   {{tag.namespace}}
                 </span>
               </td>
@@ -136,8 +136,8 @@
         <option value="rule">rule</option>
       </select>
       {{#if targetItem}}
-        <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: #2c3e50;">
-          <input type="checkbox" class="dcc-custom-tag-apply-item" checked style="cursor: pointer;" /> Apply to {{targetItem.name}}
+        <label class="dcc-custom-tag-apply-label">
+          <input type="checkbox" class="dcc-custom-tag-apply-item" checked /> Apply to {{targetItem.name}}
         </label>
       {{/if}}
       <button type="button" class="dcc-btn dcc-register-custom-tag-btn" style="background: #27ae60; color: #fff; border: 1px solid #1e8449; padding: 4px 12px; font-family: 'Oswald', sans-serif; font-size: 11px; text-transform: uppercase; cursor: pointer; border-radius: 2px;">

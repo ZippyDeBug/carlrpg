@@ -36,7 +36,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "You may choose one additional willing target up to your size at touch range, who you bring with you."
+          "notes": "You may choose one additional willing target up to your size at touch range, who you bring with you.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -44,7 +49,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "You can fly up to 20 × your Int Mod away with this spell."
+          "notes": "You can fly up to 20 × your Int Mod away with this spell.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -52,7 +62,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "You may choose up to five additional willing targets up to your size at touch range to bring with you."
+          "notes": "You may choose up to five additional willing targets up to your size at touch range to bring with you.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -60,7 +75,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "air-buddy",
@@ -69,7 +89,16 @@ export const DCC_SPELLS = [
         "action.passive",
         "stat.int",
         "favored.mage"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -104,7 +133,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 1,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Your Pugilism and Slice Attacks with the Paw add 1 Astral Paw Rank damage die."
+          "notes": "Your Pugilism and Slice Attacks with the Paw add 1 Astral Paw Rank damage die.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -112,7 +146,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "You can conjure a paw up to four size categories larger than your own, and the range increases to 50 feet."
+          "notes": "You can conjure a paw up to four size categories larger than your own, and the range increases to 50 feet.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -120,7 +159,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The caster no longer suffers Disadvantage when performing suitable Skill Checks using the paw, and the duration is 15 minutes."
+          "notes": "The caster no longer suffers Disadvantage when performing suitable Skill Checks using the paw, and the duration is 15 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -128,7 +172,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "astral-paw",
@@ -136,7 +185,16 @@ export const DCC_SPELLS = [
         "kind.spell",
         "action.passive",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -171,7 +229,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage, +5ft Splash."
+          "notes": "+1d8 base damage, +5ft Splash.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d8",
@@ -179,7 +242,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage, and end all Buffs on the victims for the duration of the combat."
+          "notes": "+1d8 base damage, and end all Buffs on the victims for the duration of the combat.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d8",
@@ -187,7 +255,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage, +5ft Splash."
+          "notes": "+1d8 base damage, +5ft Splash.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -195,7 +268,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "bad-faith",
@@ -205,7 +283,16 @@ export const DCC_SPELLS = [
         "element.necrotic",
         "stat.cha",
         "favored.cleric"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -240,7 +327,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d6 Fire and Electric damage."
+          "notes": "+1d6 Fire and Electric damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d6",
@@ -248,7 +340,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Burned",
-          "notes": "+1d6 Fire and Electric damage, and on an Amazing Success, the target of the weapon attack gains the Burned Debuff."
+          "notes": "+1d6 Fire and Electric damage, and on an Amazing Success, the target of the weapon attack gains the Burned Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d6",
@@ -256,7 +353,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Shocked",
-          "notes": "+1d6 Fire and Electric damage, and on an Amazing Success, the target of the weapon attack also gains the Shocked Debuff."
+          "notes": "+1d6 Fire and Electric damage, and on an Amazing Success, the target of the weapon attack also gains the Shocked Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -264,7 +366,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "bang-bro",
@@ -272,7 +379,16 @@ export const DCC_SPELLS = [
         "kind.spell",
         "action.passive",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -307,7 +423,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Duration is 2 minutes per Rank."
+          "notes": "Duration is 2 minutes per Rank.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -315,7 +436,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Duration is 3 minutes per Rank."
+          "notes": "Duration is 3 minutes per Rank.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -323,7 +449,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "When you command your pet or minion, the clockwork versions follow suit."
+          "notes": "When you command your pet or minion, the clockwork versions follow suit.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -331,7 +462,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "clockwork-triplicate",
@@ -339,7 +475,16 @@ export const DCC_SPELLS = [
         "kind.spell",
         "action.passive",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -374,7 +519,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The fog fills a 50 × 50ft area, and its duration is 1 minute."
+          "notes": "The fog fills a 50 × 50ft area, and its duration is 1 minute.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -382,7 +532,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The fog fills a 100 × 100ft area and lasts for 5 minutes."
+          "notes": "The fog fills a 100 × 100ft area and lasts for 5 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -390,7 +545,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The fog fills a 500 × 500ft area and lasts for 15 minutes."
+          "notes": "The fog fills a 500 × 500ft area and lasts for 15 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -398,7 +558,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "confusing-fog",
@@ -406,7 +571,16 @@ export const DCC_SPELLS = [
         "kind.spell",
         "action.passive",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -441,7 +615,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+2d2 base damage."
+          "notes": "+2d2 base damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d2",
@@ -449,7 +628,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Woozy",
-          "notes": "+1d2 base damage, and the target gains the Woozy Debuff."
+          "notes": "+1d2 base damage, and the target gains the Woozy Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d2",
@@ -457,7 +641,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 1,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d2 base damage, and 1 Rank damage die."
+          "notes": "+1d2 base damage, and 1 Rank damage die.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -465,7 +654,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "dirt-clod",
@@ -474,7 +668,16 @@ export const DCC_SPELLS = [
         "action.attack",
         "element.bludgeoning",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -509,7 +712,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d6 base damage, and if the target loses at least 3 Health Bar slots, you heal 1 Health Bar slot."
+          "notes": "+1d6 base damage, and if the target loses at least 3 Health Bar slots, you heal 1 Health Bar slot.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d6",
@@ -517,7 +725,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+1 Hea",
           "debuff": "",
-          "notes": "+1d6 base damage, and if you heal this way, heal +1 Health Bar slot."
+          "notes": "+1d6 base damage, and if you heal this way, heal +1 Health Bar slot.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d6",
@@ -525,7 +738,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+1 Hea",
           "debuff": "",
-          "notes": "+1d6 base damage, and if you heal this way, heal +1 Health Bar slot."
+          "notes": "+1d6 base damage, and if you heal this way, heal +1 Health Bar slot.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -533,7 +751,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "drain-life",
@@ -542,7 +765,16 @@ export const DCC_SPELLS = [
         "action.attack",
         "element.necrotic",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -577,7 +809,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d6 base damage."
+          "notes": "+1d6 base damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d6",
@@ -585,7 +822,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Queasy",
-          "notes": "+1d6 base damage, and the target gains the Queasy Debuff."
+          "notes": "+1d6 base damage, and the target gains the Queasy Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d6",
@@ -593,7 +835,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d6 base damage and +10ft Splash."
+          "notes": "+1d6 base damage and +10ft Splash.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -601,7 +848,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "earworm",
@@ -611,7 +863,16 @@ export const DCC_SPELLS = [
         "element.sonic",
         "stat.cha",
         "favored.bard"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -646,7 +907,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Affects non-Boss Mobs up to your full level."
+          "notes": "Affects non-Boss Mobs up to your full level.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -654,7 +920,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The target drops whatever it is holding in terror on any success."
+          "notes": "The target drops whatever it is holding in terror on any success.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -662,7 +933,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Paralyzed",
-          "notes": "Targets who fail their check are completely paralyzed with Fear for 1 round."
+          "notes": "Targets who fail their check are completely paralyzed with Fear for 1 round.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -670,7 +946,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "fear",
@@ -679,7 +960,16 @@ export const DCC_SPELLS = [
         "action.attack",
         "rule.mind-control",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -714,7 +1004,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage."
+          "notes": "+1d4 base damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d4",
@@ -722,7 +1017,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Burned",
-          "notes": "+1d4 base damage, and the target gains the Burned Debuff."
+          "notes": "+1d4 base damage, and the target gains the Burned Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d4",
@@ -730,7 +1030,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 1,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage, and your hands begin to intermittently burn. Your Pugilism, Unarmed Combat, and Slice Attack strikes add 1 Fire Fingers Rank damage die (Fire)."
+          "notes": "+1d4 base damage, and your hands begin to intermittently burn. Your Pugilism, Unarmed Combat, and Slice Attack strikes add 1 Fire Fingers Rank damage die (Fire).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -738,7 +1043,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "fire-fingers",
@@ -747,7 +1057,16 @@ export const DCC_SPELLS = [
         "action.attack",
         "element.fire",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -782,7 +1101,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Burned",
-          "notes": "+1d12 base damage. Those who lose 1 or more Health Bar slots via this attack gain the Burned Debuff."
+          "notes": "+1d12 base damage. Those who lose 1 or more Health Bar slots via this attack gain the Burned Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d12",
@@ -790,7 +1114,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d12 base damage and becomes an 80ft Line attack (and keeps the Blast)."
+          "notes": "+1d12 base damage and becomes an 80ft Line attack (and keeps the Blast).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d12",
@@ -798,7 +1127,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d12 base damage and +40ft Splash (on the Blast)."
+          "notes": "+1d12 base damage and +40ft Splash (on the Blast).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -806,7 +1140,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "fireball",
@@ -816,7 +1155,16 @@ export const DCC_SPELLS = [
         "element.fire",
         "shape.aoe",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -851,7 +1199,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage, and the target cannot heal themselves in the next combat round."
+          "notes": "+1d4 base damage, and the target cannot heal themselves in the next combat round.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d4",
@@ -859,7 +1212,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Stiff Legs",
-          "notes": "+1d4 base damage, and the target gains the Stiff Legs Debuff."
+          "notes": "+1d4 base damage, and the target gains the Stiff Legs Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d4",
@@ -867,7 +1225,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "The Taint",
-          "notes": "+1d4 base damage, and the target gains The Taint Debuff."
+          "notes": "+1d4 base damage, and the target gains The Taint Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -875,7 +1238,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "frost-scar",
@@ -884,7 +1252,16 @@ export const DCC_SPELLS = [
         "action.attack",
         "element.ice",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -919,7 +1296,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Woozy",
-          "notes": "Those who believe gain the Woozy Debuff or similar based on the desired response."
+          "notes": "Those who believe gain the Woozy Debuff or similar based on the desired response.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -927,7 +1309,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Queasy",
-          "notes": "Those who believe also gain the Queasy Debuff or similar based on the desired response."
+          "notes": "Those who believe also gain the Queasy Debuff or similar based on the desired response.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -935,7 +1322,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Shocked",
-          "notes": "Those who believe also gain the Shocked Debuff or similar based on the desired response."
+          "notes": "Those who believe also gain the Shocked Debuff or similar based on the desired response.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -943,7 +1335,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "grand-illusion",
@@ -951,7 +1348,16 @@ export const DCC_SPELLS = [
         "kind.spell",
         "action.passive",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -986,7 +1392,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "None"
+          "notes": "None",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -994,7 +1405,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "None"
+          "notes": "None",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -1002,7 +1418,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "None"
+          "notes": "None",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1010,7 +1431,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "heal",
@@ -1020,7 +1446,16 @@ export const DCC_SPELLS = [
         "action.interrupt",
         "action.heal",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": true,
+        "barsFormula": "2",
+        "targetFilter": "self",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1055,7 +1490,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The target mends a Minor Injury Debuff."
+          "notes": "The target mends a Minor Injury Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -1063,7 +1503,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The target mends a Major Injury Debuff."
+          "notes": "The target mends a Major Injury Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -1071,7 +1516,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The target regrows all lost appendages."
+          "notes": "The target regrows all lost appendages.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1079,7 +1529,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "heal-critter",
@@ -1089,7 +1544,16 @@ export const DCC_SPELLS = [
         "action.interrupt",
         "action.heal",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": true,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1124,7 +1588,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The target heals 1d6 Health Bar slots."
+          "notes": "The target heals 1d6 Health Bar slots.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -1132,7 +1601,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The target heals 2d6 Health Bar slots."
+          "notes": "The target heals 2d6 Health Bar slots.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -1140,7 +1614,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Instead of a single target, all party members within a 20ft Burst radius are healed."
+          "notes": "Instead of a single target, all party members within a 20ft Burst radius are healed.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1148,7 +1627,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "heal-others",
@@ -1158,7 +1642,16 @@ export const DCC_SPELLS = [
         "action.interrupt",
         "action.heal",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": true,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1193,7 +1686,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "You heal 1d6 Health Bar slots and mend a Minor Injury, Poison, or Disease Debuff."
+          "notes": "You heal 1d6 Health Bar slots and mend a Minor Injury, Poison, or Disease Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -1201,7 +1699,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "You heal 2d6 Health Bar slots and mend a Major Injury or other Debuff."
+          "notes": "You heal 2d6 Health Bar slots and mend a Major Injury or other Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -1209,7 +1712,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "You heal to full and gain the benefits of a short rest."
+          "notes": "You heal to full and gain the benefits of a short rest.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1217,7 +1725,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "heal-self",
@@ -1227,7 +1740,16 @@ export const DCC_SPELLS = [
         "action.interrupt",
         "action.heal",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": true,
+        "barsFormula": "2",
+        "targetFilter": "self",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1262,7 +1784,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "You can reduce the diameter of the hole to a smaller size when cast."
+          "notes": "You can reduce the diameter of the hole to a smaller size when cast.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -1270,7 +1797,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "You can widen the hole’s diameter by 1 inch for every inch of depth you sacrifice when cast."
+          "notes": "You can widen the hole’s diameter by 1 inch for every inch of depth you sacrifice when cast.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -1278,7 +1810,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The caster may end the spell with a thought (like an Interrupt, but it doesn’t cost an Action). Anything in the hole at that time is destroyed."
+          "notes": "The caster may end the spell with a thought (like an Interrupt, but it doesn’t cost an Action). Anything in the hole at that time is destroyed.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1286,7 +1823,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "hole",
@@ -1294,7 +1836,16 @@ export const DCC_SPELLS = [
         "kind.spell",
         "action.passive",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1329,7 +1880,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage, and affected undead Mobs take double damage."
+          "notes": "+1d4 base damage, and affected undead Mobs take double damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d4",
@@ -1337,7 +1893,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage and +5ft Burst radius."
+          "notes": "+1d4 base damage and +5ft Burst radius.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d4",
@@ -1345,7 +1906,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage and +5ft Burst radius."
+          "notes": "+1d4 base damage and +5ft Burst radius.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1353,7 +1919,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "holy-aura",
@@ -1365,7 +1936,16 @@ export const DCC_SPELLS = [
         "stat.cha",
         "favored.cleric",
         "favored.paladin"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1401,8 +1981,15 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "tempBars": { "hpPerSlot": 4 },
-          "notes": "Increase the Health to 4 in each slot."
+          "tempBars": {
+            "hpPerSlot": 4
+          },
+          "notes": "Increase the Health to 4 in each slot.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -1410,9 +1997,18 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "area": { "radiusBonus": 5 },
-          "tempBars": { "hpPerSlot": 6 },
-          "notes": "+5ft Burst radius, with a 6 in each slot."
+          "area": {
+            "radiusBonus": 5
+          },
+          "tempBars": {
+            "hpPerSlot": 6
+          },
+          "notes": "+5ft Burst radius, with a 6 in each slot.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -1420,9 +2016,18 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "area": { "radiusBonus": 10 },
-          "tempBars": { "hpPerSlot": 8 },
-          "notes": "+10ft Burst radius, with a 8 in each slot."
+          "area": {
+            "radiusBonus": 10
+          },
+          "tempBars": {
+            "hpPerSlot": 8
+          },
+          "notes": "+10ft Burst radius, with a 8 in each slot.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1430,7 +2035,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "area": {
@@ -1478,7 +2088,16 @@ export const DCC_SPELLS = [
         "rule.temp-health-bars",
         "stat.cha",
         "favored.bard"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1513,7 +2132,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage."
+          "notes": "+1d8 base damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d8",
@@ -1521,7 +2145,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage, and the target is pushed 10 feet away from you."
+          "notes": "+1d8 base damage, and the target is pushed 10 feet away from you.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d8",
@@ -1529,7 +2158,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage, and you can change the range to a 15ft Cone Attack."
+          "notes": "+1d8 base damage, and you can change the range to a 15ft Cone Attack.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1537,7 +2171,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "ice-blast",
@@ -1546,7 +2185,16 @@ export const DCC_SPELLS = [
         "action.attack",
         "element.ice",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1581,7 +2229,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d12 base damage."
+          "notes": "+1d12 base damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d12",
@@ -1589,7 +2242,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Stiff Legs",
-          "notes": "+1d12 base damage, and the target gains the Stiff Legs Debuff."
+          "notes": "+1d12 base damage, and the target gains the Stiff Legs Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d12",
@@ -1597,7 +2255,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d12 base damage, and the damage is Armor-Piercing."
+          "notes": "+1d12 base damage, and the damage is Armor-Piercing.",
+          "isArmorPiercing": true,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1605,7 +2268,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "icicles",
@@ -1614,7 +2282,16 @@ export const DCC_SPELLS = [
         "action.attack",
         "element.ice",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1649,7 +2326,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The target also heals a Minor Injury Debuff."
+          "notes": "The target also heals a Minor Injury Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -1657,7 +2339,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The target also heals a Major Injury Debuff."
+          "notes": "The target also heals a Major Injury Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -1665,7 +2352,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The target also heals all Poison & Disease Debuffs."
+          "notes": "The target also heals all Poison & Disease Debuffs.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1673,7 +2365,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "intimate-touches",
@@ -1684,7 +2381,16 @@ export const DCC_SPELLS = [
         "stat.int",
         "favored.cleric",
         "favored.paladin"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": true,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 1,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1719,7 +2425,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d10 base damage."
+          "notes": "+1d10 base damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d10",
@@ -1727,7 +2438,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d10 base damage and becomes a 100ft Line Attack."
+          "notes": "+1d10 base damage and becomes a 100ft Line Attack.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d10",
@@ -1735,7 +2451,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d10 base damage. The lightning bolt forks, and you may choose to apply your Attack against any number of additional targets within 15 feet of the previous target (within the range limit). Each successful Attack (including against the primary target), deals half damage."
+          "notes": "+1d10 base damage. The lightning bolt forks, and you may choose to apply your Attack against any number of additional targets within 15 feet of the previous target (within the range limit). Each successful Attack (including against the primary target), deals half damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1743,7 +2464,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "lightning-bolt",
@@ -1752,7 +2478,16 @@ export const DCC_SPELLS = [
         "action.attack",
         "element.electric",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1787,7 +2522,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 1,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage, and you can cast the Spell at a higher or lower Mana cost (3 Mana: −4 damage; 4 Mana: −2 damage; 6 Mana: Add 1 Rank damage die)."
+          "notes": "+1d4 base damage, and you can cast the Spell at a higher or lower Mana cost (3 Mana: −4 damage; 4 Mana: −2 damage; 6 Mana: Add 1 Rank damage die).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d4",
@@ -1795,7 +2535,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Burned",
-          "notes": "+1d4 base damage, and the missiles deal Force and Fire damage. The target gains the Burned Debuff."
+          "notes": "+1d4 base damage, and the missiles deal Force and Fire damage. The target gains the Burned Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -1803,7 +2548,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "This attack deals base damage ×3."
+          "notes": "This attack deals base damage ×3.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1811,7 +2561,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "magic-missile",
@@ -1820,7 +2575,16 @@ export const DCC_SPELLS = [
         "action.attack",
         "element.force",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1855,7 +2619,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d2 base damage."
+          "notes": "+1d2 base damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d2",
@@ -1863,7 +2632,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Sore as Shit",
-          "notes": "+1d2 base damage, and the target gains the Sore as Shit Debuff."
+          "notes": "+1d2 base damage, and the target gains the Sore as Shit Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d2",
@@ -1871,7 +2645,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Muted",
-          "notes": "+1d2 base damage, and the target gains the Muted Debuff."
+          "notes": "+1d2 base damage, and the target gains the Muted Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1879,7 +2658,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "mind-tickle",
@@ -1889,7 +2673,16 @@ export const DCC_SPELLS = [
         "element.psychic",
         "stat.cha",
         "favored.cleric"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1924,7 +2717,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The casting time is 4 minutes. Duration is 5 minutes."
+          "notes": "The casting time is 4 minutes. Duration is 5 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -1932,7 +2730,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Add your Charisma Stat to the Burst radius. Duration is 10 minutes."
+          "notes": "Add your Charisma Stat to the Burst radius. Duration is 10 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -1940,7 +2743,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Add your Charisma Stat to the Burst radius. Duration is 15 minutes."
+          "notes": "Add your Charisma Stat to the Burst radius. Duration is 15 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -1948,7 +2756,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "minion-army",
@@ -1958,7 +2771,16 @@ export const DCC_SPELLS = [
         "shape.aoe",
         "rule.mind-control",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -1993,7 +2815,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Add 1 to your die roll."
+          "notes": "Add 1 to your die roll.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -2001,7 +2828,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Add 1 to your die roll, and remove a Minor Injury Debuff."
+          "notes": "Add 1 to your die roll, and remove a Minor Injury Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -2009,7 +2841,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Add 1 to your die roll, and remove a Major Injury Debuff."
+          "notes": "Add 1 to your die roll, and remove a Major Injury Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2017,7 +2854,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "natures-breath",
@@ -2028,7 +2870,16 @@ export const DCC_SPELLS = [
         "action.heal",
         "stat.int",
         "favored.druid"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": true,
+        "barsFormula": "1",
+        "targetFilter": "allies",
+        "isHoT": true,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2063,7 +2914,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+2 DR",
           "debuff": "",
-          "notes": "+2 DR. Duration is 3 minutes."
+          "notes": "+2 DR. Duration is 3 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -2071,7 +2927,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+2 DR",
           "debuff": "",
-          "notes": "+2 DR. You may target party members and NPCs up to 10 feet away with this spell."
+          "notes": "+2 DR. You may target party members and NPCs up to 10 feet away with this spell.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -2079,7 +2940,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+2 DR",
           "debuff": "",
-          "notes": "+2 DR. Duration is 4 minutes."
+          "notes": "+2 DR. Duration is 4 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2087,7 +2953,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "oakhide",
@@ -2096,7 +2967,16 @@ export const DCC_SPELLS = [
         "action.passive",
         "stat.int",
         "favored.druid"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2131,7 +3011,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage."
+          "notes": "+1d8 base damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d8",
@@ -2139,7 +3024,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Take Down",
-          "notes": "+1d8 base damage, and the target gains the Take Down Debuff."
+          "notes": "+1d8 base damage, and the target gains the Take Down Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d8",
@@ -2147,7 +3037,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage, and the damage is Armor-Piercing (ignores DR)."
+          "notes": "+1d8 base damage, and the damage is Armor-Piercing (ignores DR).",
+          "isArmorPiercing": true,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2155,7 +3050,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "paladins-smite",
@@ -2165,7 +3065,16 @@ export const DCC_SPELLS = [
         "element.holy",
         "stat.cha",
         "favored.paladin"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2200,7 +3109,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The duration is 5 minutes."
+          "notes": "The duration is 5 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -2208,7 +3122,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The duration is 10 minutes."
+          "notes": "The duration is 10 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -2216,7 +3135,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The duration is 15 minutes."
+          "notes": "The duration is 15 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2224,7 +3148,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "panty-dropper",
@@ -2234,7 +3163,16 @@ export const DCC_SPELLS = [
         "rule.mind-control",
         "stat.cha",
         "favored.bard"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2269,7 +3207,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "If you know the Fear Spell (see p. 204), you may cast it at no Action cost to affect all eligible Mobs within the Ping range. You only pay the Mana."
+          "notes": "If you know the Fear Spell (see p. 204), you may cast it at no Action cost to affect all eligible Mobs within the Ping range. You only pay the Mana.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -2277,7 +3220,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Environmental factors and obstacles no longer decrease the range, and you receive “mostly complete” information."
+          "notes": "Environmental factors and obstacles no longer decrease the range, and you receive “mostly complete” information.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -2285,7 +3233,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "You pay no Mana to add the Fear Spell, and you receive “entirely complete” information."
+          "notes": "You pay no Mana to add the Fear Spell, and you receive “entirely complete” information.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2293,7 +3246,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "ping",
@@ -2302,7 +3260,16 @@ export const DCC_SPELLS = [
         "action.passive",
         "shape.aoe",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2337,7 +3304,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Duration is 10 seconds. In addition to knocking enemies away, it protects the occupants from all non-Spell attacks originating from outside the shell until the end of the current combat round."
+          "notes": "Duration is 10 seconds. In addition to knocking enemies away, it protects the occupants from all non-Spell attacks originating from outside the shell until the end of the current combat round.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -2345,7 +3317,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Duration is 20 seconds or two rounds."
+          "notes": "Duration is 20 seconds or two rounds.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -2353,7 +3330,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Duration is 30 seconds or three rounds."
+          "notes": "Duration is 30 seconds or three rounds.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2361,7 +3343,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "protective-shell",
@@ -2371,7 +3358,16 @@ export const DCC_SPELLS = [
         "action.interrupt",
         "shape.aoe",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2406,7 +3402,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The delay is 2 seconds, and the destination doesn’t have to be a surface."
+          "notes": "The delay is 2 seconds, and the destination doesn’t have to be a surface.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -2414,7 +3415,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The delay is 1 second, and the destination can be anywhere within 1,000 yards in any direction, even if the exact destination cannot be seen."
+          "notes": "The delay is 1 second, and the destination can be anywhere within 1,000 yards in any direction, even if the exact destination cannot be seen.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -2422,7 +3428,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "There is no delay, and the destination can be anywhere within 1 mile in any direction, even if the exact destination cannot be seen."
+          "notes": "There is no delay, and the destination can be anywhere within 1 mile in any direction, even if the exact destination cannot be seen.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2430,7 +3441,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "puddle-jumper",
@@ -2438,7 +3454,16 @@ export const DCC_SPELLS = [
         "kind.spell",
         "action.passive",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2473,7 +3498,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The skeleton attacks twice before collapsing."
+          "notes": "The skeleton attacks twice before collapsing.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d8",
@@ -2481,7 +3511,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The skeleton increases to size Large (5), and its Attack range is 10 feet. +1d8 base damage."
+          "notes": "The skeleton increases to size Large (5), and its Attack range is 10 feet. +1d8 base damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -2489,7 +3524,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 1,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The skeleton increases to size Colossal (7), and its Attack range is 15 feet. Add one Rise, Dead Minion! Rank damage die to the damage."
+          "notes": "The skeleton increases to size Colossal (7), and its Attack range is 15 feet. Add one Rise, Dead Minion! Rank damage die to the damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2497,7 +3537,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "rise-dead-minion",
@@ -2506,7 +3551,16 @@ export const DCC_SPELLS = [
         "action.attack",
         "stat.int",
         "favored.necromancer"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2541,7 +3595,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Can target victims up to size Large (5). Duration is 3 rounds."
+          "notes": "Can target victims up to size Large (5). Duration is 3 rounds.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -2549,7 +3608,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "Can target victims up to size Huge (6). Duration is 4 rounds."
+          "notes": "Can target victims up to size Huge (6). Duration is 4 rounds.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -2557,7 +3621,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Poisoned",
-          "notes": "Can target victims up to size Colossal (7). The victim also gains the Poisoned Debuff."
+          "notes": "Can target victims up to size Colossal (7). The victim also gains the Poisoned Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2565,7 +3634,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "rootfoot",
@@ -2574,7 +3648,16 @@ export const DCC_SPELLS = [
         "action.attack",
         "stat.int",
         "favored.druid"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2609,7 +3692,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The Mob can be up to 5 levels higher than you, and the duration is 5 minutes."
+          "notes": "The Mob can be up to 5 levels higher than you, and the duration is 5 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -2617,7 +3705,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The Mob can be up to 10 levels higher than the caster, with a duration of 15 minutes."
+          "notes": "The Mob can be up to 10 levels higher than the caster, with a duration of 15 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -2625,7 +3718,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The Mob can be up to 15 levels higher than the caster, with a duration of 45 minutes."
+          "notes": "The Mob can be up to 15 levels higher than the caster, with a duration of 45 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2633,7 +3731,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "second-chance",
@@ -2641,7 +3744,16 @@ export const DCC_SPELLS = [
         "kind.spell",
         "action.passive",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2676,7 +3788,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The Shield has 5 Health Bar slots."
+          "notes": "The Shield has 5 Health Bar slots.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -2684,7 +3801,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The Shield has 10 Health Bar slots."
+          "notes": "The Shield has 10 Health Bar slots.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -2692,7 +3814,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The Shield has 15 Health Bar slots."
+          "notes": "The Shield has 15 Health Bar slots.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2700,7 +3827,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "shield",
@@ -2709,7 +3841,16 @@ export const DCC_SPELLS = [
         "action.passive",
         "action.interrupt",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2744,7 +3885,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Stunned",
-          "notes": "+1d2 base damage, and you may choose to afflict the target with the Stunned Debuff instead of dealing damage."
+          "notes": "+1d2 base damage, and you may choose to afflict the target with the Stunned Debuff instead of dealing damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d2",
@@ -2752,7 +3898,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 1,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d2 base damage, and add 1 Rank damage die (Electric) at the end of the round."
+          "notes": "+1d2 base damage, and add 1 Rank damage die (Electric) at the end of the round.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d2",
@@ -2760,7 +3911,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d2 base damage, and if you make this attack at melee range, you deal ×5 the total damage."
+          "notes": "+1d2 base damage, and if you make this attack at melee range, you deal ×5 the total damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2768,7 +3924,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "shock-treatment",
@@ -2777,7 +3938,16 @@ export const DCC_SPELLS = [
         "action.attack",
         "element.electric",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2812,7 +3982,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage, +5ft Splash."
+          "notes": "+1d8 base damage, +5ft Splash.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d8",
@@ -2820,7 +3995,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "Burned",
-          "notes": "+1d8 base damage and +10ft Splash. Each affected entity who loses at least 3 Health Bar slots this way gains the Burned Debuff."
+          "notes": "+1d8 base damage and +10ft Splash. Each affected entity who loses at least 3 Health Bar slots this way gains the Burned Debuff.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d8",
@@ -2828,7 +4008,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage and +15ft Splash."
+          "notes": "+1d8 base damage and +15ft Splash.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2836,7 +4021,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "solsplash",
@@ -2846,7 +4036,19 @@ export const DCC_SPELLS = [
         "element.fire",
         "stat.con",
         "favored.druid"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": true,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 1,
+        "cleanseDebuffs": [
+          "Darkness",
+          "Blind"
+        ]
+      }
     }
   },
   {
@@ -2881,7 +4083,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "+1 bon",
           "debuff": "",
-          "notes": "+1d4 base damage, and if this Spell deals the killing blow to a foe of at least half your level, it deals +1 bonus damage until you complete a long rest. This damage bonus is cumulative up to the Spell’s Rank."
+          "notes": "+1d4 base damage, and if this Spell deals the killing blow to a foe of at least half your level, it deals +1 bonus damage until you complete a long rest. This damage bonus is cumulative up to the Spell’s Rank.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d4",
@@ -2889,7 +4096,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage, and the bonus continues for one week."
+          "notes": "+1d4 base damage, and the bonus continues for one week.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d4",
@@ -2897,7 +4109,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage, and the bonus continues for as long as you remain on your current floor."
+          "notes": "+1d4 base damage, and the bonus continues for as long as you remain on your current floor.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2905,7 +4122,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "soul-collector",
@@ -2914,7 +4136,16 @@ export const DCC_SPELLS = [
         "action.attack",
         "element.necrotic",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -2949,7 +4180,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d10 base damage."
+          "notes": "+1d10 base damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d10",
@@ -2957,7 +4193,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d10 base damage, and this attack deals Armor-Piercing damage (ignores DR)."
+          "notes": "+1d10 base damage, and this attack deals Armor-Piercing damage (ignores DR).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d10",
@@ -2965,7 +4206,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d10 base damage, and you can change the range to a 15ft Cone attack."
+          "notes": "+1d10 base damage, and you can change the range to a 15ft Cone attack.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -2973,7 +4219,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "thunderlash",
@@ -2982,7 +4233,16 @@ export const DCC_SPELLS = [
         "action.attack",
         "element.sonic",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3017,7 +4277,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "You can move the orb up to 20 feet away from you."
+          "notes": "You can move the orb up to 20 feet away from you.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3025,7 +4290,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "You can move the orb up to 60 feet away from you and can double the radius of the brightness with a thought."
+          "notes": "You can move the orb up to 60 feet away from you and can double the radius of the brightness with a thought.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3033,7 +4303,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "You can move the orb up to 100 feet away from you and attach it to a surface as an Action."
+          "notes": "You can move the orb up to 100 feet away from you and attach it to a surface as an Action.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3041,7 +4316,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "torch",
@@ -3049,7 +4329,16 @@ export const DCC_SPELLS = [
         "kind.spell",
         "action.passive",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3084,7 +4373,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+Intelligence Burst radius."
+          "notes": "+Intelligence Burst radius.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3092,7 +4386,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+Intelligence Burst radius."
+          "notes": "+Intelligence Burst radius.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3100,7 +4399,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+Intelligence Burst radius, and all damage taken is considered Splash (half damage)."
+          "notes": "+Intelligence Burst radius, and all damage taken is considered Splash (half damage).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3108,7 +4412,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "tripper",
@@ -3117,7 +4426,16 @@ export const DCC_SPELLS = [
         "action.passive",
         "shape.aoe",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3152,7 +4470,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+5ft Cone. Duration is 5 rounds."
+          "notes": "+5ft Cone. Duration is 5 rounds.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3160,7 +4483,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+10ft Cone. Duration is 10 rounds."
+          "notes": "+10ft Cone. Duration is 10 rounds.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3168,7 +4496,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+15ft Cone. Duration is 15 rounds. On an Amazing Success or better, the Undead Mob is destroyed."
+          "notes": "+15ft Cone. Duration is 15 rounds. On an Amazing Success or better, the Undead Mob is destroyed.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3176,7 +4509,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "turn-undead",
@@ -3188,7 +4526,16 @@ export const DCC_SPELLS = [
         "favored.bard",
         "favored.cleric",
         "favored.paladin"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3223,7 +4570,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The pet or minion has Move ×3 for the duration."
+          "notes": "The pet or minion has Move ×3 for the duration.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3231,7 +4583,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The pet or minion has Move ×4 for the duration."
+          "notes": "The pet or minion has Move ×4 for the duration.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3239,7 +4596,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The pet or minion has Move ×5 for the duration."
+          "notes": "The pet or minion has Move ×5 for the duration.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3247,7 +4609,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "twinkle-toes",
@@ -3255,7 +4622,16 @@ export const DCC_SPELLS = [
         "kind.spell",
         "action.passive",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3290,7 +4666,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d12 base damage."
+          "notes": "+1d12 base damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d12",
@@ -3298,7 +4679,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d12 base damage, and the target is pushed 10 feet."
+          "notes": "+1d12 base damage, and the target is pushed 10 feet.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d12",
@@ -3306,7 +4692,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d12 base damage, and the target is pushed 15 feet."
+          "notes": "+1d12 base damage, and the target is pushed 15 feet.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3314,7 +4705,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "unnecessary-force",
@@ -3323,7 +4719,16 @@ export const DCC_SPELLS = [
         "action.attack",
         "element.force",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3358,7 +4763,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage."
+          "notes": "+1d4 base damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d4",
@@ -3366,7 +4776,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage, and this Attack deals Armor-Piercing damage (ignores DR)."
+          "notes": "+1d4 base damage, and this Attack deals Armor-Piercing damage (ignores DR).",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d4",
@@ -3374,7 +4789,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d4 base damage. On a Critical Hit, the target takes ×4 damage."
+          "notes": "+1d4 base damage. On a Critical Hit, the target takes ×4 damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3382,7 +4802,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "vine-porn",
@@ -3392,7 +4817,16 @@ export const DCC_SPELLS = [
         "element.piercing",
         "stat.con",
         "favored.druid"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3427,7 +4861,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d2 base damage. The wall can be turned into a ring of fire. Duration is 5 rounds."
+          "notes": "+1d2 base damage. The wall can be turned into a ring of fire. Duration is 5 rounds.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d2",
@@ -3435,7 +4874,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d2 base damage. Creates a 50ft-long × 10ft-high × 3ft-thick wall. Duration is 10 rounds."
+          "notes": "+1d2 base damage. Creates a 50ft-long × 10ft-high × 3ft-thick wall. Duration is 10 rounds.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d2",
@@ -3443,7 +4887,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d2 base damage. Creates a 100ft-long × 20ft-high × 5ft-thick wall. Duration is 15 rounds."
+          "notes": "+1d2 base damage. Creates a 100ft-long × 20ft-high × 5ft-thick wall. Duration is 15 rounds.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3451,7 +4900,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "wall-of-fire",
@@ -3460,7 +4914,16 @@ export const DCC_SPELLS = [
         "action.passive",
         "element.fire",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3495,7 +4958,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "You may now cast this upon others at a range of 5 feet."
+          "notes": "You may now cast this upon others at a range of 5 feet.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3503,7 +4971,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The targets roll Swimming Skill Checks with Advantage."
+          "notes": "The targets roll Swimming Skill Checks with Advantage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3511,7 +4984,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "You can target any or all individuals within a 15ft Burst radius."
+          "notes": "You can target any or all individuals within a 15ft Burst radius.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3519,7 +4997,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "water-breathing",
@@ -3527,7 +5010,16 @@ export const DCC_SPELLS = [
         "kind.spell",
         "action.passive",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3562,7 +5054,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+5ft Cone. Duration is 5 rounds."
+          "notes": "+5ft Cone. Duration is 5 rounds.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3570,7 +5067,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+10ft Cone. Duration is 10 rounds."
+          "notes": "+10ft Cone. Duration is 10 rounds.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3578,7 +5080,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+15ft Cone. Duration is 15 rounds."
+          "notes": "+15ft Cone. Duration is 15 rounds.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3586,7 +5093,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "web",
@@ -3594,7 +5106,16 @@ export const DCC_SPELLS = [
         "kind.spell",
         "action.attack",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3629,7 +5150,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage. For each full day you hold the spell, +1d8 Fire damage."
+          "notes": "+1d8 base damage. For each full day you hold the spell, +1d8 Fire damage.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "1d8",
@@ -3637,7 +5163,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage and +5ft Splash."
+          "notes": "+1d8 base damage and +5ft Splash.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "1d8",
@@ -3645,7 +5176,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "+1d8 base damage and +5ft Splash."
+          "notes": "+1d8 base damage and +5ft Splash.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3653,7 +5189,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "wilburs-slow-build-fireblast",
@@ -3662,7 +5203,16 @@ export const DCC_SPELLS = [
         "action.attack",
         "element.fire",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   },
   {
@@ -3697,7 +5247,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The duration is 10 minutes."
+          "notes": "The duration is 10 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank10": {
           "damageDice": "",
@@ -3705,7 +5260,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The duration is 15 minutes."
+          "notes": "The duration is 15 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank15": {
           "damageDice": "",
@@ -3713,7 +5273,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": "The duration is 20 minutes."
+          "notes": "The duration is 20 minutes.",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         },
         "rank20": {
           "damageDice": "",
@@ -3721,7 +5286,12 @@ export const DCC_SPELLS = [
           "rankDamageDice": 0,
           "buffsResistances": "",
           "debuff": "",
-          "notes": ""
+          "notes": "",
+          "isArmorPiercing": false,
+          "healing": {
+            "barsBonus": 0,
+            "cleanseDebuff": ""
+          }
         }
       },
       "identifier": "wisp-armor",
@@ -3729,7 +5299,16 @@ export const DCC_SPELLS = [
         "kind.spell",
         "action.passive",
         "stat.int"
-      ]
+      ],
+      "ignoreDR": false,
+      "healing": {
+        "hasHealing": false,
+        "barsFormula": "2",
+        "targetFilter": "allies",
+        "isHoT": false,
+        "hotRounds": 3,
+        "cleanseDebuffs": []
+      }
     }
   }
 ];

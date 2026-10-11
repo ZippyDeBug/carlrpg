@@ -58,7 +58,8 @@ describe('DCC RPG - Weapon Skill Proficiency & Technique Schema', () => {
       damageBonus: '',
       damageType: '',
       debuffName: '',
-      cooldown: 'None'
+      cooldown: 'None',
+      isArmorPiercing: false
     });
   });
 

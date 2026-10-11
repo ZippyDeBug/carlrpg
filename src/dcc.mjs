@@ -1194,7 +1194,16 @@ export function onRenderChatMessage(message, html, data) {
       const attackType = card.dataset?.attackType || $card?.data('attack-type') || 'attack';
       const rawDamage = Number(card.dataset?.damageValue ?? $card?.data('damage-value')) || 0;
       const multiplier = Number(btn.dataset?.multiplier ?? $btn?.data('multiplier')) || 1;
-      const ignoreDR = Boolean(btn.dataset?.ignoreDr ?? $btn?.data('ignore-dr'));
+      const ignoreDR = Boolean(
+        btn.dataset?.ignoreDr === 'true' ||
+        btn.dataset?.ignoreDr === true ||
+        $btn?.data('ignore-dr') === true ||
+        $btn?.data('ignore-dr') === 'true' ||
+        card.dataset?.isArmorPiercing === 'true' ||
+        card.dataset?.isArmorPiercing === true ||
+        $card?.data('is-armor-piercing') === true ||
+        $card?.data('is-armor-piercing') === 'true'
+      );
 
       const attacker = game.actors?.get(attackerId) || null;
 
@@ -1396,6 +1405,50 @@ export function onRenderChatMessage(message, html, data) {
       btn.addEventListener('click', evadeClickHandler);
     } else if (typeof $ !== 'undefined') {
       $(btn).click(evadeClickHandler);
+    }
+  }
+
+  // 4b. Handle click on "Trigger Interrupt / Reaction" from chat card reaction prompt
+  const triggerInterruptButtons = query('.dcc-trigger-interrupt-btn');
+  for (const btn of triggerInterruptButtons) {
+    if (btn.dataset) {
+      if (btn.dataset.dccBound) continue;
+      btn.dataset.dccBound = 'true';
+    }
+
+    const interruptClickHandler = async (ev) => {
+      ev.preventDefault();
+      const $btn = (typeof $ !== 'undefined') ? $(btn) : null;
+      const actorId = btn.dataset?.actorId || $btn?.data('actor-id');
+      const combatantId = btn.dataset?.combatantId || $btn?.data('combatant-id');
+      const interruptId = btn.dataset?.interruptId || $btn?.data('interrupt-id');
+      const targetName = btn.dataset?.targetName || $btn?.data('target-name') || '';
+
+      btn.disabled = true;
+      btn.style.opacity = '0.5';
+
+      try {
+        const combat = game.combat;
+        if (combatantId && combat && typeof combat.triggerInterrupt === 'function') {
+          await combat.triggerInterrupt(combatantId, interruptId, { targetName });
+        } else if (actorId && typeof game.actors?.get === 'function') {
+          const actor = game.actors.get(actorId);
+          if (actor && typeof actor.triggerInterrupt === 'function') {
+            await actor.triggerInterrupt(interruptId, { targetName });
+          }
+        }
+      } catch (err) {
+        console.error('DCC RPG | Error executing reaction interrupt:', err);
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        ui.notifications?.error?.(`DCC RPG | Failed to execute reaction: ${err.message}`);
+      }
+    };
+
+    if (typeof btn.addEventListener === 'function') {
+      btn.addEventListener('click', interruptClickHandler);
+    } else if (typeof $ !== 'undefined') {
+      $(btn).click(interruptClickHandler);
     }
   }
 
@@ -1709,6 +1762,61 @@ export function onRenderChatMessage(message, html, data) {
     }
   }
 
+  // 7b. Handle click on "Cleanse Debuff" from chat card
+  const cleanseDebuffButtons = query('.dcc-cleanse-debuff-btn');
+  for (const btn of cleanseDebuffButtons) {
+    if (btn.dataset) {
+      if (btn.dataset.dccBound) continue;
+      btn.dataset.dccBound = 'true';
+    }
+
+    const cleanseClickHandler = async (ev) => {
+      ev.preventDefault();
+      const $btn = (typeof $ !== 'undefined') ? $(btn) : null;
+      const targetId = btn.dataset?.targetId || $btn?.data('target-id');
+      const debuffName = btn.dataset?.debuffName || $btn?.data('debuff-name') || '';
+
+      let targetTokens = Array.from(game.user?.targets || []);
+      if (!targetTokens.length && targetId && canvas?.tokens?.placeables) {
+        const found = canvas.tokens.placeables.find(t => t.actor?.id === targetId || t.id === targetId);
+        if (found) targetTokens = [found];
+      }
+      if (!targetTokens.length && canvas?.tokens?.controlled) {
+        targetTokens = canvas.tokens.controlled.filter(t => t.actor);
+      }
+
+      let targetActors = targetTokens.map(t => t.actor).filter(Boolean);
+      if (!targetActors.length && targetId && game.actors?.get) {
+        const directActor = game.actors.get(targetId);
+        if (directActor) targetActors = [directActor];
+      }
+
+      if (!targetActors.length) {
+        ui.notifications?.warn('DCC RPG | No target found! Please select or target a token on the canvas.');
+        return;
+      }
+
+      const cleansedAll = [];
+      for (const targetActor of targetActors) {
+        if (typeof targetActor.cleanseDebuff === 'function') {
+          const removed = await targetActor.cleanseDebuff(debuffName);
+          if (removed.length > 0) {
+            cleansedAll.push(`${targetActor.name}: cleansed [${removed.join(', ')}]`);
+          } else {
+            cleansedAll.push(`${targetActor.name}: no matching debuffs to cleanse`);
+          }
+        }
+      }
+      ui.notifications?.info(`DCC RPG | ${cleansedAll.join('; ')}`);
+    };
+
+    if (typeof btn.addEventListener === 'function') {
+      btn.addEventListener('click', cleanseClickHandler);
+    } else if (typeof $ !== 'undefined') {
+      $(btn).click(cleanseClickHandler);
+    }
+  }
+
   // 7b. Handle click on "Mend Injury" from chat card
   const mendInjuryButtons = query('.dcc-mend-injury-btn');
   for (const btn of mendInjuryButtons) {
@@ -1995,7 +2103,7 @@ export function onRenderChatMessage(message, html, data) {
       ev.preventDefault();
       const $btn = (typeof $ !== 'undefined') ? $(btn) : null;
       const actorId = btn.dataset?.actorId || $btn?.data('actor-id');
-      const spellId = btn.dataset?.spellId || $btn?.data('spell-id');
+      const spellId = btn.dataset?.spellId || btn.dataset?.itemId || $btn?.data('spell-id') || $btn?.data('item-id');
 
       let actor = (typeof game !== 'undefined' && game.actors?.get) ? game.actors.get(actorId) : null;
       if (!actor && canvas?.tokens?.controlled?.length) {
@@ -2080,6 +2188,66 @@ export function onRenderChatMessage(message, html, data) {
       btn.addEventListener('click', aoeHandler);
     } else if (typeof $ !== 'undefined') {
       $(btn).click(aoeHandler);
+    }
+  }
+
+  // 7j. Handle click on "Roll Opposed Contest" from chat card
+  const contestButtons = query('.dcc-roll-contest-btn');
+  for (const btn of contestButtons) {
+    if (btn.dataset) {
+      if (btn.dataset.dccBound) continue;
+      btn.dataset.dccBound = 'true';
+    }
+
+    const contestClickHandler = async (ev) => {
+      ev.preventDefault();
+      const $btn = (typeof $ !== 'undefined') ? $(btn) : null;
+      const initiatorId = btn.dataset?.initiatorId || $btn?.data('initiator-id');
+      const initiatorName = btn.dataset?.initiatorName || $btn?.data('initiator-name') || 'Initiator';
+      const itemName = btn.dataset?.itemName || $btn?.data('item-name') || 'Ability';
+      const contestType = btn.dataset?.contestType || $btn?.data('contest-type') || 'dc';
+      const targetStat = btn.dataset?.targetStat || $btn?.data('target-stat') || 'dex';
+      const targetSkill = btn.dataset?.targetSkill || $btn?.data('target-skill') || '';
+      const dc = Number(btn.dataset?.dc ?? $btn?.data('dc')) || 10;
+      const initiatorTotal = Number(btn.dataset?.initiatorTotal ?? $btn?.data('initiator-total')) || 10;
+      const onFailDebuff = btn.dataset?.onFailDebuff || $btn?.data('on-fail-debuff') || '';
+      const onFailNotes = btn.dataset?.onFailNotes || $btn?.data('on-fail-notes') || '';
+      const onSuccessNotes = btn.dataset?.onSuccessNotes || $btn?.data('on-success-notes') || '';
+
+      let targetTokens = Array.from(game.user?.targets || []);
+      if (!targetTokens.length && canvas?.tokens?.controlled) {
+        targetTokens = canvas.tokens.controlled.filter(t => t.actor && t.actor.id !== initiatorId);
+      }
+      let targetActors = targetTokens.map(t => t.actor).filter(Boolean);
+
+      if (!targetActors.length) {
+        ui.notifications?.warn('DCC RPG | Please target or select the defender token to roll the contest.');
+        return;
+      }
+
+      for (const defender of targetActors) {
+        if (typeof defender.rollContestResponse === 'function') {
+          await defender.rollContestResponse({
+            initiatorId,
+            initiatorName,
+            itemName,
+            contestType,
+            targetStat,
+            targetSkill,
+            dc,
+            initiatorTotal,
+            onFailDebuff,
+            onFailNotes,
+            onSuccessNotes
+          });
+        }
+      }
+    };
+
+    if (typeof btn.addEventListener === 'function') {
+      btn.addEventListener('click', contestClickHandler);
+    } else if (typeof $ !== 'undefined') {
+      $(btn).click(contestClickHandler);
     }
   }
 
