@@ -1,6 +1,6 @@
 {
-  "id": "carl-rpg",
-  "title": "Dungeon Crawler Carl RPG",
+  "id": "Zcarl-rpg",
+  "title": "ZDungeon Crawler Carl RPG",
   "description": "A Zippy forked Foundry VTT system for the Dungeon Crawler Carl Roleplaying Game.",
   "version": "3.2.12",
   "url": "https://github.com/zippydebug/carlrpg",
