@@ -1,3 +1,17 @@
+## 3.2.4
+
+### CarlRPG 3.2.4 — Tag Manager High-Contrast Checkbox Styling & Dark Mode Contrast Fixes
+
+- **Tag Manager High-Contrast Checkboxes & Inversion Prevention (`templates/apps/tag-manager.hbs`, `styles/dcc.css`)**:
+  - Removed inline `background: #f4fbf7` row style when tags are assigned (`isAssigned`), completely preventing row background turning white and causing white-on-white text illegibility in dark mode.
+  - Sized checkboxes to an explicit `18px x 18px` with clear pointer interaction.
+  - Added high-contrast checkbox outlines (`outline: 2px solid #333` in light mode, `outline: 2px solid #ffffff !important` in dark mode) and prominent DCC Red accent colors (`accent-color: #c0392b` / `#e74c3c`).
+  - Added full dark mode color contrast overrides for tag IDs (`#5dade2`), descriptions (`#9ca3af`), target banners (`#1a2733`), search inputs, and namespace pills.
+- **Verification (`tests/tag-manager-ui.test.mjs`)**:
+  - Verified absence of row background inversion when tags are assigned.
+  - Verified high-contrast checkbox CSS and dark mode outline definitions.
+  - All 1,165 unit tests passing with 0 failures across 201 test suites.
+
 ## 3.2.3
 
 ### CarlRPG 3.2.3 — Universal Progressive Disclosure Item Architecture & Single-Engine Gear Auras

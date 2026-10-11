@@ -10,6 +10,11 @@ Questions or concerns contact me @ shinierball via gmail or maybe discord or wha
 
 - Hopefully the AI keeps this in sync reasonably with reality, but code changes so fast these days! Odds that this accurately reflects the rules are probably close to zero, but I'm committed to the process of telling the AI to do better!
 
+- **CarlRPG 3.2.4 Tag Manager High-Contrast Checkbox Styling & Dark Mode Contrast Fixes**:
+  - **Eliminated Row Background Inversion**: Removed the white background inversion when checking assigned tags (`isAssigned`), completely preventing white-on-white text illegibility in dark mode. Table rows retain a clean, consistent background across themes.
+  - **High-Contrast Checkbox Styling**: Checkboxes in the Tag Manager are scaled to `18px x 18px` with a crisp 2px high-contrast outline (`outline: 2px solid #ffffff !important` in dark mode, `2px solid #333` in light mode) and vivid DCC Red fill (`accent-color: #c0392b` / `#e74c3c`), making checkboxes immediately visible and clear whether checked or unchecked.
+  - **Complete Dark Mode Theme Contrast**: Styled tag IDs (`#5dade2`), descriptions (`#9ca3af`), target banners (`#1a2733`), search inputs, and namespace badges with high contrast.
+
 - **CarlRPG 3.2.3 Universal Progressive Disclosure Item Architecture & Single-Engine Gear Auras**:
   - **Progressive Disclosure Across All Item Sheets**: Replaced massive, overwhelming item configuration pages with collapsible `<details class="dcc-collapsible-block">` modules for Spells, Attacks, Gear, and Skills. Sheets stay clean and focused for basic item creation, while rich sub-systems (Auras, AoE Geometry, Rank Breaks, Weapon Proficiencies, Scaling Damage Parts, Techniques, and Debuffs) expand with one click.
   - **State-Aware Automatic Expansion**: Sheets detect configured data on an item (`hasAuraConfigured`, `hasDamageModifiersConfigured`, `hasRankBreaksConfigured`, etc.) and automatically display active sections expanded with clear `[CONFIGURED]` gold status badges.

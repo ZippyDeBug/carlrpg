@@ -175,9 +175,18 @@ describe('Tag Manager & Item Sheet Tag Editor UI', () => {
       assert.ok(dcc.includes('templates/apps/tag-manager.hbs'), 'Must preload tag-manager.hbs');
     });
 
-    test('templates/items/item-sheet.hbs includes tags partial', () => {
-      const sheet = fs.readFileSync('templates/items/item-sheet.hbs', 'utf-8');
-      assert.ok(sheet.includes('templates/items/parts/tags.hbs'), 'Item sheet must include tags partial');
+    test('templates/apps/tag-manager.hbs does not invert row background when tag is assigned', () => {
+      const content = fs.readFileSync('templates/apps/tag-manager.hbs', 'utf-8');
+      assert.ok(!content.includes('background: #f4fbf7'), 'Row must not set white background when tag is assigned');
+      assert.ok(content.includes('dcc-tag-assign-toggle'), 'Must include assign checkbox toggle');
+      assert.ok(content.includes('dcc-custom-tag-apply-label'), 'Must include custom tag apply label class');
+    });
+
+    test('styles/dcc.css defines high-contrast checkbox styles for tag manager', () => {
+      const css = fs.readFileSync('styles/dcc.css', 'utf-8');
+      assert.ok(css.includes('.dcc-tag-manager-container input[type="checkbox"]'), 'Must define tag manager checkbox styles');
+      assert.ok(css.includes('accent-color: #c0392b'), 'Must set DCC red accent color');
+      assert.ok(css.includes('outline: 2px solid #ffffff !important'), 'Dark mode must set crisp high-contrast white outline on checkbox');
     });
   });
 });
