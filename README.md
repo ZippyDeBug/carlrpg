@@ -10,6 +10,19 @@ Questions or concerns contact me @ shinierball via gmail or maybe discord or wha
 
 - Hopefully the AI keeps this in sync reasonably with reality, but code changes so fast these days! Odds that this accurately reflects the rules are probably close to zero, but I'm committed to the process of telling the AI to do better!
 
+- **CarlRPG 3.2.10 Interactive Chat Card Reaction Prompts: 1-Click Defender Evade & Allied Bodyguards**:
+  - **Contextual Reaction Prompts in Chat**: When an attack or harmful spell targets a crawler or mob, chat cards dynamically render high-contrast 1-click reaction prompts (`.dcc-interrupt-prompts-container`).
+  - **Target Defender Reactions**: Offers relevant defensive interrupts tailored to the defender (*Evade*, *Shield Block*, *Protective Shell*, *Ice Barrier*) with live action cost indicators (`[1 ACTION]` vs `[FREE INTERRUPT]`).
+  - **Allied Bodyguard & Tactical Intercepts**: Discovers nearby allies who can react on the target's behalf. When an ally is targeted or struck, nearby teammates can trigger *Catcher* (intercepting the blow and taking the damage) or *Taunt* (redirecting the strike).
+  - **1-Click Execution & Budget Deduction**: Clicking any prompt routes through `combat.triggerInterrupt()` or `actor.triggerInterrupt()`, instantly consuming 1 round action (or 0 for milestone free interrupts) and generating a dedicated DCC Interrupt Chat Card.
+
+- **CarlRPG 3.2.9 Reaction & Interrupt Subsystem: Combat Tracker Reaction Status & Quick Interrupt Drawer**:
+  - **Live Combat Tracker Reaction Status**: Added live reaction indicator pills (`⚡ REACTION READY` in gold pulse, `⚡ REACTION SPENT` in muted gray) to each combatant row, immediately signaling whether a character has action budget remaining for reactions or active free interrupt perks.
+  - **Slide-Out Quick Interrupt Drawer**: Added a dedicated **⚡ INTERRUPT** button in the combat tracker action row. Clicking it toggles a sleek, high-contrast slide-out drawer listing all available reactions and interrupts for that combatant (Evade, Taunt, Catcher, Intervene, owned interrupt spells, and owned skills).
+  - **Out-of-Turn Action Economy & Free Perks**: Interrupts executed out-of-turn seamlessly consume 1 action from the combatant's active round budget (rendering with a distinct pulsing lightning badge `[⚡ INTERRUPT]`). High-rank perks (e.g. *Parkour* Rank 10, *Hole* Rank 15) automatically execute as **Free Interrupts (0 Actions)** without depleting the standard action budget.
+  - **Unified Trigger Tags & Discovery**: Registered `action.reaction`, `action.free_interrupt`, and reactive triggers (`trigger.on_attack`, `trigger.on_damage`, `trigger.on_move`, `trigger.on_ally_hit`), automatically discovering and classifying custom and canon items.
+  - **Authentic Interrupt Chat Cards**: Triggering an interrupt generates a high-contrast chat card with trigger indicators, cost badges, and actor details.
+
 - **CarlRPG 3.2.8 Contested / Opposed Spell & Skill Checks, Milestone DC Bonuses & Interactive Chat Resolution**:
   - **Data-Driven Contested & Opposed Checks**: Spells and Skills support fully configurable contest checks (`system.contest`): toggleable `hasContest`, contest types (`dc` challenge vs `opposed` roll-vs-roll), defending ability (`targetStat`), optional defending skill (`targetSkill`), DC formula (`dcFormula`, e.g. `10 + rank + stat`), explicit DC override (`customDC`), failure consequences (`onFailDebuff`, `onFailNotes`), and success notes (`onSuccessNotes`).
   - **Milestone Rank Break DC Bonuses & Debuff Upgrades**: Milestone rank break cards support `contest.dcBonus` and `contest.onFailDebuff`, allowing abilities (e.g. *Rootfoot*, *Web*, *Taunt*, *Grand Illusion*, *Stealth*) to scale DC difficulty and inflict upgraded debilitating conditions automatically as crawlers advance in rank.

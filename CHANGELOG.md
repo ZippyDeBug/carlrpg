@@ -1,3 +1,50 @@
+## 3.2.10
+
+### CarlRPG 3.2.10 — Interactive Chat Card Reaction Prompts: 1-Click Defender Evade/Shield Block & Allied Bodyguard Intercepts
+
+- **Interactive Reaction Prompts in Chat Cards (`src/documents/actor.mjs`, `src/dcc.mjs`, `styles/dcc.css`)**:
+  - Implemented `DCCActor.prototype._getReactionPromptsHtml(targetResults, options)`: evaluates evaluated attack/spell targets and allied combatants, rendering high-contrast 1-click reactive prompts (`.dcc-interrupt-prompts-container` and `.dcc-trigger-interrupt-btn`).
+  - **Target Defender Prompts**: Offers defensive interrupts tailored to the defender (e.g. *Evade*, *Shield Block*, *Protective Shell*) with live action cost indicators.
+  - **Allied Bodyguard & Tactical Prompts**: Automatically discovers nearby allies with reaction capabilities when an ally is targeted or hit, offering *Catcher* (bodyguard intercept taking the hit/damage for an ally) and *Taunt* (redirecting the strike).
+  - Integrated into `_resolveAttackTargets()`, embedding reaction prompt blocks inside `rollAttack()` and `rollSpellAttack()` output chat cards.
+- **Actor Direct Interrupt Execution (`src/documents/actor.mjs`)**:
+  - Implemented `DCCActor.prototype.triggerInterrupt(interruptOrId, options)`: delegates to `combat.triggerInterrupt` when in active combat, or executes standalone out-of-combat, setting active defensive stances (`isEvading`), deducting budgets, and creating authentic DCC Interrupt Chat Cards.
+- **Chat Message Listener & Action Binding (`src/dcc.mjs`)**:
+  - Added click handler for `.dcc-trigger-interrupt-btn`: extracts actor/combatant IDs, executes the chosen reaction via `combat.triggerInterrupt` / `actor.triggerInterrupt`, and provides instant visual feedback while preventing duplicate clicks.
+- **Automated Verification (`tests/reaction-chat-prompts.test.mjs`)**:
+  - Added unit test suite verifying defender prompt generation, allied bodyguard discovery (Catcher & Taunt), standalone actor execution, and `rollAttack` card integration.
+  - Full suite verified: **1,249 tests passing across 226 suites with 0 failures**.
+
+## 3.2.9
+
+### CarlRPG 3.2.9 — Reaction & Interrupt Subsystem: Combat Tracker Reaction Status, Quick Interrupt Drawer & Out-of-Turn Action Economy
+
+- **Combat Tracker Live Reaction Tracking & Quick Interrupt Drawer (`src/apps/combat-tracker.mjs`, `templates/apps/combat-tracker.hbs`, `styles/dcc.css`)**:
+  - Added live Reaction status indicator button (`.dcc-reaction-badge-btn`): reflects `⚡ REACTION READY` (gold glow) or `⚡ REACTION SPENT` (muted gray) directly in the combatant health and action row.
+  - Added 1-click **⚡ INTERRUPT** button (`.dcc-open-interrupt-drawer-btn`) in the action row to toggle the slide-out **Quick Interrupt Drawer** (`.dcc-interrupt-drawer`).
+  - Slide-out Quick Interrupt Drawer dynamically populates all available Interrupts for that combatant, displaying ability name, trigger tag (`[WHEN ATTACKED]`, `[WHEN HIT]`, `[FOE MOVES]`, `[ALLY HIT]`, `[ANYTIME]`), action cost (`[1 ACTION]` vs `[FREE INTERRUPT]`), descriptions, affordability validation, and a 1-click **TRIGGER INTERRUPT** execution button.
+  - Action slot pips spent on interrupts render with a distinguished pulsing lightning badge (`.pip-interrupt`).
+- **Actor Reaction & Interrupt Discovery Engine (`src/documents/actor.mjs`)**:
+  - Implemented `DCCActor.prototype.getAvailableInterrupts(options)`:
+    - Auto-discovers built-in CarlRPG core interrupts: **Evade**, **Taunt**, **Catcher**, and **Intervene**.
+    - Auto-discovers owned Spells configured or tagged as Interrupts (e.g. *Protective Shell*, *Hole*).
+    - Auto-discovers owned Skills with Interrupt checkType, techniqueConfig, or tags (e.g. *Shield Block*, *Opportunity Attack*, *Zone of Control*).
+    - Detects milestone **Free Interrupt** perks (e.g. *Parkour* Rank 10, *Hole* Rank 15), allowing free reactions (0 actions) even when standard action budgets are exhausted.
+    - Evaluates live affordability against remaining action slots and Mana Points.
+- **Combat Interrupt Execution Engine (`src/documents/combat.mjs`)**:
+  - Implemented `DCCCombat.prototype.triggerInterrupt(combatantId, interruptId, options)`:
+    - Executes out-of-turn reactions seamlessly during enemy or ally phases.
+    - Accurately deducts 1 action from the round budget for standard interrupts (marking the slot with `isInterrupt: true`), while allowing Free Interrupts to execute with 0 action cost.
+    - Automatically toggles Evade defensive stance flags when Evade is triggered.
+    - Generates an authentic high-contrast DCC Interrupt Chat Card with trigger descriptions, cost badges, and actor details.
+- **Unified Tag System Triggers & Taxonomy (`src/data/tags.mjs`)**:
+  - Registered `action.reaction` and `action.free_interrupt` tags in `DCC_TAGS`.
+  - Registered reactive trigger tags: `trigger.on_attack`, `trigger.on_damage`, `trigger.on_move`, and `trigger.on_ally_hit`.
+  - Dynamically derives `action.interrupt`, `action.free_interrupt`, and reactive trigger tags in `computeDerivedTags()` for spells, skills, and milestone breaks.
+- **Automated Verification (`tests/reaction-interrupt-mechanics.test.mjs`)**:
+  - Added comprehensive 17-test unit suite validating tag derivations, interrupt discovery, free interrupt perks, action budget enforcement, out-of-turn execution, and Combat Tracker data preparation.
+  - Full suite verified: **1,244 tests passing across 226 suites with 0 failures**.
+
 ## 3.2.8
 
 ### CarlRPG 3.2.8 — Contested / Opposed Spell & Skill Checks, Milestone DC Bonuses & Interactive Chat Resolution

@@ -1408,6 +1408,50 @@ export function onRenderChatMessage(message, html, data) {
     }
   }
 
+  // 4b. Handle click on "Trigger Interrupt / Reaction" from chat card reaction prompt
+  const triggerInterruptButtons = query('.dcc-trigger-interrupt-btn');
+  for (const btn of triggerInterruptButtons) {
+    if (btn.dataset) {
+      if (btn.dataset.dccBound) continue;
+      btn.dataset.dccBound = 'true';
+    }
+
+    const interruptClickHandler = async (ev) => {
+      ev.preventDefault();
+      const $btn = (typeof $ !== 'undefined') ? $(btn) : null;
+      const actorId = btn.dataset?.actorId || $btn?.data('actor-id');
+      const combatantId = btn.dataset?.combatantId || $btn?.data('combatant-id');
+      const interruptId = btn.dataset?.interruptId || $btn?.data('interrupt-id');
+      const targetName = btn.dataset?.targetName || $btn?.data('target-name') || '';
+
+      btn.disabled = true;
+      btn.style.opacity = '0.5';
+
+      try {
+        const combat = game.combat;
+        if (combatantId && combat && typeof combat.triggerInterrupt === 'function') {
+          await combat.triggerInterrupt(combatantId, interruptId, { targetName });
+        } else if (actorId && typeof game.actors?.get === 'function') {
+          const actor = game.actors.get(actorId);
+          if (actor && typeof actor.triggerInterrupt === 'function') {
+            await actor.triggerInterrupt(interruptId, { targetName });
+          }
+        }
+      } catch (err) {
+        console.error('DCC RPG | Error executing reaction interrupt:', err);
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        ui.notifications?.error?.(`DCC RPG | Failed to execute reaction: ${err.message}`);
+      }
+    };
+
+    if (typeof btn.addEventListener === 'function') {
+      btn.addEventListener('click', interruptClickHandler);
+    } else if (typeof $ !== 'undefined') {
+      $(btn).click(interruptClickHandler);
+    }
+  }
+
   // 5. Handle click on "Apply Healing" from chat card (e.g. Custard Scratch-off outcome, healing consumables)
   const applyHealingButtons = query('.dcc-apply-healing-btn');
   for (const btn of applyHealingButtons) {

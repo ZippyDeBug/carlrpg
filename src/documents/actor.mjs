@@ -1853,7 +1853,140 @@ export class DCCActor extends BaseActor {
       `;
     }
 
-    return { targetResults, targetResultsHtml, currentFloor };
+    const reactionPromptsHtml = this._getReactionPromptsHtml(targetResults, options);
+    return { targetResults, targetResultsHtml, currentFloor, reactionPromptsHtml };
+  }
+
+  /**
+   * Helper to build interactive Reaction & Interrupt prompts HTML for targets and allies
+   * @param {Array<object>} targetResults
+   * @param {object} [options={}]
+   * @returns {string}
+   */
+  _getReactionPromptsHtml(targetResults, options = {}) {
+    if (!Array.isArray(targetResults) || targetResults.length === 0) return '';
+
+    const prompts = [];
+    const combat = globalThis.game?.combat;
+
+    for (const tr of targetResults) {
+      const defender = tr.actor || (globalThis.game?.actors?.get ? globalThis.game.actors.get(tr.actorId) : null);
+      if (!defender) continue;
+
+      // 1. Defender Reactions
+      const defenderInterrupts = typeof defender.getAvailableInterrupts === 'function' ? defender.getAvailableInterrupts() : [];
+      for (const int of defenderInterrupts) {
+        if (int.canUse === false) continue;
+        // Built-ins: Catcher, Taunt, Intervene are ally reactions, not self-defense
+        if (int.id === 'catcher' || int.id === 'taunt' || int.id === 'intervene') continue;
+        if (int.trigger === 'on_ally_hit') continue;
+
+        prompts.push({
+          actor: defender,
+          actorId: defender.id,
+          actorName: defender.name,
+          interrupt: int,
+          interruptId: int.id,
+          label: `${defender.name}: ${int.name}`,
+          detail: int.costDesc ? `(${int.costDesc})` : '',
+          icon: int.icon || 'fa-solid fa-bolt',
+          isFree: Boolean(int.isFree),
+          targetName: defender.name
+        });
+      }
+
+      // 2. Ally Reactions (Bodyguard Catcher, Taunt redirection, etc.)
+      if (combat?.combatants) {
+        const combatantsList = Array.isArray(combat.combatants)
+          ? combat.combatants
+          : (combat.combatants.contents || Array.from(combat.combatants.values?.() || []));
+
+        for (const c of combatantsList) {
+          if (!c) continue;
+          if (c.actorId === this.id || c.actorId === defender.id) continue;
+
+          const allyActor = c.actor || (globalThis.game?.actors?.get ? globalThis.game.actors.get(c.actorId) : null);
+          if (!allyActor) continue;
+
+          const isDefenderMob = defender.type === 'npc' || defender.type === 'mob';
+          const isAllyMob = allyActor.type === 'npc' || allyActor.type === 'mob';
+          if (isDefenderMob !== isAllyMob) continue; // Must be on the same side
+
+          const allyInterrupts = typeof allyActor.getAvailableInterrupts === 'function' ? allyActor.getAvailableInterrupts() : [];
+          for (const int of allyInterrupts) {
+            if (int.canUse === false) continue;
+
+            let shouldOffer = false;
+            let allyLabel = `${allyActor.name}: ${int.name}`;
+            let allyDetail = '';
+
+            if (int.id === 'catcher') {
+              if (tr.isHit) {
+                shouldOffer = true;
+                allyDetail = `(Protect ${defender.name})`;
+              }
+            } else if (int.id === 'taunt') {
+              shouldOffer = true;
+              allyDetail = `(Redirect from ${defender.name})`;
+            } else if (int.trigger === 'on_ally_hit') {
+              if (tr.isHit) {
+                shouldOffer = true;
+                allyDetail = `(Protect ${defender.name})`;
+              }
+            }
+
+            if (shouldOffer) {
+              prompts.push({
+                actor: allyActor,
+                actorId: allyActor.id,
+                actorName: allyActor.name,
+                combatantId: c.id,
+                interrupt: int,
+                interruptId: int.id,
+                label: allyLabel,
+                detail: allyDetail || (int.costDesc ? `(${int.costDesc})` : ''),
+                icon: int.icon || 'fa-solid fa-shield-halved',
+                isFree: Boolean(int.isFree),
+                targetName: defender.name
+              });
+            }
+          }
+        }
+      }
+    }
+
+    if (prompts.length === 0) return '';
+
+    const buttonsHtml = prompts.map(p => {
+      const freeBadge = p.isFree
+        ? `<span style="background: #27ae60; color: #fff; padding: 1px 4px; border-radius: 2px; font-size: 9px; font-weight: bold; margin-left: 4px;">FREE</span>`
+        : '';
+      return `
+        <button type="button" class="dcc-trigger-interrupt-btn"
+          data-actor-id="${p.actorId}"
+          data-combatant-id="${p.combatantId || ''}"
+          data-interrupt-id="${p.interruptId}"
+          data-target-name="${p.targetName}"
+          style="width: 100%; margin-top: 4px; padding: 5px 8px; font-size: 11px; cursor: pointer; background: #2c3e50; color: #fff; border: 1px solid #f39c12; border-radius: 3px; display: flex; align-items: center; justify-content: space-between; gap: 6px; font-weight: bold; font-family: var(--font-primary, 'Oswald', sans-serif); text-transform: uppercase;">
+          <span style="display: flex; align-items: center; gap: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            <i class="${p.icon}" style="color: #f39c12;"></i>
+            <span>${p.label}</span>
+            ${freeBadge}
+          </span>
+          <span style="font-size: 10px; color: #f5b041; white-space: nowrap;">${p.detail}</span>
+        </button>
+      `;
+    }).join('');
+
+    return `
+      <div class="dcc-interrupt-prompts-container" style="margin-top: 8px; padding: 6px 8px; background: rgba(243, 156, 18, 0.08); border: 1.5px solid #f39c12; border-radius: 4px; font-family: var(--font-primary, 'Oswald', sans-serif);">
+        <div style="font-size: 10px; font-weight: bold; color: #f39c12; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px;">
+          <span><i class="fa-solid fa-bolt"></i> Reactive & Interrupt Opportunities</span>
+          <span style="font-size: 9px; color: #bdc3c7;">1 Action Out-of-Turn</span>
+        </div>
+        ${buttonsHtml}
+      </div>
+    `;
   }
 
   /**
@@ -4557,11 +4690,11 @@ export class DCCActor extends BaseActor {
         `;
       }
 
-      const { targetResults, targetResultsHtml, currentFloor } = this._resolveAttackTargets(roll, options);
+      const { targetResults, targetResultsHtml, currentFloor, reactionPromptsHtml } = this._resolveAttackTargets(roll, options);
       const evadeBtnHtml = this._getEvadeButtonHtml(roll, currentFloor);
 
       const rollHtml = typeof roll.render === 'function' ? await roll.render() : '';
-      const content = [rollHtml, fumbleTag, targetResultsHtml, dmgBtnHtml, evadeBtnHtml].filter(Boolean).join('');
+      const content = [rollHtml, fumbleTag, targetResultsHtml, dmgBtnHtml, evadeBtnHtml, reactionPromptsHtml].filter(Boolean).join('');
 
       return roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: this }),
@@ -6297,6 +6430,313 @@ export class DCCActor extends BaseActor {
   }
 
   /**
+   * Discover and evaluate all available Reactions and Interrupts for this actor.
+   * Includes built-in DCC interrupts (Evade, Taunt, Catcher, Intervene),
+   * owned spells tagged or typed as Interrupts,
+   * owned skills with Interrupt checkType, tags, or techniques,
+   * and rank milestone free-interrupt perks.
+   * 
+   * @param {object} [options={}]
+   * @param {number|null} [options.actionsSpent=null]
+   * @param {number|null} [options.actionsMax=null]
+   * @returns {Array<object>}
+   */
+  getAvailableInterrupts(options = {}) {
+    const list = [];
+    const isMob = this.type === 'npc' || this.type === 'mob';
+    const currentMana = Number(this.system?.attributes?.mana?.value ?? this.system?.attributes?.mp?.value ?? 0);
+
+    // Evaluate action budget if passed or fallback
+    let actionsSpent = Number(options.actionsSpent);
+    let actionsMax = Number(options.actionsMax);
+    if (isNaN(actionsSpent) || isNaN(actionsMax)) {
+      // Check active combat
+      const combat = globalThis.game?.combat;
+      if (combat && typeof combat.getCombatantActions === 'function') {
+        const c = combat.combatants?.find ? combat.combatants.find(con => con.actorId === this.id) : null;
+        if (c) {
+          const ca = combat.getCombatantActions(c);
+          actionsSpent = ca.spent ?? 0;
+          actionsMax = ca.max ?? 2;
+        }
+      }
+    }
+    const hasBudgetRemaining = isNaN(actionsSpent) || isNaN(actionsMax) ? true : (actionsSpent < actionsMax);
+
+    // 1. Built-in Core DCC Interrupts (always accessible)
+    list.push({
+      id: 'evade',
+      name: 'Evade',
+      type: 'action',
+      category: 'defensive',
+      icon: 'fa-solid fa-shield-halved',
+      isFree: false,
+      actionCost: 1,
+      costDesc: '1 Action',
+      trigger: 'on_attack',
+      triggerLabel: 'When Attacked',
+      description: 'Declare defensive focus to boost Evade against all incoming attacks for the rest of the round.',
+      canUse: hasBudgetRemaining,
+      reasonCannotUse: hasBudgetRemaining ? null : 'Action budget depleted'
+    });
+
+    list.push({
+      id: 'taunt',
+      name: 'Taunt',
+      type: 'action',
+      category: 'defensive',
+      icon: 'fa-solid fa-bullhorn',
+      isFree: false,
+      actionCost: 1,
+      costDesc: '1 Action',
+      trigger: 'on_attack',
+      triggerLabel: 'When Ally Targeted',
+      description: "Redirect a hostile attack from an ally to yourself.",
+      canUse: hasBudgetRemaining,
+      reasonCannotUse: hasBudgetRemaining ? null : 'Action budget depleted'
+    });
+
+    list.push({
+      id: 'catcher',
+      name: 'Catcher',
+      type: 'action',
+      category: 'defensive',
+      icon: 'fa-solid fa-person-falling-burst',
+      isFree: false,
+      actionCost: 1,
+      costDesc: '1 Action',
+      trigger: 'on_damage',
+      triggerLabel: 'When Ally Hit',
+      description: 'Bodyguard intercept: take a hit and damage meant for an adjacent ally onto yourself.',
+      canUse: hasBudgetRemaining,
+      reasonCannotUse: hasBudgetRemaining ? null : 'Action budget depleted'
+    });
+
+    list.push({
+      id: 'intervene',
+      name: 'Intervene',
+      type: 'action',
+      category: 'tactical',
+      icon: 'fa-solid fa-user-shield',
+      isFree: false,
+      actionCost: 1,
+      costDesc: '1 Action',
+      trigger: 'any',
+      triggerLabel: 'Ally Check / Save',
+      description: "Assist an ally's check: roll 1d6 and add directly to their d20 check result.",
+      canUse: hasBudgetRemaining,
+      reasonCannotUse: hasBudgetRemaining ? null : 'Action budget depleted'
+    });
+
+    // 2. Owned Items (Skills, Spells, Gear)
+    const allItems = this.items ? (Array.isArray(this.items) ? this.items : Array.from(this.items.values ? this.items.values() : this.items)) : [];
+
+    for (const item of allItems) {
+      if (!item || !item.system) continue;
+      const sys = item.system;
+      const type = item.type;
+      const tags = typeof getItemAllTags === 'function' ? getItemAllTags(item) : (new Set(sys.tags || []));
+      
+      // Check if item has a free interrupt milestone or rank break interrupt
+      let isFree = Boolean(sys.isFreeInterrupt || tags.has('action.free_interrupt'));
+      let freeNote = '';
+      let hasInterruptBreak = false;
+      if (sys.rankBreaks && typeof sys.rankBreaks === 'object') {
+        const itemRank = Math.max(Number(item.effectiveRank ?? item.modifiedRank ?? sys.rank) || 0, 1);
+        for (const [rbKey, rb] of Object.entries(sys.rankBreaks)) {
+          if (!rb) continue;
+          const reqRank = Number(rb.rank) || (rbKey === 'rank5' ? 5 : rbKey === 'rank10' ? 10 : rbKey === 'rank15' ? 15 : rbKey === 'rank20' ? 20 : 0);
+          if (itemRank >= reqRank) {
+            if (rb.isFreeInterrupt || (typeof rb.notes === 'string' && rb.notes.toLowerCase().includes('free interrupt'))) {
+              isFree = true;
+              freeNote = rb.notes || 'Free Interrupt perk';
+              hasInterruptBreak = true;
+            } else if (typeof rb.notes === 'string' && rb.notes.toLowerCase().includes('interrupt')) {
+              hasInterruptBreak = true;
+            }
+          }
+        }
+      }
+
+      const isTaggedInterrupt = tags.has('action.interrupt') || tags.has('action.reaction');
+      const isSpellInterrupt = type === 'spell' && (sys.spellType?.toLowerCase() === 'interrupt' || isTaggedInterrupt);
+      const isSkillInterrupt = type === 'skill' && (
+        isTaggedInterrupt ||
+        sys.isInterrupt ||
+        sys.checkType?.toLowerCase()?.includes('interrupt') ||
+        sys.techniqueConfig?.isInterrupt ||
+        hasInterruptBreak
+      );
+      const isGearInterrupt = (type === 'gear' || type === 'attack') && isTaggedInterrupt;
+
+      if (!isSpellInterrupt && !isSkillInterrupt && !isGearInterrupt) continue;
+
+      // Action and resource costs
+      const actionCost = isFree ? 0 : 1;
+      const manaCost = type === 'spell' ? (Number(sys.manaCost) || 0) : 0;
+      let costDesc = isFree ? 'Free (0 Actions)' : '1 Action';
+      if (manaCost > 0) costDesc += ` + ${manaCost} MP`;
+
+      // Trigger classification
+      let trigger = sys.trigger ? String(sys.trigger).toLowerCase().trim() : '';
+      if (!trigger) {
+        if (tags.has('trigger.on_attack') || (item.name && item.name.toLowerCase().includes('shield block'))) trigger = 'on_attack';
+        else if (tags.has('trigger.on_damage') || (item.name && item.name.toLowerCase().includes('protective shell'))) trigger = 'on_damage';
+        else if (tags.has('trigger.on_move') || (item.name && (item.name.toLowerCase().includes('opportunity') || item.name.toLowerCase().includes('zone of control')))) trigger = 'on_move';
+        else if (tags.has('trigger.on_ally_hit')) trigger = 'on_ally_hit';
+        else trigger = 'any';
+      }
+
+      let triggerLabel = 'Anytime';
+      if (trigger === 'on_attack') triggerLabel = 'When Attacked';
+      else if (trigger === 'on_damage') triggerLabel = 'When Hit / Damaged';
+      else if (trigger === 'on_move') triggerLabel = 'When Foe Moves';
+      else if (trigger === 'on_ally_hit') triggerLabel = 'When Ally Hit';
+
+      // Affordability
+      let canUse = true;
+      let reasonCannotUse = null;
+
+      if (!isFree && !hasBudgetRemaining) {
+        canUse = false;
+        reasonCannotUse = 'Action budget depleted';
+      } else if (manaCost > 0 && currentMana < manaCost) {
+        canUse = false;
+        reasonCannotUse = `Insufficient Mana (${currentMana}/${manaCost} MP)`;
+      }
+
+      const icon = item.img || (type === 'spell' ? 'fa-solid fa-wand-magic-sparkles' : 'fa-solid fa-bolt');
+
+      list.push({
+        id: `item:${item.id || item._id}`,
+        itemId: item.id || item._id,
+        name: item.name,
+        item,
+        type,
+        category: type === 'spell' ? 'tactical' : (sys.isAttack ? 'damage' : 'defensive'),
+        icon,
+        isFree,
+        actionCost,
+        costDesc,
+        manaCost,
+        trigger,
+        triggerLabel,
+        description: freeNote || sys.notes || sys.description || '',
+        canUse,
+        reasonCannotUse
+      });
+    }
+
+    return list;
+  }
+
+  /**
+   * Execute an Interrupt / Reaction action directly on this actor.
+   * If in active combat, routes through combat.triggerInterrupt to manage round budget.
+   * Otherwise executes standalone, updating stances and generating a DCC chat card.
+   * @param {string|object} interruptOrId
+   * @param {object} [options={}]
+   * @returns {Promise<object>}
+   */
+  async triggerInterrupt(interruptOrId, options = {}) {
+    // If active combat exists, check if this actor is a combatant
+    const combat = globalThis.game?.combat;
+    if (combat && typeof combat.triggerInterrupt === 'function') {
+      const combatantsList = Array.isArray(combat.combatants)
+        ? combat.combatants
+        : (combat.combatants.contents || Array.from(combat.combatants.values?.() || []));
+      const c = combatantsList.find(con => con.actorId === this.id || (con.actor && con.actor.id === this.id));
+      if (c) {
+        return await combat.triggerInterrupt(c.id, interruptOrId, options);
+      }
+    }
+
+    // Standalone execution outside combat
+    let interrupt = null;
+    if (typeof interruptOrId === 'object' && interruptOrId !== null) {
+      interrupt = interruptOrId;
+    } else {
+      const intId = String(interruptOrId).trim();
+      const available = typeof this.getAvailableInterrupts === 'function' ? this.getAvailableInterrupts() : [];
+      interrupt = available.find(i => i.id === intId || i.itemId === intId || (i.item && (i.item.id === intId || i.item._id === intId))) || null;
+
+      if (!interrupt) {
+        interrupt = {
+          id: intId,
+          name: intId.charAt(0).toUpperCase() + intId.slice(1),
+          type: 'action',
+          category: 'defensive',
+          icon: 'fa-solid fa-bolt',
+          isFree: false,
+          actionCost: 1,
+          costDesc: '1 Action',
+          trigger: 'any',
+          triggerLabel: 'Anytime',
+          description: ''
+        };
+      }
+    }
+
+    const isFree = Boolean(interrupt.isFree || interrupt.actionCost === 0);
+
+    // Evade stance flag
+    if (interrupt.id === 'evade') {
+      if (typeof this.setFlag === 'function') {
+        await this.setFlag('carl-rpg', 'isEvading', true);
+      }
+    }
+
+    // Post DCC Interrupt Chat Message
+    let message = null;
+    if (globalThis.ChatMessage?.create) {
+      const targetText = options.targetName ? ` vs <strong>${options.targetName}</strong>` : '';
+      const costBadge = isFree
+        ? `<span style="background: #27ae60; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: bold;">FREE INTERRUPT (0 ACTIONS)</span>`
+        : `<span style="background: #e67e22; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: bold;">SPENT 1 ACTION</span>`;
+
+      const content = `
+        <div class="dcc-chat-card dcc-interrupt-card" style="font-family: var(--font-primary, sans-serif); border: 2px solid #f39c12; border-radius: 4px; padding: 8px 10px; background: #fffcf5;">
+          <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1.5px solid #f5b041; padding-bottom: 4px; margin-bottom: 6px;">
+            <div style="font-weight: bold; font-size: 13px; color: #b7791f; display: flex; align-items: center; gap: 6px;">
+              <i class="fa-solid fa-bolt" style="color: #f39c12;"></i> INTERRUPT: ${interrupt.name.toUpperCase()}
+            </div>
+            ${costBadge}
+          </div>
+          <div style="font-size: 11px; color: #333; margin-bottom: 4px;">
+            <strong>${this.name}</strong> triggered an out-of-turn Reaction${targetText}!
+          </div>
+          <div style="font-size: 11px; color: #555; background: #fff; border: 1px solid #fae5d3; border-radius: 3px; padding: 5px 7px; margin-top: 4px;">
+            <div style="font-size: 10px; color: #888; text-transform: uppercase; margin-bottom: 2px;">
+              <i class="fa-solid fa-crosshairs"></i> Trigger: <strong>${interrupt.triggerLabel || 'Reactive Trigger'}</strong>
+            </div>
+            ${interrupt.description || ''}
+          </div>
+        </div>
+      `;
+
+      message = await globalThis.ChatMessage.create({
+        speaker: globalThis.ChatMessage.getSpeaker?.({ actor: this }) || { alias: this.name },
+        content,
+        flags: {
+          'carl-rpg': {
+            isInterrupt: true,
+            interruptId: interrupt.id,
+            isFree,
+            actorId: this.id
+          }
+        }
+      });
+    }
+
+    return {
+      success: true,
+      interrupt,
+      isFree,
+      message
+    };
+  }
+
+  /**
    * Parse and calculate spell damage formula and metadata based on spell description, stat, and rank upgrades
    * @param {DCCItem} spellItem
    * @returns {object}
@@ -6698,7 +7138,7 @@ export class DCCActor extends BaseActor {
       }).catch(() => {});
     }
 
-    const { targetResults, targetResultsHtml, currentFloor } = this._resolveAttackTargets(roll, options);
+    const { targetResults, targetResultsHtml, currentFloor, reactionPromptsHtml } = this._resolveAttackTargets(roll, options);
     const evadeBtnHtml = this._getEvadeButtonHtml(roll, currentFloor);
 
     // Check for Fumble on Natural 1
@@ -6729,7 +7169,7 @@ export class DCCActor extends BaseActor {
     const rollHtml = typeof roll.render === 'function' ? await roll.render() : '';
     const contestData = this.getContestData(spellItem, options);
     const contestHtml = contestData ? this.renderContestChallengeBlock(spellItem, contestData, roll.total) : '';
-    const content = [rollHtml, targetResultsHtml, fumbleTag, dmgBtnHtml, evadeBtnHtml, contestHtml].filter(Boolean).join('');
+    const content = [rollHtml, targetResultsHtml, fumbleTag, dmgBtnHtml, evadeBtnHtml, contestHtml, reactionPromptsHtml].filter(Boolean).join('');
 
     return roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor: this }),

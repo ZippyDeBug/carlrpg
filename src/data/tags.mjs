@@ -51,6 +51,8 @@ export const DCC_TAGS = [
   { id: 'action.restore', label: 'Restore / Refill', namespace: 'action' },
   { id: 'action.passive', label: 'Passive', namespace: 'action' },
   { id: 'action.interrupt', label: 'Interrupt', namespace: 'action' },
+  { id: 'action.reaction', label: 'Reaction', namespace: 'action' },
+  { id: 'action.free_interrupt', label: 'Free Interrupt (0 Actions)', namespace: 'action' },
   { id: 'action.hot', label: 'Heal Over Time (HoT)', namespace: 'action' },
   { id: 'action.cleanse', label: 'Cleanse Debuff', namespace: 'action' },
   { id: 'action.armor_piercing', label: 'Armor Piercing', namespace: 'action' },
@@ -203,7 +205,11 @@ export const DCC_TAGS = [
   // --- Condition Triggers ---
   { id: 'trigger.crit', label: 'Critical Hit Trigger', namespace: 'trigger' },
   { id: 'trigger.fumble', label: 'Fumble Trigger', namespace: 'trigger' },
-  { id: 'trigger.on_hit', label: 'On-Hit Debuff Trigger', namespace: 'trigger' }
+  { id: 'trigger.on_hit', label: 'On-Hit Debuff Trigger', namespace: 'trigger' },
+  { id: 'trigger.on_attack', label: 'When Attacked', namespace: 'trigger' },
+  { id: 'trigger.on_damage', label: 'When Hit / Damaged', namespace: 'trigger' },
+  { id: 'trigger.on_move', label: 'When Foe Moves', namespace: 'trigger' },
+  { id: 'trigger.on_ally_hit', label: 'When Ally Hit', namespace: 'trigger' }
 ];
 
 /** Fast lookup map of registered tags */
@@ -427,10 +433,36 @@ export function computeDerivedTags(item) {
     else if (actKey === 'interrupt') derived.add('action.interrupt');
   }
 
-  // Skill attack vs utility
+  // Skill attack vs utility vs interrupt
   if (type === 'skill') {
     if (sys.isAttack) {
       derived.add('action.attack');
+    }
+    const checkType = (sys.checkType || '').toLowerCase();
+    if (checkType.includes('interrupt') || sys.isInterrupt || sys.techniqueConfig?.isInterrupt) {
+      derived.add('action.interrupt');
+    }
+  }
+
+  // Reactive Triggers
+  if (sys.trigger) {
+    const tr = String(sys.trigger).toLowerCase().trim();
+    if (tr === 'on_attack' || tr === 'attack') derived.add('trigger.on_attack');
+    else if (tr === 'on_damage' || tr === 'damage') derived.add('trigger.on_damage');
+    else if (tr === 'on_move' || tr === 'move') derived.add('trigger.on_move');
+    else if (tr === 'on_ally_hit' || tr === 'ally_hit') derived.add('trigger.on_ally_hit');
+  }
+
+  // Free Interrupt tag derivation
+  if (sys.isFreeInterrupt) {
+    derived.add('action.free_interrupt');
+  }
+  if (sys.rankBreaks && typeof sys.rankBreaks === 'object') {
+    for (const rb of Object.values(sys.rankBreaks)) {
+      if (rb?.isFreeInterrupt) {
+        derived.add('action.free_interrupt');
+        break;
+      }
     }
   }
 

@@ -90,7 +90,8 @@ export class DCCCombatTracker extends BaseCombatTracker {
           action: slotData,
           label: slotData ? slotData.label : (i >= 2 ? 'Bonus Action' : `Action ${i + 1}`),
           icon: slotData ? slotData.icon : 'fa-regular fa-circle',
-          isAttack: Boolean(slotData?.isAttack)
+          isAttack: Boolean(slotData?.isAttack),
+          isInterrupt: Boolean(slotData?.isInterrupt)
         });
       }
 
@@ -107,6 +108,12 @@ export class DCCCombatTracker extends BaseCombatTracker {
       const hasTempBars = tbCount > 0 && tbHpPerSlot > 0;
       const tempBarsTotalHp = hasTempBars ? ((tbCount - 1) * tbHpPerSlot + tbCurrentSlotHp) : 0;
       const tempHp = Number(actor?.system?.attributes?.hp?.temp) || 0;
+
+      // Reactions & Interrupts evaluation
+      const availableInterrupts = typeof actor?.getAvailableInterrupts === 'function'
+        ? actor.getAvailableInterrupts({ actionsSpent: actions.spent, actionsMax: actions.max })
+        : [];
+      const reactionReady = (actions.spent < actions.max) || availableInterrupts.some(i => i.isFree);
 
       const enrichedTurn = {
         ...turn,
@@ -129,7 +136,10 @@ export class DCCCombatTracker extends BaseCombatTracker {
         currentFavor,
         canSpendAIFavor,
         actorTypeLabel: isMob ? 'MOB' : (actor?.type?.toUpperCase() || 'CRAWLER'),
-        trophyBadges
+        trophyBadges,
+        availableInterrupts,
+        reactionReady,
+        interruptCount: availableInterrupts.length
       };
 
       if (isMob) {
@@ -418,10 +428,50 @@ export class DCCCombatTracker extends BaseCombatTracker {
       }
     });
 
+    // 10. Open/Toggle Interrupt Drawer
+    $html.find('.dcc-open-interrupt-drawer-btn, .dcc-reaction-badge-btn').click(ev => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      const btn = $(ev.currentTarget);
+      const row = btn.closest('.dcc-combatant-row');
+      const drawer = row.find('.dcc-interrupt-drawer');
+
+      $html.find('.dcc-interrupt-drawer').not(drawer).hide();
+      $html.find('.dcc-action-picker-popover').hide();
+      drawer.toggle();
+    });
+
+    // 11. Close Interrupt Drawer
+    $html.find('.dcc-drawer-close-btn').click(ev => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      $(ev.currentTarget).closest('.dcc-interrupt-drawer').hide();
+    });
+
+    // 12. Trigger Interrupt from Drawer Item
+    $html.find('.dcc-drawer-interrupt-btn').click(async ev => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      const btn = $(ev.currentTarget);
+      const drawer = btn.closest('.dcc-interrupt-drawer');
+      const combatantId = drawer.data('combatant-id');
+      const interruptId = btn.data('interrupt-id');
+      const combat = this.viewed || globalThis.game?.combat;
+      if (!combat) return;
+
+      drawer.hide();
+      const targetRound = this.viewedRound || combat.round || 1;
+      const res = await combat.triggerInterrupt(combatantId, interruptId, { round: targetRound });
+      if (res && res.success) {
+        this.render();
+      }
+    });
+
     // Close open action menus when clicking anywhere else
     if (typeof document !== 'undefined') {
       $(document).off('click.dccCombatTracker').on('click.dccCombatTracker', () => {
         $html.find('.dcc-action-picker-popover').hide();
+        $html.find('.dcc-interrupt-drawer').hide();
       });
     }
   }

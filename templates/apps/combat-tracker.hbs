@@ -137,6 +137,13 @@
                         <span class="dcc-action-budget-counter {{#if turn.isComplete}}budget-empty{{else}}budget-active{{/if}}">
                           <i class="fa-solid fa-clock"></i> {{turn.actions.spent}}/{{turn.actions.max}} ACTIONS
                         </span>
+
+                        <!-- Reaction / Interrupt Status Pill -->
+                        <button type="button" class="dcc-reaction-badge-btn {{#if turn.reactionReady}}reaction-ready{{else}}reaction-spent{{/if}}"
+                                data-combatant-id="{{turn.id}}"
+                                data-tooltip="{{#if turn.reactionReady}}Reaction Ready: Click to trigger Quick Interrupt{{else}}Action Budget Depleted: Click to view Free Perks / Interrupt Options{{/if}}">
+                          <i class="fa-solid fa-bolt"></i> {{#if turn.reactionReady}}REACTION READY{{else}}REACTION SPENT{{/if}}
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -146,7 +153,7 @@
                     <span class="dcc-actions-label">ACTIONS:</span>
                     <div class="dcc-action-pips flexrow">
                       {{#each turn.slotList as |slot|}}
-                        <button type="button" class="dcc-action-pip {{#if slot.filled}}pip-filled {{#if slot.isAttack}}pip-attack{{else}}pip-utility{{/if}}{{else}}pip-empty{{/if}} {{#if slot.isBonus}}pip-bonus{{/if}}"
+                        <button type="button" class="dcc-action-pip {{#if slot.filled}}pip-filled {{#if slot.isInterrupt}}pip-interrupt{{else if slot.isAttack}}pip-attack{{else}}pip-utility{{/if}}{{else}}pip-empty{{/if}} {{#if slot.isBonus}}pip-bonus{{/if}}"
                                 data-combatant-id="{{turn.id}}"
                                 data-slot-index="{{slot.index}}"
                                 data-tooltip="{{#if slot.filled}}{{slot.label}} (Click to change/clear){{else}}{{slot.label}} (Click to select action){{/if}}">
@@ -155,6 +162,11 @@
                         </button>
                       {{/each}}
                     </div>
+
+                    <!-- Quick Interrupt Button -->
+                    <button type="button" class="dcc-open-interrupt-drawer-btn" data-combatant-id="{{turn.id}}" data-tooltip="Trigger Quick Interrupt / Out-of-Turn Reaction">
+                      <i class="fa-solid fa-bolt" style="color: #f39c12;"></i> INTERRUPT
+                    </button>
 
                     <!-- AI Favor Bonus Action Button for Crawlers -->
                     {{#if turn.canSpendAIFavor}}
@@ -251,6 +263,50 @@
                       <button type="button" class="dcc-action-option opt-other" data-action-type="other">
                         <i class="fa-solid fa-ellipsis"></i> Other Action
                       </button>
+                    </div>
+                  </div>
+
+                  <!-- Quick Interrupt Drawer -->
+                  <div class="dcc-interrupt-drawer" data-combatant-id="{{turn.id}}" style="display: none;">
+                    <div class="dcc-drawer-header flexrow">
+                      <span class="dcc-drawer-title"><i class="fa-solid fa-bolt" style="color: #f39c12;"></i> QUICK INTERRUPT: {{upper turn.name}}</span>
+                      <span class="dcc-drawer-budget">{{turn.remainingActions}} Actions Left</span>
+                      <button type="button" class="dcc-drawer-close-btn" data-tooltip="Close Drawer">
+                        <i class="fa-solid fa-xmark"></i>
+                      </button>
+                    </div>
+
+                    <div class="dcc-drawer-list">
+                      {{#if turn.availableInterrupts.length}}
+                        {{#each turn.availableInterrupts as |intr|}}
+                          <div class="dcc-drawer-item {{#unless intr.canUse}}item-disabled{{/unless}}">
+                            <div class="dcc-drawer-item-header flexrow">
+                              <span class="dcc-drawer-item-name">
+                                <i class="{{intr.icon}}"></i> {{intr.name}}
+                              </span>
+                              <div class="dcc-drawer-pills flexrow">
+                                <span class="dcc-pill dcc-pill-trigger">{{intr.triggerLabel}}</span>
+                                <span class="dcc-pill {{#if intr.isFree}}dcc-pill-free{{else}}dcc-pill-cost{{/if}}">{{intr.costDesc}}</span>
+                              </div>
+                            </div>
+                            {{#if intr.description}}
+                              <div class="dcc-drawer-item-desc">{{intr.description}}</div>
+                            {{/if}}
+                            <div class="dcc-drawer-item-footer flexrow">
+                              {{#if intr.reasonCannotUse}}
+                                <span class="dcc-drawer-warning"><i class="fa-solid fa-triangle-exclamation"></i> {{intr.reasonCannotUse}}</span>
+                              {{/if}}
+                              <button type="button" class="dcc-drawer-interrupt-btn {{#unless intr.canUse}}disabled{{/unless}}"
+                                      data-interrupt-id="{{intr.id}}"
+                                      {{#unless intr.canUse}}disabled{{/unless}}>
+                                <i class="fa-solid fa-bolt"></i> TRIGGER INTERRUPT
+                              </button>
+                            </div>
+                          </div>
+                        {{/each}}
+                      {{else}}
+                        <div class="dcc-drawer-empty">No interrupt abilities configured on this combatant.</div>
+                      {{/if}}
                     </div>
                   </div>
 

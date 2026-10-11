@@ -122,65 +122,91 @@
   - Ran `scripts/migrate-healing-and-armor-piercing.mjs` migrating 54 spells and 121 skills. Rebuilt all compendium packs.
   - Unit tests: 1,198 passing across 213 suites with 0 failures (`tests/healing-cleansing-mechanics.test.mjs` and `tests/armor-piercing-mechanics.test.mjs`).
 
-## Task: Contested / Opposed Spell & Skill Checks (DC vs Stat/Skill) Subsystem
+## Task: Reaction and Interrupt Mechanics (#4) — In-Depth Analysis & Automation Options
 **Date**: 2026-10-10
 
 ### User Request Analysis
-- Implement #3 from Canon Unaccounted Mechanics: **Contested / Opposed Spell & Skill Checks**.
-- Spells: `Rootfoot` (Str check vs Spell DC to break free), `Web`, `Panty Dropper` (Int-opposed check), `Grand Illusion`, `Turn Undead`.
-- Skills: `Stealth` vs `Perception`, `Ambush`, `Deception` vs `Detect Lies`, `Escape Artist` vs `Grapple`, `Taunt` vs `Insight`.
-- Enable data-driven configuration of DC-based and Opposed roll-vs-roll contests for user-created and canon content.
-- Support interactive chat cards with "🎲 Roll Opposed Contest" buttons for defending tokens and automatic/1-click debuff application on failure.
+- Dive into #4: **Reaction and Interrupt Mechanics**.
+- Explore canon and emergent scenarios for interrupts in DCC RPG.
+- Detail where interrupts can be tracked across the system (Combat Tracker, Character Sheets, Token HUD).
+- Propose concrete automation and play mechanic options for handling interrupts in a Virtual Tabletop environment without bogging down turn flow.
 
-### Architecture Plan
-1. **Schema & Data Models (`template.json`, Data Models)**:
-   - Add `system.contest` to `Item.spell` and `Item.skill`:
-     - `hasContest`: Boolean (default `false`)
-     - `contestType`: String (`dc` or `opposed`)
-     - `targetStat`: String (`str`, `dex`, `con`, `int`, `cha`)
-     - `targetSkill`: String (optional skill name, e.g. `Escape Artist`, `Perception`, `Detect Lies`)
-     - `dcFormula`: String (`10 + rank + stat`, `10 + floor + stat`, `10 + rank`, etc.)
-     - `customDC`: Number (0 for formula, or >0 for explicit fixed DC)
-     - `onFailDebuff`: String (debuff to inflict on failure, e.g. `Held`, `Rooted`, `Charmed`, `Stunned`)
-     - `onFailNotes`: String (failure consequence text)
-     - `onSuccessNotes`: String (success consequence text)
-   - Add `contest` in `rankBreaks`:
-     - `dcBonus`: Number (e.g. +2 DC at Rank 10)
-     - `onFailDebuff`: String (upgraded debuff)
-2. **Unified Tag System (`src/data/tags.mjs`)**:
-   - Register tags: `action.contested`, `action.opposed`, `contest.dc`, `contest.opposed`, `contest.str`, `contest.dex`, `contest.con`, `contest.int`, `contest.cha`.
-   - Update `computeDerivedTags()` to derive contest tags dynamically.
-3. **Progressive Disclosure UI (`spell.hbs`, `skill.hbs`, `item-sheet.mjs`)**:
-   - Add collapsible `<details class="dcc-collapsible-block">` for *Contested / Opposed Check Configuration*.
-   - Sheet context `hasContestConfigured` detects active contest setups.
-   - Rank break cards include `+ DC Bonus` and `Upgraded Fail Debuff`.
-4. **Actor Mechanics & Interactive Chat Workflow (`src/documents/actor.mjs`, `src/dcc.mjs`)**:
-   - `actor.getContestData(item, options)`: Evaluates DC formula (10 + rank + statMod + dcBonus), rank break upgrades, and returns contest definition.
-   - `rollSpell()` & `rollSkill()`: Embeds interactive `.dcc-contested-challenge` card section with `.dcc-roll-contest-btn` button.
-   - `actor.rollContestResponse({ initiatorActor, item, targetStat, targetSkill, dc, initiatorTotal, onFailDebuff, ... })`: Defender rolls opposing check (skill or stat mod) vs DC/total, reports Success/Failure, and provides 1-click debuff button or applies condition.
-   - Event listener in `src/dcc.mjs` handles `.dcc-roll-contest-btn` clicks from targeted or controlled tokens.
-5. **Testing & Verification**:
-   - Create unit tests in `tests/contested-opposed-checks.test.mjs`.
-   - Ensure 100% test pass rate with 0 failures (`node --test tests/*.test.mjs`).
+### Key Scenarios in DCC RPG
+1. **Defensive Reactions (Self Protection)**:
+   - *Evade*: Declaring evasion out-of-turn to raise defense against all incoming attacks for the remainder of the round.
+   - *Shield Block*: Intercepting an incoming strike with a shield to reduce incoming damage by Shield DR or Str Mod, with a critical riposte on Rank 10.
+   - *Protective Shell / Shield*: Emergency Interrupt spell popping an impenetrable dome or magical barrier when attacked.
+   - *Parkour (Rank 10)*: Free Interrupt to avoid involuntary movement or knockdown.
+2. **Bodyguard / Interception (Protecting Allies)**:
+   - *Catcher*: Stepping in front of a lethal blow meant for an ally, taking the hit and damage onto yourself.
+   - *Taunt*: Barking an insult or threat to redirect a mob's declared attack mid-stride from an ally to yourself.
+   - *Intervene*: Assisting an ally's check or save as an interrupt (+1d6 added directly to their roll).
+3. **Reactive Opportunity Attacks (Zone of Control / Movement)**:
+   - *Opportunity Attack*: When a foe moves out of an adjacent reach (without stepping), spend 1 Action as an Interrupt to strike.
+   - *Zone of Control*: Reach weapon interrupt attack with Disadvantage when an enemy enters reach.
+4. **Emergency Spellcasting & Disruption**:
+   - *Hole*: Caster conjures an instant pit under a charging foe or incoming hazard. Rank 15 can collapse it with a thought as a free Interrupt.
+   - *Emergency Healing*: In CarlRPG, fast healing spells can be cast as Interrupts to save an ally before permanent damage bars collapse.
+   - *Got Your Tongue* (Mob Interrupt): Target grabs a mob's tongue attack via Wrasslin' as an Interrupt.
 
-### Implementation Summary & Verification
-- **Schema & Data Models**:
-  - Added `system.contest` (`hasContest`, `contestType`, `targetStat`, `targetSkill`, `dcFormula`, `customDC`, `onFailDebuff`, `onFailNotes`, `onSuccessNotes`) and milestone rank break upgrades (`contest.dcBonus`, `contest.onFailDebuff`) across `template.json`, `SpellDataModel`, `SkillDataModel`, and `hydrateRankBreaks()`.
-- **Unified Tag System**:
-  - Registered `contest` namespace in `TAG_NAMESPACES`.
-  - Added `action.contested`, `action.opposed`, `contest.dc`, `contest.opposed`, and `contest.str/dex/con/int/cha` to `DCC_TAGS`.
-  - Derived dynamically in `computeDerivedTags()` for items with `contest.hasContest`.
-- **Actor Mechanics & Opposed Checks**:
-  - Implemented `DCCActor.prototype.getContestData()` respecting strict `getDCCStatModifier` rules and milestone bonuses.
-  - Implemented `DCCActor.prototype.renderContestChallengeBlock()` rendering `.dcc-contested-challenge` with `.dcc-roll-contest-btn`.
-  - Implemented `DCCActor.prototype.rollContestResponse()` evaluating opposed rolls or DC saves and providing 1-click `.dcc-apply-debuff-btn` on failure.
-  - Hooked into `rollSkill()`, `rollSpell()`, and `rollSpellAttack()`.
-- **Sheet UI**:
-  - Added collapsible `<details class="dcc-collapsible-block">` for Contested / Opposed Check Configuration in `spell.hbs` and `skill.hbs`.
-  - Added `+ Contest DC Bonus` and `Upgraded Fail Debuff` to all milestone cards.
+### Action Economy Integration in CarlRPG
+- In CarlRPG, Crawlers and Mobs have a base of **2 Actions per round** (plus optional +1 Action via AI Favor for crawlers).
+- In canon DCC rules, Interrupts generally **cost 1 Action from the combatant's action budget** ("spend Action to make Attack as Interrupt"), though high-rank perks grant "Free Interrupts" (costing 0 actions).
+- If used out-of-turn (e.g. during a Mob's phase), an Interrupt pre-spends one of the crawler's action slots for the round. If the crawler has already spent all 2 actions, they cannot take regular interrupts unless they have a "Free Interrupt" perk or spend an AI Favor / Reaction budget.
+
+### Tracking Locations
+1. **Combat Tracker**:
+   - Live action slot indicators: Mark a consumed slot with a lightning bolt badge `⚡ [INTERRUPT: Shield Block]` or `⚡ [EVADE]`.
+   - Dedicated `[⚡ INTERRUPT]` button per combatant row, allowing GM/players to trigger an out-of-turn action popup with available reaction items/spells.
+   - Dedicated Reaction indicator/pill (`⚡ REACTION READY` vs `⚡ REACTION USED`).
+2. **Crawler & Mob Sheets**:
+   - Combat tab shows active round action slots with interrupt flags.
+   - Action / Hotlist tab highlights items/spells tagged with `action.interrupt` with a distinct blue/cyan `[INTERRUPT]` badge.
+3. **Token HUD / Status Badges**:
+   - Visual icon or badge showing when a combatant is in an active "Evading" or "Guarding" state.
+
+### Automation & Play Mechanic Options
+- **Option 1: Reactive Chat Prompts (Non-Blocking Prompt Cards)**:
+  - When an attack or harmful effect targets an actor, the chat card evaluates nearby allies and the target for qualifying reaction spells/skills and presents 1-click reaction buttons (`[🛡️ Shield Block]`, `[📢 Taunt]`, `[🛡️ Catcher]`).
+- **Option 2: Mid-Resolution Damage Interceptor Modal / Hook**:
+  - In `DCCCombatMetrics`, before applying damage to a token, a quick confirmation hook checks if target or adjacent ally wants to spend an action to Intercept / Block.
+- **Option 3: Stance / Ready Reaction (Pre-emptive Toggle)**:
+  - Actor pre-toggles a stance (e.g. "Ready Shield Block" or "Active Evade"), which auto-applies on the next incoming trigger and consumes the action.
+- **Option 4: Combat Tracker Quick-Trigger Drawer**:
+  - Out-of-turn action drawer in the combat tracker allowing instant execution of any interrupt spell/skill on demand.
+
+### Step 1 Implementation: Combat Tracker & Quick Interrupt Drawer
+- **Unified Tag System (`src/data/tags.mjs`)**:
+  - Added `action.reaction`, `action.free_interrupt`, and reactive triggers (`trigger.on_attack`, `trigger.on_damage`, `trigger.on_move`, `trigger.on_ally_hit`) to `DCC_TAGS`.
+  - Added dynamic tag derivation in `computeDerivedTags()` for spells, skills, techniques, and milestone rank breaks.
+- **Actor Discovery Engine (`src/documents/actor.mjs`)**:
+  - Implemented `DCCActor.prototype.getAvailableInterrupts(options)`: discovers built-in DCC interrupts (Evade, Taunt, Catcher, Intervene), owned interrupt spells, owned interrupt skills, and milestone free interrupt perks. Evaluates live affordability against action budget and Mana Points.
+- **Combat Execution Engine (`src/documents/combat.mjs`)**:
+  - Implemented `DCCCombat.prototype.triggerInterrupt(combatantId, interruptId, options)`: executes reactions out-of-turn, deducts action slots for standard interrupts (marking slot `isInterrupt: true`), handles free interrupts (0 action cost), sets Evade stance, and generates authentic DCC chat cards.
+- **Combat Tracker UI & Drawer (`src/apps/combat-tracker.mjs`, `templates/apps/combat-tracker.hbs`, `styles/dcc.css`)**:
+  - Added live Reaction status indicator pill (`⚡ REACTION READY` / `⚡ REACTION SPENT`).
+  - Added 1-click `⚡ INTERRUPT` toggle button in action rows.
+  - Added slide-out Quick Interrupt Drawer (`.dcc-interrupt-drawer`) with trigger tags, cost pills, descriptions, and 1-click execution.
+  - Styled interrupt action pips with `.pip-interrupt` (`fa-bolt`).
 - **Verification**:
-  - Tested schema, tag derivations, DC formulas, milestone upgrades, interactive chat rendering, and opposed rolls in `tests/contested-opposed-checks.test.mjs`.
-  - Executed `node --test tests/*.test.mjs`: **1,227 tests passing across 226 suites with 0 failures**.
-- **Release**:
-  - Manifest version bumped to `3.2.8` in `system.json`.
-  - Updated `CHANGELOG.md`, `README.md`, and `thoughts.md`.
+  - Automated test suite `tests/reaction-interrupt-mechanics.test.mjs` (17 tests) fully passing.
+  - Entire suite verified: **1,244 tests passing across 226 suites with 0 failures**.
+- **Version Bump**:
+  - Bumped to `3.2.9` in `system.json`. Updated `CHANGELOG.md`, `README.md`, and `thoughts.md`.
+
+### Step 2 Implementation: Interactive Chat Card Reaction Prompts
+- **Contextual Reaction Discovery (`src/documents/actor.mjs`)**:
+  - Implemented `DCCActor.prototype._getReactionPromptsHtml(targetResults, options)`:
+    - Target Defender: Dynamically discovers defensive interrupts (`Evade`, `Shield Block`, `Protective Shell`, `Ice Barrier`, etc.) matching attack/damage triggers. Excludes ally-specific actions.
+    - Allied Bodyguards & Tactical Support: Identifies active combat allies when a target is attacked or hit. Automatically presents `Catcher` (protecting an ally who took a hit) and `Taunt` (redirecting incoming strikes).
+    - Renders clean, high-contrast 1-click button containers (`.dcc-interrupt-prompts-container` and `.dcc-trigger-interrupt-btn`) with cost tags (`[1 ACTION]` vs `[FREE INTERRUPT]`).
+- **Direct Actor Execution (`src/documents/actor.mjs`)**:
+  - Implemented `DCCActor.prototype.triggerInterrupt(interruptOrId, options)`: routes to `combat.triggerInterrupt` when in active combat, or executes standalone, setting stances (`isEvading`), deducting action budgets, and posting DCC Interrupt Chat Cards.
+- **Attack & Spell Card Integration (`src/documents/actor.mjs`, `src/dcc.mjs`)**:
+  - `_resolveAttackTargets()` outputs `reactionPromptsHtml`, automatically embedding the prompt block into `rollAttack()` and `rollSpellAttack()` output cards.
+  - Added click listener in `src/dcc.mjs` for `.dcc-trigger-interrupt-btn`: extracts actor/combatant dataset attributes, triggers reaction execution, and gives instant button feedback.
+- **Automated Verification (`tests/reaction-chat-prompts.test.mjs`)**:
+  - 5 tests verifying prompt generation for defender, bodyguard discovery for allies, actor execution, and card embedding.
+  - Full suite verified: **1,249 tests passing across 226 suites with 0 failures**.
+- **Version Bump**:
+  - Bumped to `3.2.10` in `system.json`. Updated `CHANGELOG.md`, `README.md`, and `thoughts.md`.
